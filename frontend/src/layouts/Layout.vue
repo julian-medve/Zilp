@@ -24,13 +24,23 @@
           this.$route.name == 'app.calendar'
           )
         " class="header-for-bg"
-
         >
           <div class="background-header position-relative">
             <img :src="$route.meta.img" class="img-fluid w-100" alt="header-bg">
-            <div class="title-on-header">
+            <div class="title-on-header justify-content-center">
               <div class="data-block">
                 <h2>{{$route.meta.name}}</h2>
+              </div>
+
+              <div  v-if ="
+              (this.$route.name == 'social.friend-list') 
+              " class="">
+                <div class="iq-search-bar d-flex justify-content-center col-md-8 offset-md-2 mt-4">
+                  <form action="#" class="searchbox">
+                      <input type="text" class="text search-input" placeholder="Type licence plate number to search friend...">
+                      <a class="search-link" href="#"><i class="ri-search-line"></i></a>
+                  </form>
+                </div>
               </div>
             </div>
           </div>

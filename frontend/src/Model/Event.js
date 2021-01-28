@@ -42,17 +42,17 @@ export default class Event {
       case '1':
         pal = {
           color: '#ffffff',
-          bgColor: '#9e5fff',
-          dragBgColor: '#9e5fff',
-          borderColor: '#9e5fff'
+          bgColor: '#3dbb58',
+          dragBgColor: '#3dbb58',
+          borderColor: '#3dbb58'
         }
         break
       case '2':
         pal = {
           color: '#ffffff',
-          bgColor: '#00a9ff',
-          dragBgColor: '#00a9ff',
-          borderColor: '#00a9ff'
+          bgColor: '#fbc647',
+          dragBgColor: '#fbc647',
+          borderColor: '#fbc647'
         }
         break
       case '3':
@@ -106,4 +106,75 @@ export default class Event {
     }
     return pal
   }
+
+  // eventColor (categoryID) {
+  //   let pal = {}
+  //   switch (categoryID) {
+  //     case '1':
+  //       pal = {
+  //         color: '#ffffff',
+  //         bgColor: '#9e5fff',
+  //         dragBgColor: '#9e5fff',
+  //         borderColor: '#9e5fff'
+  //       }
+  //       break
+  //     case '2':
+  //       pal = {
+  //         color: '#ffffff',
+  //         bgColor: '#00a9ff',
+  //         dragBgColor: '#00a9ff',
+  //         borderColor: '#00a9ff'
+  //       }
+  //       break
+  //     case '3':
+  //       pal = {
+  //         color: '#ffffff',
+  //         bgColor: '#ff5583',
+  //         dragBgColor: '#ff5583',
+  //         borderColor: '#ff5583'
+  //       }
+  //       break
+  //     case '4':
+  //       pal = {
+  //         color: '#ffffff',
+  //         bgColor: '#03bd9e',
+  //         dragBgColor: '#03bd9e',
+  //         borderColor: '#03bd9e'
+  //       }
+  //       break
+  //     case '5':
+  //       pal = {
+  //         color: '#ffffff',
+  //         bgColor: '#bbdc00',
+  //         dragBgColor: '#bbdc00',
+  //         borderColor: '#bbdc00'
+  //       }
+  //       break
+  //     case '6':
+  //       pal = {
+  //         color: '#ffffff',
+  //         bgColor: '#9d9d9d',
+  //         dragBgColor: '#9d9d9d',
+  //         borderColor: '#9d9d9d'
+  //       }
+  //       break
+  //     case '7':
+  //       pal = {
+  //         color: '#ffffff',
+  //         bgColor: '#ffbb3b',
+  //         dragBgColor: '#ffbb3b',
+  //         borderColor: '#ffbb3b'
+  //       }
+  //       break
+  //     case '8':
+  //       pal = {
+  //         color: '#ffffff',
+  //         bgColor: '#ff4040',
+  //         dragBgColor: '#ff4040',
+  //         borderColor: '#ff4040'
+  //       }
+  //       break
+  //   }
+  //   return pal
+  // }
 }

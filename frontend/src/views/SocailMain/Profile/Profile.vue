@@ -13,10 +13,10 @@
                 </div>
                 <div class="user-detail text-center mb-3">
                     <div class="profile-img">
-                      <img src="../../../assets/images/user/11.png" alt="profile-img" class="avatar-130 img-fluid" />
+                      <img src="../../../assets/images/user/user-01.jpg" alt="profile-img" class="avatar-130 img-fluid" />
                     </div>
                     <div class="profile-detail">
-                      <h3 class="">Bni Cyst</h3>
+                      <h3 class="">{{ user.name }}</h3>
                     </div>
                 </div>
                 <div class="profile-info p-4 d-flex align-items-center justify-content-between position-relative">
@@ -39,114 +39,39 @@
               </div>
           </div>
         </iq-card>
-        <iq-card class="iq-card">
+        <!-- <iq-card class="iq-card">
           <div class="iq-card-body p-0">
             <div class="user-tabing">
               <tab-nav :pills="true" id="pills-tab" class="nav nav-pills d-flex align-items-center justify-content-center profile-feed-items p-0 m-0">
-                <tab-nav-items class="col-sm-3 p-0" :active="true" id="pills-feed-tab" href="#profile-feed" ariaControls="pills-home" role="tab" :ariaSelected="true" title="Timeline" />
-                <tab-nav-items class="col-sm-3 p-0" :active="false" id="pills-activity-tab" href="#profile-activity" ariaControls="pills-profile" role="tab" :ariaSelected="false" title="About" />
-                <tab-nav-items class="col-sm-3 p-0" :active="false" id="pills-friend-tab" href="#profile-friends" ariaControls="pills-contact" role="tab" :ariaSelected="false" title="Friends" />
+                <tab-nav-items class="col-sm-6 p-0" :active="true" id="pills-about-tab" href="#profile-about" ariaControls="pills-about" role="tab" :ariaSelected="false" title="About" />
+                <tab-nav-items class="col-sm-6 p-0" :active="false" id="pills-timeline-tab" href="#profile-timeline" ariaControls="pills-timeline" role="tab" :ariaSelected="true" title="Timeline" />
+                <tab-nav-items class="col-sm-6 p-0" :active="false" id="pills-friend-tab" href="#profile-friends" ariaControls="pills-contact" role="tab" :ariaSelected="false" title="Friends" />
                 <tab-nav-items class="col-sm-3 p-0" :active="false" id="pills-profile-tab" href="#profile-profile" ariaControls="pills-contact" role="tab" :ariaSelected="false" title="Photos" />
               </tab-nav>
             </div>
           </div>
-        </iq-card>
+        </iq-card> -->
     </b-col>
     <b-col sm="12">
       <div class="tab-content">
-        <tab-content-item :active="true" id="profile-feed" aria-labelled-by="pills-feed-tab">
-          <div class="iq-card-body p-0">
-            <b-row>
-              <b-col lg="4">
-                <iq-card>
-                  <template v-slot:body>
-                    <a href="#"><span class="badge badge-pill badge-primary font-weight-normal ml-auto mr-1">
-                     <i class="ri-star-line"></i></span> 27 Items for yoou</a>
-                  </template>
-                </iq-card>
-                <iq-card>
-                  <template v-slot:headerTitle>
-                    <h4 class="card-title">Life Event</h4>
-                  </template>
-                  <template v-slot:headerAction>
-                    <p class="m-0"><a href="#"> Create </a></p>
-                  </template>
-                  <div class="row iq-card-body">
-                    <div class="col-sm-12" v-for="(event,index) in lifeEvent" :key="index">
-                      <div class="event-post position-relative">
-                        <a href="#">
-                          <img :src="event.img" alt="gallary-image" class="img-fluid rounded"></a>
-                        <div class="job-icon-position">
-                          <div class="job-icon bg-primary p-2 d-inline-block rounded-circle"><i class="ri-briefcase-line"></i></div>
-                        </div>
-                        <div class="iq-card-body text-center p-2">
-                          <h5>{{event.heading}}</h5>
-                          <p>{{event.date}}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </iq-card>
-                <iq-card>
-                  <template v-slot:headerTitle>
-                    <h4 class="card-title">Photos</h4>
-                  </template>
-                  <template v-slot:headerAction>
-                    <p class="m-0"><a href="#">Add Photo </a></p>
-                  </template>
-                  <template v-slot:body>
-                    <ul class="profile-img-gallary d-flex flex-wrap p-0 m-0">
-                      <li class="col-md-4 col-6 pl-2 pr-0 pb-3" v-for="(photo,index) in phtoes" :key="index">
-                        <a href="#"><img :src="photo" alt="gallary-image" class="img-fluid" /></a>
-                      </li>
-                    </ul>
-                  </template>
-                </iq-card>
-                <iq-card>
-                  <template v-slot:headerTitle>
-                    <h4 class="card-title">Friends</h4>
-                  </template>
-                  <template v-slot:headerAction>
-                    <p class="m-0"><a href="javacsript:void();">Add New </a></p>
-                  </template>
-                  <template v-slot:body>
-                    <ul class="profile-img-gallary d-flex flex-wrap p-0 m-0">
-                      <li class="col-md-4 col-6 pl-2 pr-0 pb-3" v-for="(friend,index) in friends" :key="index">
-                        <a href="#">
-                          <img :src="friend.img" alt="gallary-image" class="img-fluid" /></a>
-                        <h6 class="mt-2">{{friend.name}}</h6>
-                      </li>
-                    </ul>
-                  </template>
-                </iq-card>
-              </b-col>
-              <b-col lg="8">
-                <div id="post-modal-data" class="iq-card">
-                  <AddSocialPost @addPost="addPost"></AddSocialPost>
-                  <div  v-for="post in socialPosts" :key="post.id">
-                    <social-post :post="post"></social-post>
-                  </div>
-                </div>
-              </b-col>
-            </b-row>
-          </div>
-        </tab-content-item>
-        <tab-content-item :active="false" id="profile-activity" aria-labelled-by="pills-activity-tab">
+        <tab-content-item :active="true" id="profile-about" aria-labelled-by="pills-about-tab">
           <div class="iq-card">
             <div class="iq-card-body">
                <About />
             </div>
           </div>
         </tab-content-item>
-        <tab-content-item :active="false" id="profile-friends" aria-labelled-by="pills-friend-tab">
+        
+        <!-- <tab-content-item :active="false" id="profile-friends" aria-labelled-by="pills-friend-tab">
           <div class="iq-card">
             <div class="iq-card-body">
               <h2>Friends</h2>
                 <FriendTab />
             </div>
           </div>
-        </tab-content-item>
-        <tab-content-item :active="false" id="profile-profile" aria-labelled-by="pills-profile-tab">
+        </tab-content-item> -->
+
+        <!-- <tab-content-item :active="false" id="profile-profile" aria-labelled-by="pills-profile-tab">
           <iq-card>
             <template v-slot:body>
               <h2>Photos</h2>
@@ -182,39 +107,38 @@
               </div>
             </template>
           </iq-card>
-        </tab-content-item>
+        </tab-content-item> -->
       </div>
     </b-col>
-    <div class="col-sm-12 text-center">
-      <img src="../../../assets/images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">
-    </div>
   </b-row>
 </template>
 <script>
 import { socialvue } from '../../../config/pluginInit'
-import ProfileImage from './ProfileImage'
+// import ProfileImage from './ProfileImage'
 import FriendTab from './ProfileFriends/FriendTab'
 import About from './ProfileFriends/About'
-import AddSocialPost from '../../Apps/Social/Components/AddSocialPost'
+// import AddSocialPost from '../../Apps/Social/Components/AddSocialPost'
 import Post from '../../../Model/Post'
 import { Posts } from '../../../FackApi/api/SocialPost'
-import SocialPost from '../../Apps/Social/Components/SocialPost'
+// import SocialPost from '../../Apps/Social/Components/SocialPost'
+
 export default {
   name: 'Profile',
+  
   mounted () {
     socialvue.index()
   },
   components: {
-    FriendTab,
-    ProfileImage,
-    AddSocialPost,
-    SocialPost,
+    // FriendTab,
+    // ProfileImage,
+    // AddSocialPost,
+    // SocialPost,
     About
   },
   data () {
     return {
       post: new Post(),
-      socialPosts: Posts,
+      // socialPosts: Posts,
       social: [
         require('../../../assets/images/icon/08.png'),
         require('../../../assets/images/icon/09.png'),
@@ -642,12 +566,14 @@ export default {
             }
           ]
         }
-      ]
+      ],
+
+      user : global.user
     }
   },
   methods: {
     addPost (post) {
-      this.socialPosts.unshift(post)
+      // this.socialPosts.unshift(post)
     }
   }
 }

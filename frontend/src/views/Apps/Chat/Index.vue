@@ -238,7 +238,7 @@ export default {
   data () {
     return {
       search: '',
-      user: new User({ id: 1, name: 'Anna Sthesia', role: 'Developer', image: require('../../../assets/images/user/user-08.jpg'), isActive: true }),
+      user: new User({ id: 1, name: global.user.name, role: 'Manager', image: require('../../../assets/images/user/user-01.jpg'), isActive: true }),
       usersList: Users,
       chat: MessagesUser1
     }

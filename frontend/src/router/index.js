@@ -83,6 +83,9 @@ const SocialApp = () => import('../views/Apps/Social/SocialApp')
 const TodoListing = () => import('../views/Apps/Todo/TodoListing')
 const ChatIndex = () => import('../views/Apps/Chat/Index')
 const AccountSettings = () => import('../views/User/AccountSetting')
+
+const GoogleMapIndex = () => import('../views/Apps/GoogleMap/Index')
+
 Vue.use(VueRouter)
 const childRoutes = (prop, mode) => [
   {
@@ -388,9 +391,15 @@ const appChildRoute = (prop, mode = false) => [
     component: ChatIndex
   },
   {
-    path: 'todo',
-    name: prop + '.todo',
-    meta: { auth: true, name: 'Todo' },
+    path: 'location',
+    name: prop + '.location',
+    meta: { auth: true, name: 'GoogleMap' },
+    component: GoogleMapIndex
+  },
+  {
+    path: 'activity',
+    name: prop + '.activity',
+    meta: { auth: true, name: 'Activity' },
     component: TodoListing
   },
   {

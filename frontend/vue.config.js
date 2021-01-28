@@ -20,5 +20,8 @@ module.exports = {
       localeDir: 'locales',
       enableInSFC: false
     }
-  }
+  },
+
+  //Added
+  chainWebpack: config => config.resolve.symlinks(false)
 }

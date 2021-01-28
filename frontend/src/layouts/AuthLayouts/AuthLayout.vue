@@ -13,7 +13,7 @@
         <div class="row no-gutters">
           <div class="col-md-6 text-center pt-5">
             <div class="sign-in-detail text-white">
-              <a class="sign-in-logo mb-5" href="#"><img src="../../assets/images/logo-full.png" class="img-fluid" alt="logo"></a>
+              <a class="sign-in-logo mb-5" href="#"><img src="../../assets/images/logo-white.png" class="img-fluid" alt="logo"></a>
               <Slick :option="slickOptions">
                 <div class="item">
                   <img src="../../assets/images/login/1.png" class="img-fluid mb-4" alt="logo">
@@ -21,12 +21,12 @@
                   <p>It is a long established fact that a reader will be distracted by the readable content.</p>
                 </div>
                 <div class="item">
-                  <img src="../../assets/images/login/1.png" class="img-fluid mb-4" alt="logo">
+                  <img src="../../assets/images/login/2.png" class="img-fluid mb-4" alt="logo">
                   <h4 class="mb-1 text-white">Manage your orders</h4>
                   <p>It is a long established fact that a reader will be distracted by the readable content.</p>
                 </div>
                 <div class="item">
-                  <img src="../../assets/images/login/1.png" class="img-fluid mb-4" alt="logo">
+                  <img src="../../assets/images/login/3.png" class="img-fluid mb-4" alt="logo">
                   <h4 class="mb-1 text-white">Manage your orders</h4>
                   <p>It is a long established fact that a reader will be distracted by the readable content.</p>
                 </div>

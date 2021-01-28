@@ -1,18 +1,25 @@
 <template>
   <div>
     <h1 class="mb-0">Sign Up</h1>
-    <p>Enter your email address and password to access admin panel.</p>
+    <p>Enter your email address, phone number and password to access admin panel.</p>
     <form class="mt-4">
       <div class="form-group">
-        <label for="exampleInputEmail1">Your Full Name</label>
-        <input type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Your Full Name">
+        <!-- <label for="exampleInputEmail2">Email address</label> -->
+        <input type="email" class="form-control mb-0" id="exampleInputEmail2" placeholder="Email Address">
       </div>
       <div class="form-group">
-        <label for="exampleInputEmail2">Email address</label>
-        <input type="email" class="form-control mb-0" id="exampleInputEmail2" placeholder="Enter email">
+        <input type="text" class="form-control mb-0" id="exampleInputPlate" placeholder="Plate Number">
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
+        <input type="text" class="form-control mb-0" id="exampleInputFullname" placeholder="Full Name">
+      </div>
+      <div class="form-group">
+        <div class="row pl-2 pr-2">
+          <input type="text" class="form-control mb-0 col-sm-4" id="exampleCountryCode" placeholder="Country Code">  
+          <input type="phone" class="form-control mb-0 col-sm-8" id="exampleInputPhone" placeholder="Phone Number">
+        </div>
+      </div>
+      <div class="form-group">
         <input type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password">
       </div>
       <div class="d-inline-block w-100">
@@ -25,9 +32,9 @@
       <div class="sign-info">
         <span class="dark-color d-inline-block line-height-2">Already Have Account ? <router-link :to="{ name: 'auth1.sign-in1'}">Log In</router-link></span>
         <ul class="iq-social-media">
-          <li><a href="#"><i class="ri-facebook-box-line"></i></a></li>
-          <li><a href="#"><i class="ri-twitter-line"></i></a></li>
-          <li><a href="#"><i class="ri-instagram-line"></i></a></li>
+          <!-- <li><a href="#"><i class="ri-facebook-box-line"></i></a></li> -->
+          <!-- <li><a href="#"><i class="ri-google-line"></i></a></li> -->
+          <!-- <li><a href="#"><i class="ri-instagram-line"></i></a></li> -->
         </ul>
       </div>
     </form>

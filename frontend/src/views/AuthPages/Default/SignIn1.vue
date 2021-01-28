@@ -1,14 +1,14 @@
 <template>
   <div>
     <h1 class="mb-0">Sign in</h1>
-    <p>Enter your email address and password to access admin panel.</p>
+    <p>Enter your email / phone and password to access admin panel.</p>
     <form class="mt-4">
       <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Enter email">
+        <!-- <label for="exampleInputEmail1">Email address / Phone number</label> -->
+        <input type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Email address or Phone number">
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
+        <!-- <label for="exampleInputPassword1">Password</label> -->
         <router-link :to="{ name: 'auth1.password-reset1' }" class="float-right">Forgot password?</router-link>
         <input type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password">
       </div>
@@ -23,8 +23,8 @@
         <span class="dark-color d-inline-block line-height-2">Don't have an account? <router-link :to="{ name: 'auth1.sign-up1'}">Sign up</router-link></span>
         <ul class="iq-social-media">
           <li><a href="#"><i class="ri-facebook-box-line"></i></a></li>
-          <li><a href="#"><i class="ri-twitter-line"></i></a></li>
-          <li><a href="#"><i class="ri-instagram-line"></i></a></li>
+          <li><a href="#"><i class="ri-google-line"></i></a></li>
+          <!-- <li><a href="#"><i class="ri-instagram-line"></i></a></li> -->
         </ul>
       </div>
     </form>

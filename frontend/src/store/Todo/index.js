@@ -32,20 +32,12 @@ const state = {
   projectList: [
     {
       id: 1,
-      project_name: 'Analytics'
+      project_name: 'Booking Car'
     },
     {
       id: 2,
-      project_name: 'Project Management'
+      project_name: 'Parking Spot'
     },
-    {
-      id: 3,
-      project_name: 'E-commerce'
-    },
-    {
-      id: 4,
-      project_name: 'CRM'
-    }
   ],
   taskList: [
     {

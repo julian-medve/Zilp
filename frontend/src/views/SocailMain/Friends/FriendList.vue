@@ -20,7 +20,7 @@
                         <p>{{item.text}}</p>
                       </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Following</button>
+                    <button type="submit" class="btn btn-primary">Invite</button>
                   </div>
                 </div>
               </div>

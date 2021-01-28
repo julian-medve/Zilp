@@ -16,7 +16,7 @@
         </template>
       </iq-card>
     </b-col>
-    <b-col md="8">
+    <b-col md="12">
       <iq-card body-class="p-0" v-if="filteredList.length > 0">
         <template v-slot:body>
           <ul class="todo-task-lists m-0 p-0">
@@ -40,7 +40,16 @@
                     <p class="mb-0">by {{ checkUser(item.user_id,'name') }}</p>
                   </div>
                   <div class="iq-card-header-toolbar d-flex align-items-center">
-                    <div class="custom-control custom-checkbox">
+                    <b-button class="btn mr-3 btn-sm" v-b-modal.modal-payment variant="danger" @click="payProject(project, 50)" size="xs" v-if="item.status === 'Complete'">Pay</b-button>
+                    <b-modal v-if="item.status === 'Complete'" id="modal-payment" centered title="Payment Confirmation" ok-title="Pay" cancel-title="Cancel">
+                      <div class="form-group">
+                      <b-form>
+                        Are you sure to pay $50 to the driver?
+                      </b-form>
+                    </div>
+                    </b-modal>
+                    <div class="custom-control custom-checkbox">  
+                      
                       <input type="checkbox" name="todo-check" class="custom-control-input" @change="updateStatue(item)" :id="'check' + index" :checked="item.task_status">
                       <label class="custom-control-label" :for="'check' + index"></label>
                     </div>
@@ -132,7 +141,7 @@
         </div>
       </template>
     </b-col>
-     <div class="col-md-4">
+     <!-- <div class="col-md-4">
         <div class="iq-card">
           <div class="iq-card-body">
               <div class="iq-todo-right">
@@ -169,7 +178,7 @@
               </div>
           </div>
         </div>
-    </div>
+    </div> -->
   </b-row>
 </template>
 <script>
@@ -245,7 +254,7 @@ export default {
     },
     updateStatue (item) {
       this.$store.dispatch('Todo/updateStatusAction', item)
-    }
+    },
   }
 }
 </script>

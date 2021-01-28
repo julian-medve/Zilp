@@ -451,3 +451,4 @@ export const flatpickerSetting = {
   altInput: true,
   dateFormat: 'Y-m-d'
 }
+

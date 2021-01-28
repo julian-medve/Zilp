@@ -10,5 +10,8 @@ export default class User {
     this.dob = is(String, user.dob) ? user.dob : ''
     this.isActive = is(Boolean, user.isActive) ? user.isActive : false
     this.isPrivate = is(Boolean, user.isPrivate) ? user.isPrivate : false
+
+    this.email = is(String, user.email) ? user.email : ''
+    this.phone = is(String, user.phone) ? user.phone : ''
   }
 }

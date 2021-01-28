@@ -48,7 +48,8 @@
           </template>
         </iq-card>
       </b-col>
-      <b-col lg="6">
+      
+      <!-- <b-col lg="6">
         <iq-card>
           <template v-slot:headerTitle>
             <h4 class="card-title">Colored Radio Buttons</h4>
@@ -60,7 +61,8 @@
             </template>
           </template>
         </iq-card>
-      </b-col>
+      </b-col> -->
+
     </b-row>
   </b-container>
 </template>
@@ -126,24 +128,6 @@ export default {
           value: 'three',
           disabled: false
         },
-        {
-          name: 'checked',
-          label: 'Four',
-          value: 'four',
-          disabled: false
-        },
-        {
-          name: 'colorDisabled',
-          label: 'Five disabled',
-          value: 'five',
-          disabled: true
-        },
-        {
-          name: 'seldis',
-          label: 'Six selected and disabled',
-          value: 'six',
-          disabled: true
-        }
       ],
       color: [
         {

@@ -99,7 +99,7 @@
             </tab-content>
           </b-col>
           <b-col lg="4" >
-            <iq-card>
+            <!-- <iq-card>
               <template v-slot:headerTitle>
                 <h4 class="card-title">Stories</h4>
               </template>
@@ -122,8 +122,8 @@
                 </ul>
                 <b-link href="javascript:void(0);" class="btn btn-primary d-block mt-3"><i class="ri-add-line"></i> See All</b-link>
               </template>
-            </iq-card>
-            <iq-card>
+            </iq-card> -->
+            <!-- <iq-card>
               <template v-slot:headerTitle>
                 <h4 class="card-title">Events</h4>
               </template>
@@ -138,7 +138,7 @@
                   </li>
                 </ul>
               </template>
-            </iq-card>
+            </iq-card> -->
             <iq-card>
               <template v-slot:headerTitle>
                 <h4 class="card-title">Upcomming Birthday</h4>
@@ -157,7 +157,7 @@
                 </ul>
               </template>
             </iq-card>
-            <iq-card>
+            <!-- <iq-card>
               <template v-slot:headerTitle>
                 <h4 class="card-title">Suggested Pages</h4>
               </template>
@@ -176,7 +176,7 @@
                   </li>
                 </ul>
               </template>
-            </iq-card>
+            </iq-card> -->
           </b-col>
         </b-row>
       </b-col>
@@ -335,7 +335,7 @@ export default {
         }
       ],
       friends: [
-        { name: 'Paul Molive', role: 'Web Designer', image: require('../../../assets/images/user/user-01.jpg') },
+        { name: 'Anna Sthesia', role: 'Web Designer', image: require('../../../assets/images/user/user-01.jpg') },
         { name: 'Paul Molive', role: 'trainee', image: require('../../../assets/images/user/user-01.jpg') }
       ],
       userBio: [
@@ -351,8 +351,8 @@ export default {
         { title: 'Abstract Design', time: '9 hour ago', image: require('../../../assets/images/page-img/s3.jpg'), class: '', isActive: '' }
       ],
       suggestions: [
-        { name: 'Paul Molive', mutual_friend: 'Today', image: require('../../../assets/images/user/user-01.jpg') },
-        { name: 'Paul Molive', mutual_friend: 'Tomorrow', image: require('../../../assets/images/user/user-01.jpg') }
+        { name: 'Anna Sthesia', mutual_friend: 'Today', image: require('../../../assets/images/user/user-04.jpg') },
+        { name: 'Paul Molive', mutual_friend: 'Tomorrow', image: require('../../../assets/images/user/user-03.jpg') }
       ],
       news: [
         { description: 'there is a meetup in your city on friday at 19:00.<a href="#">see details</a>' },

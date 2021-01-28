@@ -9,10 +9,10 @@
           </b-form-group>
         </b-form>
         <div class="add-new-project mt-3 mb-3">
-          <b-link href="#" class="d-block new-project" v-b-modal.add_project size="lg"><i class="ri-add-line mr-2"/>Add Project</b-link>
-          <b-modal id="add_project" centered title="Add Project">
+          <b-link href="#" class="d-block new-project" v-b-modal.add_project size="lg"><i class="ri-add-line mr-2"/>Add Activity</b-link>
+          <b-modal id="add_project" centered title="Add Activity">
             <p class="my-2">
-              <b-form-input name="project_name" v-model="project.project_name" placeholder="Project Name" />
+              <b-form-input name="project_name" v-model="project.project_name" placeholder="Avtivity Name" />
             </p>
             <template v-slot:modal-footer>
               <b-button variant="none" class="iq-bg-primary"  @click="$bvModal.hide('add_project')">Cancel</b-button>

@@ -6,7 +6,6 @@
             <div class="iq-navbar-logo d-flex justify-content-between">
               <a href="#">
                 <img :src="logo" class="img-fluid" alt="logo">
-                <span>SocialV</span>
               </a>
               <div class="iq-menu-bt align-self-center">
                 <div class="wrapper-menu" @click="miniSidebar">
@@ -14,12 +13,12 @@
                 </div>
               </div>
             </div>
-            <div class="iq-search-bar">
+            <!-- <div class="iq-search-bar">
               <form action="#" class="searchbox">
                   <input type="text" class="text search-input" placeholder="Type here to search...">
                   <a class="search-link" href="#"><i class="ri-search-line"></i></a>
               </form>
-            </div>
+            </div> -->
             <b-navbar-toggle target="nav-collapse" class="mr-2">
               <i class="ri-menu-3-line"></i>
             </b-navbar-toggle>
@@ -29,16 +28,16 @@
                     <a href="#" class="iq-waves-effect d-flex align-items-center">
                         <img src="../../../assets/images/user/1.jpg" class="img-fluid rounded-circle mr-3" alt="user">
                         <div class="caption">
-                          <h6 class="mb-0 line-height">Bni Cyst</h6>
+                          <h6 class="mb-0 line-height">{{ current_user.name }}</h6>
                         </div>
                     </a>
                   </li>
-                  <li>
+                  <!-- <li>
                     <a href="#" class="iq-waves-effect d-flex align-items-center">
                     <i class="ri-home-line"></i>
                     </a>
-                  </li>
-                  <li class="nav-item">
+                  </li> -->
+                  <!-- <li class="nav-item">
                     <a class="search-toggle iq-waves-effect" href="#"><i class="ri-group-line"></i></a>
                     <div class="iq-sub-dropdown iq-sub-dropdown-large">
                         <div class="iq-card shadow-none m-0">
@@ -69,7 +68,7 @@
                           </div>
                         </div>
                     </div>
-                  </li>
+                  </li> -->
                   <li class="nav-item">
                     <a href="#" class="search-toggle iq-waves-effect">
                       <lottie :option="require('../../../assets/images/small/lottie-bell')" id="lottie-beil" />
@@ -152,7 +151,7 @@
                                       <img class="avatar-40 rounded" src="../../../assets/images/user/01.jpg" alt="">
                                     </div>
                                     <div class="media-body ml-3">
-                                      <h6 class="mb-0 ">Bni Emma Watson</h6>
+                                      <h6 class="mb-0 ">{{ current_user.name }}</h6>
                                       <small class="float-left font-size-12">13 Jun</small>
                                     </div>
                                 </div>
@@ -206,7 +205,7 @@
                     </div>
                   </li>
               </ul>
-              <ul class="navbar-list">
+              <!-- <ul class="navbar-list">
                   <li>
                     <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
                     <i class="ri-arrow-down-s-fill"></i>
@@ -215,7 +214,7 @@
                         <div class="iq-card shadow-none m-0">
                           <div class="iq-card-body p-0 ">
                               <div class="bg-primary p-3 line-height">
-                                <h5 class="mb-0 text-white line-height">Hello Bni Cyst</h5>
+                                <h5 class="mb-0 text-white line-height">Hello {{ current_user.name }}</h5>
                                 <span class="text-white font-size-12">Available</span>
                               </div>
                               <router-link to="/" class="iq-sub-card iq-bg-primary-hover">
@@ -258,7 +257,7 @@
                         </div>
                     </div>
                   </li>
-              </ul>
+              </ul> -->
             </b-collapse>
         </nav>
       </div>
@@ -274,7 +273,7 @@ export default {
   props: {
     homeURL: { type: Object, default: () => ({ name: 'layout1.dashboard' }) },
     title: { type: String, default: 'Dashboard' },
-    logo: { type: String, default: require('../../../assets/images/logo.png') },
+    logo: { type: String, default: require('../../../assets/images/logo_full2.png') },
     horizontal: { type: Boolean, default: false },
     items: { type: Array }
   },
@@ -317,7 +316,8 @@ export default {
           friend: '3  friends'
         }
 
-      ]
+      ],
+      current_user: global.user
     }
   },
   methods: {
