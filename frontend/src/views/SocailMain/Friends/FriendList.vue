@@ -1,5 +1,14 @@
 <template>
     <div class="row">
+      <div  class="col-md-12">
+        <div class="iq-search-bar d-flex justify-content-center col-md-8 offset-md-2 m-4">
+          <form action="#" class="searchbox">
+              <input type="text" v-model="plateNumber" class="text search-input" placeholder="Type licence plate number to search friend...">
+              <a class="search-link" @click="searchFriend"><i class="ri-search-line"></i></a>
+          </form>
+        </div>
+      </div>
+      
       <div v-for="(item,index) in friends" :key="index" class="col-md-6">
         <iq-card body-class="profile-page p-0">
           <template v-slot:body>
@@ -21,7 +30,8 @@
                         <p>{{item.phone}}</p>
                       </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Following</button>
+                    <button class="btn btn-warning" v-if="item.following">Following</button>
+                    <button class="btn btn-primary" @click="invite(item)" v-else>Invite</button>
                   </div>
                 </div>
               </div>
@@ -52,15 +62,16 @@ export default {
   methods: {
     searchFriend(){
       var self = this;
-      axios.post(this.$apiAddress + '/x-user/find-someone?token=' + localStorage.getItem("api_token"),
+      axios.get(this.$apiAddress + '/x-user/find-someone?token=' + localStorage.getItem("api_token"),
       {
         params : {
-          plateNumber : plateNumber
+          plateNumber : self.plateNumber,
         }
       })
       .then(response => {
-        if(!response.data.payload)
-          self.friends.push(response.data.payload);
+        if(response.data.payload.length != 0){
+          self.addUserData(response.data.payload, false);
+        }          
       }).catch(error => {
         console.log(error);
       });
@@ -70,14 +81,33 @@ export default {
       var self = this;
       axios.get(this.$apiAddress + '/x-user/friends/list?token=' + localStorage.getItem("api_token"))
       .then(response => {
-        self.friends = response.data.payload;
+        if(response.data.payload.length != 0){
+          self.addUserData(response.data.payload, true);
+        }
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+
+    addUserData(responseData, following){
+      var self = this;
+      responseData.forEach((friend) => {
         global.users.forEach((user) => {
-          self.friends.forEach((friend, index) => {
-            if(user.id == friend.id){
-              self.friends[index] = user;
-            }
-          })
-        });
+          if(user.id == friend.id){
+            user.following = following;
+            self.friends.unshift(user);
+          }
+        })
+      });
+    },
+
+    invite(user){
+      var self = this;
+      axios.post(this.$apiAddress + '/x-user/add-friend?token=' + localStorage.getItem("api_token"), {
+        userId : user.id
+      })
+      .then(response => {
+        console.log(response);
       }).catch(error => {
         console.log(error);
       });

@@ -12,10 +12,10 @@
         <div class="iq-card-body">
           <ul class="notification-list m-0 p-0">
             <li class="d-flex align-items-center" >
-              <div class="user-img img-fluid"><img :src="data.img" alt="story-img" class="rounded-circle avatar-40"></div>
+              <div class="user-img img-fluid"><img :src="data.user.image" alt="story-img" class="rounded-circle avatar-40"></div>
               <div class="media-support-info ml-3">
-                <h6>{{data.heading}}</h6>
-                <p class="mb-0">{{data.time}}</p>
+                <h6>{{data.user.name}} ({{data.user.plateNumber}}) {{data.message}}</h6>
+                <p class="mb-0">{{data.notification.created_at}}</p>
               </div>
               <div class="d-flex align-items-center">
                 <a href="#" class="mr-3 iq-notify iq-bg-primary rounded">
@@ -39,126 +39,56 @@
       </div>
     </b-col>
   </b-row>
-  </template>
+</template>
+
 <script>
 import { socialvue } from '../../../config/pluginInit'
+import axios from 'axios'
 
 export default {
   name: 'Notification',
+  created() {
+    this.getNotifications();
+  },
   mounted () {
     socialvue.index()
   },
   data () {
     return {
       seen: true,
-      notificationData: [
-        {
-          img: require('../../../assets/images/user/01.jpg'),
-          heading: 'Paige Turner Posted in UI/UX Community',
-          time: '30  ago',
-          icon: 'ri-award-line'
-        },
-        {
-          img: require('../../../assets/images/user/02.jpg'),
-          heading: 'Anne Fibbiyon Like Your Post',
-          time: '14  ago',
-          icon: 'ri-heart-line'
-        },
-        {
-          img: require('../../../assets/images/user/03.jpg'),
-          heading: 'Barry Cuda add Story',
-          time: '40  ago',
-          icon: 'ri-chat-4-line'
-        },
-        {
-          img: require('../../../assets/images/user/04.jpg'),
-          heading: 'Cliff Hanger posted a comment on your status update',
-          time: '42  ago',
-          icon: 'ri-more-fill'
-        },
-        {
-          img: require('../../../assets/images/user/05.jpg'),
-          heading: 'Rick O\'Shea posted a comment on your photo',
-          time: '50  ago',
-          icon: 'ri-chat-4-line'
-        },
-        {
-          img: require('../../../assets/images/user/06.jpg'),
-          heading: 'Brock Lee Sent a Friend Request',
-          time: '1 hour ago',
-          icon: 'ri-reply-line'
-        },
-        {
-          img: require('../../../assets/images/user/07.jpg'),
-          heading: 'Ira Membrit shared your status update',
-          time: '30  ago',
-          icon: 'ri-share-line'
-        },
-        {
-          img: require('../../../assets/images/user/08.jpg'),
-          heading: 'Paul Molive and 3 ther have Birthday Today',
-          time: '1 day  ago',
-          icon: 'las la-birthday-cake'
-        },
-        {
-          img: require('../../../assets/images/user/09.jpg'),
-          heading: 'Petey Cruiser Sent a Friend request',
-          time: '1 week  ago',
-          icon: 'ri-reply-line'
-        },
-        {
-          img: require('../../../assets/images/user/10.jpg'),
-          heading: 'Bob Frapples and 45 other Like Your Pst on timeline',
-          time: '30  ago',
-          icon: 'ri-heart-line'
-        },
-        {
-          img: require('../../../assets/images/user/11.jpg'),
-          heading: 'Maya Didas share Your Post',
-          time: '1 month  ago',
-          icon: 'ri-award-line'
-        },
-        {
-          img: require('../../../assets/images/user/12.jpg'),
-          heading: 'Sal Monella Add Photo with You',
-          time: '30  ago',
-          icon: 'ri-more-fill'
-        },
-        {
-          img: require('../../../assets/images/user/01.jpg'),
-          heading: 'Barb Dwyer commented on your new profile status',
-          time: '2 month  ago',
-          icon: 'ri-chat-4-line'
-        },
-        {
-          img: require('../../../assets/images/user/13.jpg'),
-          heading: 'Terry Aki commented on your new profile status',
-          time: '3 month  ago',
-          icon: 'ri-chat-4-line'
+      notificationData: []
+    }
+  },
+
+  methods: {
+    getNotifications(){
+      var self = this;
+      axios.get(this.$apiAddress + '/x-user/notifications?token=' + localStorage.getItem("api_token"))
+      .then(response => {
+        // console.log(response);
+        if(response.data.payload.length != 0){
+          var responseData = response.data.payload;
+          console.log(responseData);
+          
+          Array.prototype.forEach.call(response.data.payload, notification => {
+            Array.prototype.forEach.call(global.users, user => {
+              if(user.id == notification.sender_id)
+              {
+                var notificationData = new Object();
+                notificationData.notification = notification;
+                notificationData.user = user;
+
+                if(notification.type.indexOf('FriendRequest'))
+                  notificationData.message = "requested to be your friend.";
+
+                self.notificationData.push(notificationData);
+              }
+            });
+          });
         }
-      ],
-      action: [
-        {
-          icon: 'ri-eye-fill mr-2',
-          title: 'View'
-        },
-        {
-          icon: 'ri-delete-bin-6-fill mr-2',
-          title: 'Delete'
-        },
-        {
-          icon: 'ri-pencil-fill mr-2',
-          title: 'Edit'
-        },
-        {
-          icon: 'ri-printer-fill mr-2',
-          title: 'Print'
-        },
-        {
-          icon: 'ri-file-download-fill mr-2',
-          title: 'Download'
-        }
-      ]
+      }).catch(error => {
+        console.log(error);
+      });
     }
   }
 }

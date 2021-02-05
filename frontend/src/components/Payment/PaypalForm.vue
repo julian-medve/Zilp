@@ -14,7 +14,7 @@
         />
       </div>
       <button @click="submitCard" class="card-form__button">
-        Pay by Paypal
+        Deposit by Paypal
       </button>
     </div>
   </div>

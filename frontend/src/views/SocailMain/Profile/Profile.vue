@@ -128,7 +128,8 @@ export default {
   name: 'Profile',
   
   mounted () {
-    socialvue.index()
+    socialvue.index();
+    this.downloadProfileInfo();
   },
   components: {
     // FriendTab,
@@ -271,6 +272,16 @@ export default {
         console.log(error);
         if(error.response.status == 401)
           self.$router.push({ path: '/auth/signin' });
+      });
+    },
+
+    downloadProfileInfo(){
+      axios.get(this.$apiAddress + '/x-user/profile/info?token=' + localStorage.getItem("api_token"))
+      .then(function(response){
+        console.log("Profile Info");
+        console.log(response);
+      }).catch(function(e){
+        console.log(e);
       });
     }
   }

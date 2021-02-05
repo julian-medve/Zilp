@@ -78,58 +78,21 @@
                         <div class="iq-card shadow-none m-0">
                           <div class="iq-card-body p-0 ">
                               <div class="bg-primary p-3">
-                                <h5 class="mb-0 text-white">All Notifications<small class="badge  badge-light float-right pt-1">4</small></h5>
+                                <h5 class="mb-0 text-white">All Notifications<small class="badge  badge-light float-right pt-1">{{ newNotifications.length }}</small></h5>
                               </div>
-                              <a href="#" class="iq-sub-card" >
-                                <div class="media align-items-center">
-                                    <div class="">
-                                      <img class="avatar-40 rounded" src="../../../assets/images/user/01.jpg" alt="">
-                                    </div>
-                                    <div class="media-body ml-3">
-                                      <h6 class="mb-0 ">Emma Watson Bni</h6>
-                                      <small class="float-right font-size-12">Just Now</small>
-                                      <p class="mb-0">95 MB</p>
-                                    </div>
-                                </div>
-                              </a>
-                              <a href="#" class="iq-sub-card" >
-                                <div class="media align-items-center">
-                                    <div class="">
-                                      <img class="avatar-40 rounded" src="../../../assets/images/user/02.jpg" alt="">
-                                    </div>
-                                    <div class="media-body ml-3">
-                                      <h6 class="mb-0 ">New customer is join</h6>
-                                      <small class="float-right font-size-12">5 days ago</small>
-                                      <p class="mb-0">Cyst Bni</p>
-                                    </div>
-                                </div>
-                              </a>
-                              <a href="#" class="iq-sub-card" >
-                                <div class="media align-items-center">
-                                    <div class="">
-                                      <img class="avatar-40 rounded" src="../../../assets/images/user/03.jpg" alt="">
-                                    </div>
-                                    <div class="media-body ml-3">
-                                      <h6 class="mb-0 ">Two customer is left</h6>
-                                      <small class="float-right font-size-12">2 days ago</small>
-                                      <p class="mb-0">Cyst Bni</p>
-                                    </div>
-                                </div>
-                              </a>
-                              <a href="#" class="iq-sub-card" >
-                                <div class="media align-items-center">
-                                <div class="media align-items-center">
-                                    <div class="">
-                                      <img class="avatar-40 rounded" src="../../../assets/images/user/04.jpg" alt="">
-                                    </div>
-                                    <div class="media-body ml-3">
-                                      <h6 class="mb-0 ">New Mail from Fenny</h6>
-                                      <small class="float-right font-size-12">3 days ago</small>
-                                      <p class="mb-0">Cyst Bni</p>
-                                    </div>
-                                </div>
-                                </div>
-                              </a>
+                              <template v-for="(item, index) in newNotifications">
+                                <a class="iq-sub-card" :key="index" @click="viewNotification()" style="cursor:pointer;">
+                                  <div class="media align-items-center">
+                                      <div class="">
+                                        <img class="avatar-40 rounded" v-bind:src="item.image" alt="">
+                                      </div>
+                                      <div class="media-body ml-3">
+                                        <h6 class="mb-0 ">{{ item.name }} &nbsp;&nbsp;<small class="float-right font-size-12">{{ item.timeAgo }}</small></h6>
+                                        <small class="float-left font-size-12">{{ checkNotificationType(item) }}</small>
+                                      </div>
+                                  </div>
+                                </a>
+                              </template>
                           </div>
                         </div>
                     </div>
@@ -149,10 +112,10 @@
                                 <a class="iq-sub-card" :key="index" @click="viewChat()" style="cursor:pointer;">
                                   <div class="media align-items-center">
                                       <div class="">
-                                        <img class="avatar-40 rounded" v-bind:src="checkSenderImage(item)" alt="">
+                                        <img class="avatar-40 rounded" v-bind:src="checkSenderImage(item.from_user_id)" alt="">
                                       </div>
                                       <div class="media-body ml-3">
-                                        <h6 class="mb-0 ">{{ checkSenderName(item) }} &nbsp;&nbsp;<small class="float-right font-size-12">{{ item.timeAgo }}</small></h6>
+                                        <h6 class="mb-0 ">{{ checkSenderName(item.from_user_id) }} &nbsp;&nbsp;<small class="float-right font-size-12">{{ item.timeAgo }}</small></h6>
                                         <small class="float-left font-size-12">{{ item.message_content }}</small>
                                       </div>
                                   </div>
@@ -298,7 +261,8 @@ export default {
         }
       ],
       current_user: global.current_user,
-      newMessages : []
+      newMessages : [],
+      newNotifications : [],
     }
   },
   methods: {
@@ -355,6 +319,18 @@ export default {
             console.log("New Arrived message  ");
             console.log(message.message);
             self.newMessages.push(message.message);
+        });
+
+      // Friend Request Event
+      window.Echo.channel('App.User.' + global.current_user.id)
+        .listen('.FriendRequestEvent', function(event){
+            console.log("New Arrived FriendRequestEvent  ");
+            console.log(event.senderId);
+            for(var item in global.users){
+              if(global.users[item].id == event.senderId){
+                self.newNotifications.push(global.users[item]);
+              }
+            }
         });
     },
 
@@ -418,8 +394,7 @@ export default {
       });
     },
 
-    checkSenderImage(message){
-      var senderId = message.from_user_id;
+    checkSenderImage(senderId){
       for(var item in global.users){
         if(global.users[item].id == senderId){
           return global.users[item].image;
@@ -427,8 +402,7 @@ export default {
       }
     },
 
-    checkSenderName(message){
-      var senderId = message.from_user_id;
+    checkSenderName(senderId){
       for(var item in global.users){
         if(global.users[item].id == senderId){
           return global.users[item].name;
@@ -438,6 +412,17 @@ export default {
 
     viewChat(){
       this.$router.push({ path: '/app/chat' });
+    },
+
+    checkNotificationType(notification){
+      switch(notification.type)
+      {
+        case "FriendRequestEvent" : return " sent friend request.";
+      }
+    },
+
+    viewNotification(notification){
+      
     }
   }
 }

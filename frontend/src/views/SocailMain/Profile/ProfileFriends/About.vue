@@ -184,7 +184,12 @@
                 </tab-content-item>
                 <tab-content-item :active="false" id="paypal" aria-labelled-by="paypal-tab">
                   <div class="text-center col-12 m-3">
-                    <paypal-form />
+                      <PayPal
+                        amount="10.00"
+                        currency="USD"
+                        :client="credentials"
+                        env="sandbox">
+                      </PayPal>
                   </div>
                 </tab-content-item>
                 <tab-content-item :active="false" id="amazon" aria-labelled-by="amazon-tab">
@@ -197,6 +202,7 @@
     
     </div>
 </template>
+
 <script>
 import { socialvue } from '../../../../config/pluginInit'
 import VerifyFile from './VerifyFile'
@@ -204,6 +210,7 @@ import CreditCardForm from "@/components/Payment/CreditCardForm"
 import PaypalForm from "@/components/Payment/PaypalForm"
 import AmazonForm from "@/components/Payment/AmazonForm"
 import axios from 'axios'
+import PayPal from 'vue-paypal-checkout'
 
 export default {
   name: 'About',
@@ -217,7 +224,8 @@ export default {
   components: {
     CreditCardForm,
     PaypalForm,
-    AmazonForm
+    AmazonForm,
+    PayPal
   },
   data: () => ( {
       friend: [
@@ -295,7 +303,12 @@ export default {
         { value: 'paypal', text: 'Paypal' },
         { value: 'amazon', text: 'Amazon Pay' }
       ],
-      selected3 : 'default'
+      selected3 : 'default',
+
+      paypal: {
+        sandbox: '<sandbox client id>',
+        production: '<production client id>'
+      }
     }
   ),
 
