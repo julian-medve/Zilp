@@ -32,11 +32,19 @@ const state = {
   projectList: [
     {
       id: 1,
-      project_name: 'Booking Car'
+      project_name: 'Hitch a ride'
     },
     {
       id: 2,
       project_name: 'Parking Spot'
+    },
+    {
+      id: 3,
+      project_name: 'Rent a car'
+    },
+    {
+      id: 4,
+      project_name: 'Sale a car'
     },
   ],
   taskList: [

@@ -8,9 +8,9 @@
       <NavBarStyle1 title="Dashboard" :homeURL="{ name: 'dashboard1.home' }" @toggle="sidebarMini" :logo="logo">
       </NavBarStyle1>
       <!-- Right Nav Bar -->
-      <RightSideBar toggleClass="top-50 setting-toggle iq-card">
+      <!-- <RightSideBar toggleClass="top-50 setting-toggle iq-card">
         <i class="ri-sound-module-fill font-size-18 text-primary" slot="icon" />
-      </RightSideBar>
+      </RightSideBar> -->
 
         <div  v-if ="
         (this.$route.name == 'social.friend-list' ||
@@ -61,7 +61,7 @@
         <li class="list-inline-item"><a href="#">Terms of Use</a></li>
       </template>
       <template v-slot:right>
-        Copyright 2020 <a href="#">SocialV</a> All Rights Reserved.
+        Copyright 2021 <a href="#">Zilp</a> All Rights Reserved.
       </template>
     </FooterStyle1>
   </div>
@@ -84,7 +84,7 @@ export default {
     Loader,
     SideBarStyle1,
     NavBarStyle1,
-    RightSideBar,
+    // RightSideBar,
     FooterStyle1
   },
   mounted () {
@@ -134,7 +134,7 @@ export default {
     logout () {
       localStorage.removeItem('user')
       localStorage.removeItem('access_token')
-      this.$router.push({ name: 'auth1.sign-in1' })
+      this.$router.push({ name: 'auth1.signin' })
     },
     langChange (lang) {
       this.langChangeState(lang)

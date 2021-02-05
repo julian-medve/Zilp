@@ -10,6 +10,7 @@ export default class Post {
     this.is_follow = is(Boolean, post.is_follow) ? post.is_follow : false
     this.is_liked = is(Boolean, post.is_liked) ? post.is_liked : false
     this.user = is(Object, post.user) ? post.user : { profile: require('../assets/images/page-img/g1.jpg'), name: 'Nik Jon' }
-    this.comments = is(Array, post.comments) ? post.comments : []
+    this.comments = is(Array, post.comments) ? post.comments : [],
+    this.type = is(String, post.type) ? post.type : ''
   }
 }

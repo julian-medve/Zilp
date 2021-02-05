@@ -23,11 +23,11 @@
         <ul class="todo-task-list p-0 m-0">
           <li v-for="(item,index) in filteredList" :key="index" @click="selectProject(item)" :class="`${item.id === selectedProject ? 'active' : ''}`">
             <b-link href="#"><i class="ri-stack-fill mr-2"></i>{{ item.project_name }}</b-link>
-            <ul :id="'todo-task'+index" class="sub-task mt-2 p-0" :class="`${item.id === selectedProject.id ? 'show' : ''}`">
+            <!-- <ul :id="'todo-task'+index" class="sub-task mt-2 p-0" :class="`${item.id === selectedProject.id ? 'show' : ''}`">
               <li v-for="(category, index1) in categoryList" :key="index1" @click="selectCategory(category)" :class="`${category.id === selectedCategory.id ? 'active' : ''}`">
                 <b-link :href="category.href"><i class="ri-checkbox-blank-circle-fill" :class="'text-'+category.color" /> {{ category.name }}</b-link>
               </li>
-            </ul>
+            </ul> -->
           </li>
         </ul>
       </div>
@@ -35,6 +35,8 @@
   </iq-card>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
   name: 'ProjectList',
   // props: ['projectList', 'categoryList'],
@@ -65,7 +67,17 @@ export default {
     selectCategory (category) {
       this.$store.dispatch('Todo/selectedAction', { data: category, type: 'category' })
       this.search = ''
-    }
+    },
+    getProject(){
+      // let self = this;
+      // axios.get(  this.$apiAddress + '/api/notes/create?token=' + localStorage.getItem("api_token"))
+      // .then(function (response) {
+      //     self.statuses = response.data;
+      // }).catch(function (error) {
+      //     console.log(error);
+      //     self.$router.push({ path: 'login' });
+      // });
+    },
   },
   computed: {
     filteredList () {
@@ -74,7 +86,8 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted: function(){
+    this.getProject();
   }
 }
 </script>

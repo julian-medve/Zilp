@@ -7,10 +7,10 @@
       <div class="iq-card-body" v-b-modal.modal1>
         <div class="d-flex align-items-center">
             <div class="user-img">
-            <img class="avatar-60 rounded-circle" src="../../../../assets/images/user/user-01.jpg">
+            <img class="avatar-60 rounded-circle" :src="user.image">
             </div>
             <form  class="post-text ml-3 w-100">
-            <input type="text" placeholder="Write something about post..." class="rounded form-control" v-model="post.description" style="border:none;" />
+            <input type="text" placeholder="Write something about post..." class="rounded form-control" style="border:none;" />
             </form>
         </div>
         <hr />
@@ -39,26 +39,28 @@
       <b-modal id="modal1" centered title="Create Post" hide-footer>
           <div class="d-flex align-items-center">
             <div class="user-img">
-                <img src="../../../../assets/images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                <img :src="user.image" alt="userimg" class="avatar-60 rounded-circle img-fluid">
             </div>
             <form  class="post-text ml-3 w-100">
-              <input type="text" placeholder="Write something about post..." class="rounded form-control" v-model="post.description" style="border:none;" />
+              <input type="text" placeholder="Write something about post..." class="rounded form-control" v-model="postDescription" style="border:none;" />
             </form>
           </div>
         <hr />
-        <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
+        <!-- <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
           <li class="col-md-6 mb-3" v-for="(item,index) in tab" :key="index">
             <div class="iq-bg-primary rounded p-2 pointer mr-3">
               <a href="#"></a><img :src="item.icon" alt="icon" class="img-fluid">
               {{item.name}}
             </div>
           </li>
-        </ul>
-        <div class="other-option">
+        </ul> -->
+        <b-form-file placeholder="Upload image" id="imagePost" ref="imagePost" @change="handlePostImage"></b-form-file>
+
+        <!-- <div class="other-option">
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
               <div class="user-img mr-3">
-                <img src="../../../../assets/images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                <img :src="user.image" alt="userimg" class="avatar-60 rounded-circle img-fluid">
               </div>
               <h6>Your Story</h6>
             </div>
@@ -106,7 +108,7 @@
             </b-dropdown>
             </div>
           </div>
-        </div>
+        </div> -->
         <button class="btn btn-primary d-block w-100 mt-3" @click="addNewPost(post)">Post</button>
       </b-modal>
     </iq-card>
@@ -114,6 +116,8 @@
 </template>
 <script>
 import Post from '../../../../Model/Post'
+import axios from 'axios'
+
 export default {
   name: 'AddSocialPost',
   data () {
@@ -152,14 +156,44 @@ export default {
           icon: require('../../../../assets/images/small/14.png'),
           name: ' Play with Friends'
         }
-      ]
+      ],
+      user: global.current_user,
+      imagePost : '',
+      postDescription : ''
     }
   },
   methods: {
     addNewPost (post) {
-      this.$emit('addPost', post)
+      this.$bvModal.hide('modal1');
+
+      let self = this;
+      let formData = new FormData();
+      formData.append('postContent', self.postDescription);
+      formData.append('postMetaType', 'IMAGE');
+      formData.append('imageFile', self.imagePost);
+
+      axios.post(  this.$apiAddress + '/x-user/send-post?token=' + localStorage.getItem("api_token"),
+        formData, 
+        { 
+          headers: { 'Content-Type': 'multipart/form-data' } 
+        })
+      .then(function (response) {
+        console.log(response);
+        self.postDescription = '';
+
+        // Download new post data
+        axios.get(self.$apiAddress + '/x-user/post/' + response.data.id + '?token=' + localStorage.getItem("api_token"))
+        .then(function (response){
+          console.log(response);
+          self.$emit('addPost', response.data.payload);
+        });
+
+      }).catch(function (error) {
+        console.log(error);
+        if(error.response.status == 401)
+          self.$router.push({ path: '/auth/signin' });
+      });
       this.post = new Post()
-      this.$bvModal.hide('modal1')
     },
     resetPost () {
       this.post = new Post()
@@ -174,6 +208,9 @@ export default {
         }
         reader.readAsDataURL(file)
       })
+    },
+    handlePostImage(event){
+      this.imagePost = event.target.files[0];
     }
   }
 }

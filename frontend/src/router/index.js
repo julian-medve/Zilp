@@ -40,8 +40,8 @@ const UiTabs = () => import('../views/core/UiTabs.vue')
 const UiPagination = () => import('../views/core/UiPagination.vue')
 const UiProgressBars = () => import('../views/core/UiProgressBars.vue')
 /* Authentic View */
-const SignIn1 = () => import('../views/AuthPages/Default/SignIn1')
-const SignUp1 = () => import('../views/AuthPages/Default/SignUp1')
+const SignIn = () => import('../views/AuthPages/Default/SignIn')
+const SignUp = () => import('../views/AuthPages/Default/SignUp')
 const RecoverPassword1 = () => import('../views/AuthPages/Default/RecoverPassword1')
 const LockScreen1 = () => import('../views/AuthPages/Default/LockScreen1')
 const ConfirmMail1 = () => import('../views/AuthPages/Default/ConfirmMail1')
@@ -91,6 +91,12 @@ const childRoutes = (prop, mode) => [
   {
     path: '/',
     name: prop + '.list',
+    meta: { auth: true, name: 'Social App' },
+    component: TodoListing
+  },
+  {
+    path: '/community',
+    name: prop + '.community',
     meta: { auth: true, name: 'Social App' },
     component: SocialApp
   },
@@ -397,9 +403,9 @@ const appChildRoute = (prop, mode = false) => [
     component: GoogleMapIndex
   },
   {
-    path: 'activity',
-    name: prop + '.activity',
-    meta: { auth: true, name: 'Activity' },
+    path: 'todo',
+    name: prop + '.todo',
+    meta: { auth: true, name: 'Todo' },
     component: TodoListing
   },
   {
@@ -418,16 +424,16 @@ const appChildRoute = (prop, mode = false) => [
 
 const authChildRoutes = (prop, mode = false) => [
   {
-    path: 'sign-in1',
-    name: prop + '.sign-in1',
+    path: 'signin',
+    name: prop + '.signin',
     meta: { auth: true },
-    component: SignIn1
+    component: SignIn
   },
   {
-    path: 'sign-up1',
-    name: prop + '.sign-up1',
+    path: 'signup',
+    name: prop + '.signup',
     meta: { auth: true },
-    component: SignUp1
+    component: SignUp
   },
   {
     path: 'password-reset1',

@@ -7,10 +7,10 @@
             <b-img rounded="circle" fluid :src="post.user.profile" alt=""/>
           </div>
           <div class="media-support-info mt-2">
-            <h5 class="mb-0"><b-link href="javascript:void(0)" class="">{{post.user.name}}</b-link></h5>
+            <h5 class="mb-0"><b-link href="javascript:void(0)" class="">{{post.user.name}} ({{post.user.plateNumber}})</b-link></h5>
             <p class="mb-0 text-secondary">{{post.time | formatDate }}</p>
           </div>
-          <div class="iq-card-header-toolbar d-flex align-items-center">
+          <!-- <div class="iq-card-header-toolbar d-flex align-items-center">
             <b-dropdown id="dropdownMenuButton40" right variant="none" menu-class="p-0">
               <template v-slot:button-content>
                 <b-link href="javascript:void(0)" class="text-secondary"><i class="ml-3 ri-more-2-line"></i></b-link>
@@ -57,20 +57,16 @@
                 </div>
               </a>
             </b-dropdown>
-          </div>
+          </div> -->
         </div>
       </div>
     </template>
     <hr class="m-0" />
     <div class="user-post">
       <p class="p-2" v-if="post.description">{{post.description}}</p>
-      <div id="photo-grid">
-        <photo-grid :box-height="'400px'" :box-width="'100%'" :boxBorder=2>
-          <img v-for="(image, index) in post.images" :src="image" :key="index" />
-        </photo-grid>
-      </div>
+      <img :src="image" id="post-image" class=""/>
     </div>
-    <div class="comment-area p-3">
+    <!-- <div class="comment-area p-3">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center justify-content-between">
           <div class="like-block position-relative d-flex align-items-center">
@@ -159,10 +155,13 @@
           <b-link href="javascript:void(0);"><i class="ri-send-plane-line mr-2" @click="saveComment(commentMessage)"></i></b-link>
         </div>
       </b-form>
-    </div>
+    </div> -->
 </iq-card>
 </template>
 <script>
+
+import axios from 'axios'
+
 export default {
   name: 'SocialPost',
   props: [
@@ -170,8 +169,15 @@ export default {
   ],
   data () {
     return {
-      commentMessage: ''
+      commentMessage: '',
+      image:''
     }
+  },
+  created(){
+    this.downloadPostImage();
+    this.downloadUserAvatar(this.post.user.id);
+  },
+  mounted(){
   },
   methods: {
     isLiked (postLike) {
@@ -197,6 +203,50 @@ export default {
       })
 
       this.commentMessage = ''
+    },
+
+    downloadPostImage(){
+      var self = this;
+      if(self.post.postMetaContent != null){
+        axios.get(this.$apiAddress + '/' + self.post.postMetaContent, {
+              responseType: 'arraybuffer',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/pdf'
+              }
+        })
+        .then(function (response) {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          document.getElementsByClassName('p-2').forEach(element => {
+            if(element.innerText == self.post.description)
+              element.nextSibling.src = url;
+          });
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+    },
+
+    downloadUserAvatar(userId){
+      console.log(userId);
+      var self = this;
+      axios.get(this.$apiAddress + '/user/' + userId + '/profile-pic?token=' + localStorage.getItem("api_token"),{
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/pdf'
+            }
+      })
+      .then(function (response) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        console.log("url : " + url);
+        // document.getElementsByClassName(self.post.user.name).forEach(function(item){
+        //   item.src = url;
+        // });
+        self.post.user.profile = url;
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   }
 }

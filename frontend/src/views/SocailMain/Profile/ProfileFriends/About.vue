@@ -18,7 +18,7 @@
             <div class="row">
               
               <div class="col-3">
-                <h6>Full name</h6>
+                <h6>Full Name</h6>
               </div>
               <div class="col-9">
                 <p class="mb-2">{{ user.name }}</p>
@@ -39,11 +39,10 @@
               </div>
 
               <div class="text-center col-12 m-3">
-                <b-button v-b-modal.modal-7 variant="primary" class="mr-1"><i class="ri-edit-line mr-2"></i>Edit Contact Info</b-button>
+                <b-button v-b-modal.modal-7 variant="primary" class="mr-1">Edit Contact Info</b-button>
               </div>
-
               
-              <b-modal id="modal-7" centered title="Contact Info" ok-title="Save Changes" cancel-title="Close">
+              <b-modal id="modal-7" centered title="Contact Info" ok-title="Save Changes" cancel-title="Close" @ok="updateProfileInfo">
                 <div class="form-group">
                 <b-form>
 
@@ -82,35 +81,77 @@
           </tab-content-item>
           <tab-content-item :active="false" id="verified-info" aria-labelled-by="pills-verified-info">
               <h4>Licence Information</h4>
-              <VerifyFile />
-              
-              <h4 class="mt-3 mb-3">Upload document</h4>
-              <hr>
-              <ul class="suggestions-lists m-0 p-0">
-                <li class="d-flex mb-4 align-items-center">
-                  <div class="media-support-info ml-3">
-                    <h6>Please submit driver, parking spot, or car licence document to verify.</h6>
-                  </div>
-                </li>
-              </ul>
-              <b-form>
-                <div class="m-3">
-                <template v-for="(item,index) in custom">
-                  <b-form-radio inline v-model="stateActive[item[Object.keys(item)[0]]]" :name="item.name" :key="index" :value="item.value" :disabled="item.disabled">{{ item.label }}</b-form-radio>
-                </template>
+                <b-card-body class="iq-card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">State</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item,index) in documents" :key="index">
+                      <td>
+                        {{item.createdAt}}
+                      </td>
+                      <td>
+                        <span class="badge badge-secondary ml-3 text-white" v-if="item.status === 'unchecked'">{{ item.status }}</span>
+                        <span class="badge badge-primary ml-3 text-white" v-if="item.status === 'accepted'">{{ item.status }}</span>
+                        <span class="badge badge-danger ml-3 text-white" v-if="item.status === 'rejected'">{{ item.status }}</span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <b-form-group label-for="customFile" >
-                  <b-form-file placeholder="Choose a file" id="customFile" ></b-form-file>
-                </b-form-group>
-                <b-button type="submit" variant="primary">Submit</b-button>
-              </b-form>
+                </b-card-body>
+                
+              <div class="text-center col-12 m-3">
+                <b-button v-b-modal.modal-licence variant="primary" class="mr-1">Upload documents</b-button>
+              </div>
+              
+              <b-modal id="modal-licence" centered title="Upload Licence" ok-title="Upload" cancel-title="Close" @ok="uploadLicenceFiles">
+                <ul class="suggestions-lists m-0 p-0">
+                  <li class="d-flex align-items-center">
+                    <div class="media-support-info ml-3">
+                      Please submit necessary images to get verified.
+                    </div>
+                  </li>
+                </ul>
+                <div class="form-group">
+                  <b-form>
+                   <div class="row d-flex justify-content-center">
+                      <div class="m-0">
+                        <!-- <template v-for="(item,index) in custom">
+                          <b-form-radio inline v-model="stateActive[item[Object.keys(item)[0]]]" :name="item.name" :key="index" :value="item.value" :disabled="item.disabled">{{ item.label }}</b-form-radio>
+                        </template> -->
+                        <b-form-group label-for="driverLicense" class="mt-3">
+                          <b-form-file placeholder="Driver Licence" id="driverLicense" ref="driverLicense" @change="handleLicence"></b-form-file>
+                        </b-form-group>
+                        <b-form-group label-for="vehicleRegistration" class="mt-3">
+                          <b-form-file placeholder="Vehicle Registration" id="vehicleRegistration" ref="vehicleRegistration" @change="handleVehicle"></b-form-file>
+                        </b-form-group>
+                        <b-form-group label-for="insuranceCard" class="mt-3">
+                          <b-form-file placeholder="Insurance Card" id="insuranceCard" ref="insuranceCard" @change="handleInsurance"></b-form-file>
+                        </b-form-group>
+                        <b-form-group label-for="vehiclePicture" class="mt-3">
+                          <b-form-file placeholder="Vehicle Picture" id="vehiclePicture" ref="vehiclePicture" @change="handleVehiclePicture"></b-form-file>
+                        </b-form-group>
+                        <b-form-group label-for="driverHeadshot" class="mt-3">
+                          <b-form-file placeholder="Driver Headshot" id="driverHeadshot" ref="driverHeadshot" @change="handleHeadshot"></b-form-file>
+                        </b-form-group>
+                      </div>
+                    </div>
+                  </b-form>
+                </div>
+              </b-modal>
           </tab-content-item>
           <tab-content-item :active="false" id="financial-info" aria-labelled-by="pills-financial-info">
             <div class="row col-md-12 ">
-              <div class="d-flex justify-content-center text-center"><h3>Balance : $2000</h3></div>
+              <div class="d-flex justify-content-center text-center"><h3>Balance : ${{user.balance}}</h3></div>
             </div>
             
-            <h5>Withdraw will be done by </h5><hr>
+            <h5>Amount will be withdrawen by </h5><hr>
             <paypal-form />
             <!-- <ul class="suggestions-lists m-0 p-0">
               <li class="d-flex mb-4 align-items-center">
@@ -162,21 +203,23 @@ import VerifyFile from './VerifyFile'
 import CreditCardForm from "@/components/Payment/CreditCardForm"
 import PaypalForm from "@/components/Payment/PaypalForm"
 import AmazonForm from "@/components/Payment/AmazonForm"
+import axios from 'axios'
 
 export default {
   name: 'About',
+  created(){
+    this.getProfileInfo();
+    this.getLicenceFiles();
+  },
   mounted () {
-    socialvue.index()
+    socialvue.index();
   },
   components: {
-    VerifyFile,
     CreditCardForm,
     PaypalForm,
     AmazonForm
   },
-  data () {
- 
-    return {
+  data: () => ( {
       friend: [
         {
           img: require('../../../../assets/images/user/01.jpg'),
@@ -238,7 +281,14 @@ export default {
           disabled: false
         },
       ],
-      user : global.user,
+      documents:[],
+      user: global.current_user,
+      driverLicense: '',
+      vehicleRegistration: '',
+      insuranceCard:'',
+      vehiclePicture:'',
+      driverHeadshot:'',
+
       payment_options: [
         { value: 'default', text: 'Select Payment' },
         { value: 'credit', text: 'Credit Card' },
@@ -247,9 +297,102 @@ export default {
       ],
       selected3 : 'default'
     }
-  },
-  uploadFile(){
+  ),
 
+  methods: {
+    getProfileInfo(){
+      var self = this;
+      axios.get(this.$apiAddress + '/x-user/profile/info?token=' + localStorage.getItem("api_token"))
+      .then(function (response) {
+        
+        self.user.name        = response.data.payload.firstName + ' ' + response.data.payload.lastName;
+        self.user.plateNumber = response.data.payload.plateNumber;
+        self.user.guestPlate  = response.data.payload.guestPlate;
+        self.user.verifiedDriver = response.data.payload.verifiedDriver;
+        self.user.balance     = response.data.payload.balance;
+        self.user.email       = response.data.payload.email;
+        self.user.phone       = response.data.payload.phone;
+      }).catch(function (error) {
+        console.log(error);
+        if(error.response.status == 401)
+          self.$router.push({ path: '/auth/signin' });
+      });
+    },
+
+    updateProfileInfo(){
+      var self = this;
+      var firstName = this.user.name.split(' ')[0];
+      var lastName = this.user.name.split(' ')[1];
+      this.user.firstName = firstName;
+      this.user.lastName = lastName;
+
+      axios.post(this.$apiAddress + '/x-user/edit-profile/account-info?token=' + localStorage.getItem("api_token"),
+      {
+        firstName : firstName,
+        lastName  : lastName,
+        email     : self.user.email,
+        phone     : self.user.phone
+      })
+      .then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log(error);
+        if(error.response.status == 401)
+          self.$router.push({ path: '/auth/signin' });
+      });
+    },
+
+    uploadLicenceFiles(){
+      var self = this;
+      let formData = new FormData();
+      formData.append('driverLicense', this.driverLicense);
+      formData.append('vehicleRegistration', this.vehicleRegistration);
+      formData.append('insuranceCard', this.insuranceCard);
+      formData.append('vehiclePicture', this.vehiclePicture);
+      formData.append('driverHeadshot', this.driverHeadshot);
+
+      axios.post(  this.$apiAddress + '/x-user/edit-profile/submit-driver-documentations?token=' + localStorage.getItem("api_token"), 
+        formData, 
+        { 
+          headers: { 'Content-Type': 'multipart/form-data' } 
+        }
+      )
+      .then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log("Error : " + error);
+        if(error.response.status == 401)
+          self.$router.push({ path: '/auth/signin' });
+      });
+    },
+
+    handleLicence(event){
+      this.driverLicense = event.target.files[0];
+    },
+    handleVehicle(event){
+      this.vehicleRegistration = event.target.files[0];
+    },
+    handleInsurance(event){
+      this.insuranceCard = event.target.files[0];
+    },
+    handleVehiclePicture(event){
+      this.vehiclePicture = event.target.files[0];
+    },
+    handleHeadshot(event){
+      this.driverHeadshot = event.target.files[0];
+    },
+
+    getLicenceFiles(){
+      var self = this;
+      axios.get(this.$apiAddress + '/x-user/edit-profile/get-driver-documentations?token=' + localStorage.getItem("api_token"))
+      .then(function (response) {
+        self.documents = response.data.payload;
+      }).catch(function (error) {
+        if(error.response.status == 401)
+          self.$router.push({ path: '/auth/signin' });
+        console.log("Error : " + error);
+      });
+    }
   }
 }
 </script>

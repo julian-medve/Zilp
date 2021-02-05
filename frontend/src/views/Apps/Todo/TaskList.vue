@@ -48,11 +48,10 @@
                       </b-form>
                     </div>
                     </b-modal>
-                    <div class="custom-control custom-checkbox">  
-                      
+                    <!-- <div class="custom-control custom-checkbox">  
                       <input type="checkbox" name="todo-check" class="custom-control-input" @change="updateStatue(item)" :id="'check' + index" :checked="item.task_status">
                       <label class="custom-control-label" :for="'check' + index"></label>
-                    </div>
+                    </div> -->
                   </div>
                 </li>
               </template>

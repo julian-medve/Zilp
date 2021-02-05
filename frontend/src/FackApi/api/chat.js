@@ -20,17 +20,17 @@ export const Users = [
 ]
 
 export const MessagesUser1 = [
-  new Message({ text: 'How can we help? We\'re here for you! 😄', userId: 5, me: true, time: '6:45' }),
-  new Message({ text: 'Hey John, I am looking for the best admin template. Could you please help me to find it out?🤔', userId: 15, me: false, time: '6:48' }),
-  new Message({ text: 'Absolutely!\n' + 'SocialV Dashboard is the responsive bootstrap 4 admin template.', userId: 5, me: true, time: '6:50' }),
-  new Message({ text: 'Looks clean and fresh UI.', userId: 15, me: false, time: '6:55' }),
-  new Message({ text: 'Thanks, from ThemeForest.', userId: 5, me: true, time: '6:59' }),
-  new Message({ text: 'I will purchase it for sure.', userId: 15, me: false, time: '7:05' }),
-  new Message({ text: 'Okay Thanks...', userId: 5, me: true, time: '7:07' }),
-  new Message({ text: 'Hey John, I am looking for the best admin template. Could you please help me to find it out?', userId: 15, me: false, time: '7:08' }),
-  new Message({ text: 'Absolutely!\n' + 'SocialV Dashboard is the responsive bootstrap 4 admin template.', userId: 5, me: true, time: '7:10' }),
-  new Message({ text: 'Looks clean and fresh UI.', userId: 15, me: false, time: '7:12' }),
-  new Message({ text: 'Okay Thanks...', userId: 5, me: true, time: '7:20' })
+  new Message({ text: 'How can we help? We\'re here for you! 😄', userId: 10, me: true, time: '6:45' }),
+  new Message({ text: 'Hey John, I am looking for the best admin template. Could you please help me to find it out?🤔', userId: 6, me: false, time: '6:48' }),
+  new Message({ text: 'Absolutely!\n' + 'SocialV Dashboard is the responsive bootstrap 4 admin template.', userId: 10, me: true, time: '6:50' }),
+  new Message({ text: 'Looks clean and fresh UI.', userId: 9, me: false, time: '6:55' }),
+  new Message({ text: 'Thanks, from ThemeForest.', userId: 10, me: true, time: '6:59' }),
+  new Message({ text: 'I will purchase it for sure.', userId: 7, me: false, time: '7:05' }),
+  new Message({ text: 'Okay Thanks...', userId: 10, me: true, time: '7:07' }),
+  new Message({ text: 'Hey John, I am looking for the best admin template. Could you please help me to find it out?', userId: 8, me: false, time: '7:08' }),
+  new Message({ text: 'Absolutely!\n' + 'SocialV Dashboard is the responsive bootstrap 4 admin template.', userId: 10, me: true, time: '7:10' }),
+  new Message({ text: 'Looks clean and fresh UI.', userId: 7, me: false, time: '7:12' }),
+  new Message({ text: 'Okay Thanks...', userId: 10, me: true, time: '7:20' })
 ]
 
 export const MessagesUser2 = [

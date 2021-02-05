@@ -26,7 +26,7 @@
               <ul class="navbar-nav ml-auto navbar-list">
                   <li>
                     <a href="#" class="iq-waves-effect d-flex align-items-center">
-                        <img src="../../../assets/images/user/1.jpg" class="img-fluid rounded-circle mr-3" alt="user">
+                        <img v-bind:src="current_user.image" class="img-fluid rounded-circle mr-3" alt="user">
                         <div class="caption">
                           <h6 class="mb-0 line-height">{{ current_user.name }}</h6>
                         </div>
@@ -143,69 +143,27 @@
                         <div class="iq-card shadow-none m-0">
                           <div class="iq-card-body p-0 ">
                               <div class="bg-primary p-3">
-                                <h5 class="mb-0 text-white">All Messages<small class="badge  badge-light float-right pt-1">5</small></h5>
+                                <h5 class="mb-0 text-white">All Messages<small class="badge  badge-light float-right pt-1">{{newMessages.length}}</small></h5>
                               </div>
-                              <a href="#" class="iq-sub-card" >
-                                <div class="media align-items-center">
-                                    <div class="">
-                                      <img class="avatar-40 rounded" src="../../../assets/images/user/01.jpg" alt="">
-                                    </div>
-                                    <div class="media-body ml-3">
-                                      <h6 class="mb-0 ">{{ current_user.name }}</h6>
-                                      <small class="float-left font-size-12">13 Jun</small>
-                                    </div>
-                                </div>
-                              </a>
-                              <a href="#" class="iq-sub-card" >
-                                <div class="media align-items-center">
-                                    <div class="">
-                                      <img class="avatar-40 rounded" src="../../../assets/images/user/02.jpg" alt="">
-                                    </div>
-                                    <div class="media-body ml-3">
-                                      <h6 class="mb-0 ">Lorem Ipsum Watson</h6>
-                                      <small class="float-left font-size-12">20 Apr</small>
-                                    </div>
-                                </div>
-                              </a>
-                              <a href="#" class="iq-sub-card" >
-                                <div class="media align-items-center">
-                                    <div class="">
-                                      <img class="avatar-40 rounded" src="../../../assets/images/user/03.jpg" alt="">
-                                    </div>
-                                    <div class="media-body ml-3">
-                                      <h6 class="mb-0 ">Why do we use it?</h6>
-                                      <small class="float-left font-size-12">30 Jun</small>
-                                    </div>
-                                </div>
-                              </a>
-                              <a href="#" class="iq-sub-card" >
-                                <div class="media align-items-center">
-                                    <div class="">
-                                      <img class="avatar-40 rounded" src="../../../assets/images/user/04.jpg" alt="">
-                                    </div>
-                                    <div class="media-body ml-3">
-                                      <h6 class="mb-0 ">Variations Passages</h6>
-                                      <small class="float-left font-size-12">12 Sep</small>
-                                    </div>
-                                </div>
-                              </a>
-                              <a href="#" class="iq-sub-card" >
-                                <div class="media align-items-center">
-                                    <div class="">
-                                      <img class="avatar-40 rounded" src="../../../assets/images/user/05.jpg" alt="">
-                                    </div>
-                                    <div class="media-body ml-3">
-                                      <h6 class="mb-0 ">Lorem Ipsum generators</h6>
-                                      <small class="float-left font-size-12">5 Dec</small>
-                                    </div>
-                                </div>
-                              </a>
+                              <template v-for="(item, index) in newMessages">
+                                <a class="iq-sub-card" :key="index" @click="viewChat()" style="cursor:pointer;">
+                                  <div class="media align-items-center">
+                                      <div class="">
+                                        <img class="avatar-40 rounded" v-bind:src="checkSenderImage(item)" alt="">
+                                      </div>
+                                      <div class="media-body ml-3">
+                                        <h6 class="mb-0 ">{{ checkSenderName(item) }} &nbsp;&nbsp;<small class="float-right font-size-12">{{ item.timeAgo }}</small></h6>
+                                        <small class="float-left font-size-12">{{ item.message_content }}</small>
+                                      </div>
+                                  </div>
+                                </a>
+                              </template>
                           </div>
                         </div>
                     </div>
                   </li>
               </ul>
-              <!-- <ul class="navbar-list">
+              <ul class="navbar-list">
                   <li>
                     <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
                     <i class="ri-arrow-down-s-fill"></i>
@@ -217,7 +175,7 @@
                                 <h5 class="mb-0 text-white line-height">Hello {{ current_user.name }}</h5>
                                 <span class="text-white font-size-12">Available</span>
                               </div>
-                              <router-link to="/" class="iq-sub-card iq-bg-primary-hover">
+                              <router-link to="/profile" class="iq-sub-card iq-bg-primary-hover">
                                 <div class="media align-items-center">
                                     <div class="rounded iq-card-icon iq-bg-primary">
                                       <i class="ri-file-user-line"></i>
@@ -228,7 +186,7 @@
                                     </div>
                                 </div>
                               </router-link>
-                              <router-link to="/user/profile-edit"  class="iq-sub-card iq-bg-warning-hover">
+                              <!-- <router-link to="/user/profile-edit"  class="iq-sub-card iq-bg-warning-hover">
                                 <div class="media align-items-center">
                                     <div class="rounded iq-card-icon iq-bg-warning">
                                       <i class="ri-profile-line"></i>
@@ -238,8 +196,8 @@
                                       <p class="mb-0 font-size-12">Modify your personal details.</p>
                                     </div>
                                 </div>
-                              </router-link>
-                              <router-link to="/account-setting" class="iq-sub-card iq-bg-info-hover">
+                              </router-link> -->
+                              <!-- <router-link to="/account-setting" class="iq-sub-card iq-bg-info-hover">
                                 <div class="media align-items-center">
                                     <div class="rounded iq-card-icon iq-bg-info">
                                       <i class="ri-account-box-line"></i>
@@ -249,15 +207,15 @@
                                       <p class="mb-0 font-size-12">Manage your account parameters.</p>
                                     </div>
                                 </div>
-                              </router-link>
+                              </router-link> -->
                               <div class="d-inline-block w-100 text-center p-3">
-                                <a class="bg-primary iq-sign-btn" href="#" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                <a class="bg-primary iq-sign-btn" style="cursor:pointer" role="button" @click="signOut()">Sign out<i class="ri-login-box-line ml-2"></i></a>
                               </div>
                           </div>
                         </div>
                     </div>
                   </li>
-              </ul> -->
+              </ul>
             </b-collapse>
         </nav>
       </div>
@@ -268,6 +226,25 @@
 import SideBarItems from '../../../FackApi/json/SideBar'
 import { mapGetters } from 'vuex'
 import Lottie from '../../../components/socialvue/lottie/Lottie'
+import axios from 'axios'
+import Echo from "laravel-echo"
+
+// Push notification via PUSHER
+// Pusher.logToConsole = true;
+// var pusher = new Pusher('97f3d86ceea919dd4ce6', {
+//   cluster: 'eu'
+// });
+
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '97f3d86ceea919dd4ce6',
+    cluster: 'eu',
+    forceTLS: true
+});
+
 export default {
   name: 'NavBarStyle1',
   props: {
@@ -277,8 +254,12 @@ export default {
     horizontal: { type: Boolean, default: false },
     items: { type: Array }
   },
-  mounted () {
-    document.addEventListener('click', this.closeSearch, true)
+  mounted () {    
+    document.addEventListener('click', this.closeSearch, true);
+  },
+  created() {
+    this.checkAuth();
+    this.listenForChanges();    
   },
   components: {
     Lottie
@@ -315,9 +296,9 @@ export default {
           name: 'Manny Petty',
           friend: '3  friends'
         }
-
       ],
-      current_user: global.user
+      current_user: global.current_user,
+      newMessages : []
     }
   },
   methods: {
@@ -339,6 +320,124 @@ export default {
       this.showSearch = false
       this.showMenu = ''
       this.globalSearch = ''
+    },
+    signOut() {
+      let self = this;
+      axios.post(this.$apiAddress + '/x-user/log-out',
+      {
+        token : localStorage.getItem("api_token")
+      })
+      .then(function (response) {
+        localStorage.setItem('api_token', '');
+        localStorage.setItem('user_id', '');
+        self.$router.push({ path: '/auth/signin' });
+      }).catch(function (error) {
+        console.log(error); 
+      });
+    },
+
+    checkPusher(){
+      let self = this;
+      axios.post(  this.$apiAddress + '/pusher-authenticate?token=' + localStorage.getItem("api_token"))
+      .then(function (response) {
+        
+      }).catch(function (error) {
+        console.log(error);
+        if(error.response.status == 401)
+          self.$router.push({ path: '/auth/signin' });
+      });
+    },
+
+    listenForChanges() {
+      var self = this;
+      window.Echo.channel('App.User.' + global.current_user.id)
+        .listen('.NewMessage', function(message){
+            console.log("New Arrived message  ");
+            console.log(message.message);
+            self.newMessages.push(message.message);
+        });
+    },
+
+    checkAuth(){
+      let self = this;
+      axios.post(  this.$apiAddress + '/user/check-authentication?token=' + localStorage.getItem("api_token"))
+      .then(function (response) {
+        self.downloadAvatar();
+        self.getUsers();
+      }).catch(function (error) {
+        console.log(error);
+        self.$router.push({ path: '/auth/signin' });
+      });
+    },
+
+    downloadAvatar(){
+      var self = this;
+      axios.get(this.$apiAddress + '/x-user/profile/pic?token=' + localStorage.getItem("api_token"),{
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/pdf'
+            }
+      })
+      .then(function (response) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        global.current_user.image = url;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+
+
+    getUsers(){
+      var self = this;
+      axios.get(this.$apiAddress + '/x-user/chat/getUsers?token=' + localStorage.getItem("api_token"))
+      .then(response => {
+        global.users = response.data.payload;
+        for(var index in global.users){
+          self.downloadUserAvatar(global.users[index], index);
+        }
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+
+    downloadUserAvatar(user, index){
+      var self = this;
+      axios.get(this.$apiAddress + '/user/' + user.id + '/profile-pic?token=' + localStorage.getItem("api_token"),{
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/pdf'
+            }
+      })
+      .then(function (response) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        global.users[index].image = url;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+
+    checkSenderImage(message){
+      var senderId = message.from_user_id;
+      for(var item in global.users){
+        if(global.users[item].id == senderId){
+          return global.users[item].image;
+        }
+      }
+    },
+
+    checkSenderName(message){
+      var senderId = message.from_user_id;
+      for(var item in global.users){
+        if(global.users[item].id == senderId){
+          return global.users[item].name;
+        }
+      }
+    },
+
+    viewChat(){
+      this.$router.push({ path: '/app/chat' });
     }
   }
 }

@@ -1,11 +1,23 @@
 [
   {
-    "title": "News Feed",
-    "name": "sidebar.newsfeed",
+    "title": "Activity",
+    "name": "sidebar.activity",
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "social.list"
+      "name" : "social.list"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-check-circle"
+  },
+  {
+    "title": "Community",
+    "name": "sidebar.community",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "social.community"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -82,18 +94,6 @@
     "icon": "las la-car"
   },
   {
-    "title": "Activity",
-    "name": "sidebar.activity",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name" : "app.activity"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-check-circle"
-  },
-  {
     "title": "Calendar",
     "name": "sidebar.calendar",
     "is_heading": false,
@@ -131,7 +131,7 @@
             "name": "sidebar.login",
             "is_active": false,
             "link": {
-              "name": "auth1.sign-in1"
+              "name": "auth1.signin"
             },
             "class_name": "",
             "is_icon_class": true,
@@ -142,7 +142,7 @@
             "name": "sidebar.register",
             "is_active": false,
             "link": {
-              "name": "auth1.sign-up1"
+              "name": "auth1.signup"
             },
             "class_name": "",
             "is_icon_class": true,

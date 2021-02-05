@@ -9,16 +9,17 @@ import './plugins'
 import './registerServiceWorker'
 import i18n from './i18n'
 import User from '@/Model/User'
+import { required } from 'vee-validate/dist/rules'
 
 
 global.Raphael = Raphael
-global.user = new User(
+global.current_user = new User(
   { 
-    id: 1, 
+    id: 1,
     name: 'Ashkan Kardan', 
     role: 'Full stack web developer', 
     isPrivate: true, 
-    image: '../../assets/images/user/user-01.jpg', 
+    image: '', 
     isActive: true,
 
     email: 'ashkankardan14@gmail.com',
@@ -26,6 +27,25 @@ global.user = new User(
     balance: 1000
   }
 )
+
+Vue.prototype.$current_user = new User(
+  { 
+    id: 1,
+    name: 'Ashkan Kardan', 
+    role: 'Full stack web developer', 
+    isPrivate: true, 
+    image: '', 
+    isActive: true,
+
+    email: 'ashkankardan14@gmail.com',
+    phone: '(001) 4544 565 333',
+    balance: 1000
+  }
+)
+
+
+Vue.prototype.$apiAddress = 'http://127.0.0.1:8000/api/v1'
+// Vue.prototype.$apiAddress = 'http://backend.zilptext.com/api/v1'
 
 Vue.config.productionTip = false
 
@@ -37,3 +57,4 @@ let vm = new Vue({
 }).$mount('#app')
 
 window.vm = vm
+

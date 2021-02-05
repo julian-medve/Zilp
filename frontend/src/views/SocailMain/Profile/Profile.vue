@@ -7,13 +7,14 @@
                 <div class="cover-container">
                     <img src="../../../assets/images/page-img/profile-bg1.jpg" alt="profile-bg" class="rounded img-fluid">
                     <ul class="header-nav d-flex flex-wrap justify-end p-0 m-0">
-                      <li><a href="javascript:void(0);"><i class="ri-pencil-line"></i></a></li>
-                      <li><a href="javascript:void(0);"><i class="ri-settings-4-line"></i></a></li>
+                      <!-- <li><span @click="changeAvatar"><a href="#"><i class="ri-pencil-line"></i></a></span></li> -->
+                      <!-- <li><a href="javascript:void(0);"><i class="ri-settings-4-line"></i></a></li> -->
                     </ul>
                 </div>
                 <div class="user-detail text-center mb-3">
                     <div class="profile-img">
-                      <img src="../../../assets/images/user/user-01.jpg" alt="profile-img" class="avatar-130 img-fluid" />
+                      <img v-bind:src="user.image" id="user_avatar" alt="profile-img" class="avatar-130 img-fluid" v-on:click="clickAvatar"/>
+                      <b-form-file style="display:none;" id="uploadAvatar" @change="uploadAvatar"></b-form-file>
                     </div>
                     <div class="profile-detail">
                       <h3 class="">{{ user.name }}</h3>
@@ -114,13 +115,14 @@
 </template>
 <script>
 import { socialvue } from '../../../config/pluginInit'
-// import ProfileImage from './ProfileImage'
+import ProfileImage from './ProfileImage'
 import FriendTab from './ProfileFriends/FriendTab'
 import About from './ProfileFriends/About'
-// import AddSocialPost from '../../Apps/Social/Components/AddSocialPost'
+import AddSocialPost from '../../Apps/Social/Components/AddSocialPost'
 import Post from '../../../Model/Post'
 import { Posts } from '../../../FackApi/api/SocialPost'
-// import SocialPost from '../../Apps/Social/Components/SocialPost'
+import SocialPost from '../../Apps/Social/Components/SocialPost'
+import axios from 'axios'
 
 export default {
   name: 'Profile',
@@ -137,14 +139,11 @@ export default {
   },
   data () {
     return {
+      fileAvatar: '',
       post: new Post(),
-      // socialPosts: Posts,
+      socialPosts: Posts,
       social: [
         require('../../../assets/images/icon/08.png'),
-        require('../../../assets/images/icon/09.png'),
-        require('../../../assets/images/icon/10.png'),
-        require('../../../assets/images/icon/11.png'),
-        require('../../../assets/images/icon/12.png'),
         require('../../../assets/images/icon/13.png')
       ],
       lifeEvent: [
@@ -167,34 +166,6 @@ export default {
         {
           img: require('../../../assets/images/user/06.jpg'),
           name: 'Tara Zona'
-        },
-        {
-          img: require('../../../assets/images/user/07.jpg'),
-          name: 'Polly Tech'
-        },
-        {
-          img: require('../../../assets/images/user/08.jpg'),
-          name: 'Bill Emia'
-        },
-        {
-          img: require('../../../assets/images/user/09.jpg'),
-          name: 'Moe Fugga'
-        },
-        {
-          img: require('../../../assets/images/user/10.jpg'),
-          name: 'Hal Appeno '
-        },
-        {
-          img: require('../../../assets/images/user/09.jpg'),
-          name: 'Zack Lee'
-        },
-        {
-          img: require('../../../assets/images/user/07.jpg'),
-          name: 'Terry Aki'
-        },
-        {
-          img: require('../../../assets/images/user/08.jpg'),
-          name: 'Greta Life'
         }
       ],
       soicalInfo: [
@@ -213,13 +184,6 @@ export default {
       ],
       phtoes: [
         require('../../../assets/images/page-img/g1.jpg'),
-        require('../../../assets/images/page-img/g1.jpg'),
-        require('../../../assets/images/page-img/g2.jpg'),
-        require('../../../assets/images/page-img/g3.jpg'),
-        require('../../../assets/images/page-img/g4.jpg'),
-        require('../../../assets/images/page-img/g5.jpg'),
-        require('../../../assets/images/page-img/g6.jpg'),
-        require('../../../assets/images/page-img/g7.jpg'),
         require('../../../assets/images/page-img/g8.jpg')
       ],
 
@@ -259,321 +223,55 @@ export default {
               value: 1
             }
           ]
-        },
-        {
-          img: require('../../../assets/images/page-img/53.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 120
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 21
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 10
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/54.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 100
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 20
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 120
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/55.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 107
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 20
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 101
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/56.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 105
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 25
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 15
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/57.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 107
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 27
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 17
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/58.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 106
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 26
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 14
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/51.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 10
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 2
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 1
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/52.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 10
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 2
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 1
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/53.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 120
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 21
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 10
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/54.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 100
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 20
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 120
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/55.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 107
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 20
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 101
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/56.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 105
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 25
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 15
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/57.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 107
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 27
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 17
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/58.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 106
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 26
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 14
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/51.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 10
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 2
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 1
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/52.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 10
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 2
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 1
-            }
-          ]
-        },
-        {
-          img: require('../../../assets/images/page-img/53.jpg'),
-          otherInfo: [
-            {
-              class: 'ri-thumb-up-line',
-              value: 120
-            },
-            {
-              class: 'ri-chat-3-line',
-              value: 21
-
-            },
-            {
-              class: 'ri-share-forward-line',
-              value: 10
-            }
-          ]
-        }
+        }  
       ],
 
-      user : global.user
+      user : global.current_user
     }
   },
   methods: {
     addPost (post) {
       // this.socialPosts.unshift(post)
+    },
+    clickAvatar(){
+      document.getElementById('uploadAvatar').click();
+    },
+    uploadAvatar(event){
+      var self = this;
+      let formData = new FormData();
+      formData.append('imageFile', event.target.files[0]);
+
+      axios.post(this.$apiAddress + '/x-user/edit-profile/change-profile-pic?token=' + localStorage.getItem("api_token"),
+      formData, 
+      { 
+        headers: { 'Content-Type': 'multipart/form-data' } 
+      })
+      .then(function (response) {
+        self.downloadAvatar();
+      }).catch(function (error) {
+        console.log(error);
+        if(error.response.status == 401)
+          self.$router.push({ path: '/auth/signin' });
+      });
+    },
+
+    downloadAvatar(){
+      axios.get(this.$apiAddress + '/x-user/profile/pic?token=' + localStorage.getItem("api_token"),{
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/pdf'
+            }
+      })
+      .then(function (response) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        document.getElementById("user_avatar").src = url;
+        global.current_user.image = url;
+      }).catch(function (error) {
+        console.log(error);
+        if(error.response.status == 401)
+          self.$router.push({ path: '/auth/signin' });
+      });
     }
   }
 }

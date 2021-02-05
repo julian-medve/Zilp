@@ -180,9 +180,9 @@
           </b-col>
         </b-row>
       </b-col>
-       <div class="col-sm-12 text-center">
+       <!-- <div class="col-sm-12 text-center">
           <img src="../../../assets/images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">
-        </div>
+        </div> -->
     </b-row>
 </template>
 <script>
@@ -191,12 +191,18 @@ import SocialPost from './Components/SocialPost'
 import { Posts } from '../../../FackApi/api/SocialPost'
 import AddSocialPost from './Components/AddSocialPost'
 import IqCard from '../../../components/socialvue/cards/iq-card'
+import axios from 'axios'
 
 export default {
   name: 'SocialApp',
-  components: { IqCard, AddSocialPost, SocialPost },
+  components: { IqCard, AddSocialPost, 
+    SocialPost 
+  },
   mounted () {
-    socialvue.index()
+    socialvue.index();
+  },
+  created(){
+    this.getAllPosts();
   },
   data () {
     return {
@@ -237,7 +243,7 @@ export default {
         location: 'USA',
         careated_date: '07 Jan 2020'
       },
-      socialPosts: Posts,
+      socialPosts: [],
       galary: [
         { image: require('../../../assets/images/page-img/g1.jpg'), href: 'javascript:void(0);' },
         { image: require('../../../assets/images/page-img/g2.jpg'), href: 'javascript:void(0);' },
@@ -397,13 +403,25 @@ export default {
           image: require('../../../assets/images/page-img/49.jpg'),
           name: 'Coffee + Crisp'
         }
-      ]
+      ],
     }
   },
   methods: {
     addPost (post) {
       this.socialPosts.unshift(post)
-    }
+    },
+    getAllPosts(){
+      var self = this;
+      axios.get(  this.$apiAddress + '/x-user/post/all?token=' + localStorage.getItem("api_token"))
+      .then(function (response) {
+        console.log(response);
+        self.socialPosts = response.data.payload;
+      }).catch(function (error) {
+        console.log(error);
+        if(error.response.status == 401)
+          self.$router.push({ path: '/auth/signin' });
+      });
+    },
   }
 }
 </script>
