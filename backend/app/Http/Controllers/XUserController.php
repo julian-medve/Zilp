@@ -354,8 +354,7 @@ class XUserController extends Controller
 
         // Create new notification
         // $user->notify(new FriendRequest(auth()->user()));
-        event(new FriendRequestEvent(auth()->user()->id, $user->id));
-
+        
         $notification = new Notification;
         $notification->id = time();
         $notification->type = "App\Notifications\FriendRequest";
@@ -365,6 +364,8 @@ class XUserController extends Controller
         $notification->data = "";
         $notification->read_at = NULL;
         $notification->save();
+
+        event(new FriendRequestEvent($notification, $user->id));
 
         return response()->json([
             'success' => true

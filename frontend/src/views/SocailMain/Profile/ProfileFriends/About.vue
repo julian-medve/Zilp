@@ -153,6 +153,12 @@
             
             <h5>Amount will be withdrawen by </h5><hr>
             <paypal-form />
+
+            <div id="smart-button-container">
+              <div style="text-align: center;">
+                <div id="paypal-button-container"></div>
+              </div>
+            </div>
             <!-- <ul class="suggestions-lists m-0 p-0">
               <li class="d-flex mb-4 align-items-center">
                 <b-form-group>
@@ -202,6 +208,38 @@
     
     </div>
 </template>
+
+<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD" data-sdk-integration-source="button-factory"></script>
+<script>
+  function initPayPalButton() {
+    paypal.Buttons({
+      style: {
+        shape: 'rect',
+        color: 'gold',
+        layout: 'vertical',
+        label: 'paypal',
+        
+      },
+
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{"amount":{"currency_code":"USD","value":1}}]
+        });
+      },
+
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('Transaction completed by ' + details.payer.name.given_name + '!');
+        });
+      },
+
+      onError: function(err) {
+        console.log(err);
+      }
+    }).render('#paypal-button-container');
+  }
+  initPayPalButton();
+</script>
 
 <script>
 import { socialvue } from '../../../../config/pluginInit'
@@ -305,8 +343,8 @@ export default {
       ],
       selected3 : 'default',
 
-      paypal: {
-        sandbox: '<sandbox client id>',
+      credentials: {
+        sandbox: 'ASvpnmDeg8bJcPcdiA0gspZ-awQamNDPpZvThPlAF11tVV7CzTzD70PTYj-f2U0tGfg-Ibx_9cCVWe-y',
         production: '<production client id>'
       }
     }

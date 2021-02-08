@@ -2,15 +2,20 @@
   <div>
     <h1 class="mb-0">Sign in</h1>
     <p>Enter your email / phone and password to access admin panel.</p>
+
+    <div class="alert alert-danger" role="alert" v-if="showMessage">
+      <div class="iq-alert-text">Incorrect E-mail/Phone and password</div>
+    </div>
+      
     <form class="mt-4">
       <div class="form-group">
         <!-- <label for="exampleInputEmail1">Email address / Phone number</label> -->
-        <input type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Email or Phone number" v-model="loginId">
+        <input type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Email or Phone number" v-model="loginId" @keyup.enter="login()">
       </div>
       <div class="form-group">
         <!-- <label for="exampleInputPassword1">Password</label> -->
         <router-link :to="{ name: 'auth1.password-reset1' }" class="float-right">Forgot password?</router-link>
-        <input type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password" v-model="password">
+        <input type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password" v-model="password" @keyup.enter="login()">
       </div>
       <div class="d-inline-block w-100">
         <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
@@ -27,13 +32,11 @@
         </ul>
       </div>
     </form>
-
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import User from '../../../Model/User'
 
 export default {
   name: 'SignIn',
@@ -41,8 +44,8 @@ export default {
     {
       loginId:'', 
       password:'',
-      message:'',
-      showMessage:false
+      showMessage:false,
+      signStatus : 0,
     }
   ),
   created() {
@@ -62,17 +65,11 @@ export default {
         localStorage.setItem("user_id", response.data.userId);
         localStorage.setItem('roles', response.data.roles);
         
-        global.current_user = new User({
-          id        : response.data.userId,
-          firstName : response.data.firstname,
-          lastName  : response.data.lastname
-        });
-
+        self.downloadProfileInfo();
         self.downloadAvatar();
         self.getUsers();
       })
       .catch(function (error) {
-        self.message = 'Incorrect E-mail or password';
         self.showMessage = true;
         console.log(error);
       });
@@ -125,6 +122,16 @@ export default {
         console.log(error);
       });
     },
+
+    downloadProfileInfo(){
+      axios.get(this.$apiAddress + '/x-user/profile/info?token=' + localStorage.getItem("api_token"))
+      .then(function(response){
+        global.current_user = response.data.payload;
+        global.current_user.name = global.current_user.firstName + ' ' + global.current_user.lastName;
+      }).catch(function(e){
+        console.log(e);
+      });
+    }
   },
 }
 </script>

@@ -41,7 +41,7 @@ Route::prefix('/api/v1')->group(function () {
     Route::prefix('/x-user')
         ->middleware([
             'auth:api',
-            'user.activity.status'
+            // 'user.activity.status'
         ])
         ->group(function () {
 
@@ -66,6 +66,21 @@ Route::prefix('/api/v1')->group(function () {
                     Route::post('/{id}/like', 'XUserController@likePost');
                     Route::post('/{id}/send-comment', 'XUserController@sendComment');
                     Route::get('/{id}/comments', 'XUserController@getComments');
+                });
+
+            
+            Route::prefix('/activity')
+                // ->middleware(['post.access'])
+                ->group(function () {
+                    Route::get('/all', 'ActivityController@getAllActivities');
+                    Route::post('/add', 'ActivityController@addActivity');
+                });
+
+            Route::prefix('/task')
+                // ->middleware(['post.access'])
+                ->group(function () {
+                    Route::get('/all', 'TaskController@getAllTasks');
+                    Route::post('/add', 'TaskController@addTask');
                 });
 
             // Chat
@@ -137,6 +152,12 @@ Route::prefix('/api/v1')->group(function () {
                 Route::get('/availability', 'DriversController@availability');
                 Route::post('/update-availability', 'DriversController@updateAvailability');
                 Route::get('/available-drivers', 'DriversController@getAvailableDrivers');
+            });
+
+            Route::prefix('/driver-service')->group(function() {
+                Route::get('/get-service',     'DriverServiceController@getDriverService');
+                Route::post('/add-service',     'DriverServiceController@addDriverService');
+                Route::post('/update-service',  'DriverServiceController@updateDriverService');
             });
 
             // Renting

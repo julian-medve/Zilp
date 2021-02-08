@@ -12,22 +12,22 @@
           <b-link href="#" class="d-block new-project" v-b-modal.add_project size="lg"><i class="ri-add-line mr-2"/>Add Activity</b-link>
           <b-modal id="add_project" centered title="Add Activity">
             <p class="my-2">
-              <b-form-input name="project_name" v-model="project.project_name" placeholder="Avtivity Name" />
+              <b-form-input name="project_name" v-model="activity_name" placeholder="Avtivity Name" />
             </p>
             <template v-slot:modal-footer>
               <b-button variant="none" class="iq-bg-primary"  @click="$bvModal.hide('add_project')">Cancel</b-button>
-              <b-button variant="primary" @click="saveProject(project)">Save</b-button>
+              <b-button variant="primary" @click="addActivity">Save</b-button>
             </template>
           </b-modal>
         </div>
         <ul class="todo-task-list p-0 m-0">
           <li v-for="(item,index) in filteredList" :key="index" @click="selectProject(item)" :class="`${item.id === selectedProject ? 'active' : ''}`">
-            <b-link href="#"><i class="ri-stack-fill mr-2"></i>{{ item.project_name }}</b-link>
+            <b-link href="#"><i class="ri-stack-fill mr-2"></i>{{ item.title }}</b-link>
             <!-- <ul :id="'todo-task'+index" class="sub-task mt-2 p-0" :class="`${item.id === selectedProject.id ? 'show' : ''}`">
               <li v-for="(category, index1) in categoryList" :key="index1" @click="selectCategory(category)" :class="`${category.id === selectedCategory.id ? 'active' : ''}`">
                 <b-link :href="category.href"><i class="ri-checkbox-blank-circle-fill" :class="'text-'+category.color" /> {{ category.name }}</b-link>
               </li>
-            </ul> -->
+            </ul>  -->
           </li>
         </ul>
       </div>
@@ -36,6 +36,7 @@
 </template>
 <script>
 import axios from 'axios'
+import TaskForm from './TaskForm'
 
 export default {
   name: 'ProjectList',
@@ -43,16 +44,14 @@ export default {
   props: [
     'selectedProject',
     'selectedCategory',
-    'projectList',
+    'activityList',
     'categoryList'
   ],
+  components: { TaskForm },
   data () {
     return {
       search: '',
-      project: {
-        id: 0,
-        project_name: ''
-      }
+      activity_name: '',
     }
   },
   methods: {
@@ -61,33 +60,37 @@ export default {
       this.$bvModal.hide('add_project')
     },
     selectProject (project) {
-      this.$store.dispatch('Todo/selectedAction', { data: project, type: 'project' })
+      console.log("selected project : ", project);
+      this.$store.dispatch('Todo/selectedAction', { data: project, type: 'activity' })
       this.search = ''
     },
     selectCategory (category) {
       this.$store.dispatch('Todo/selectedAction', { data: category, type: 'category' })
       this.search = ''
     },
-    getProject(){
-      // let self = this;
-      // axios.get(  this.$apiAddress + '/api/notes/create?token=' + localStorage.getItem("api_token"))
-      // .then(function (response) {
-      //     self.statuses = response.data;
-      // }).catch(function (error) {
-      //     console.log(error);
-      //     self.$router.push({ path: 'login' });
-      // });
-    },
+
+    addActivity(){
+      var self = this;
+      axios.post(this.$apiAddress + '/x-user/activity/add?token=' + localStorage.getItem("api_token"), {
+        title : self.activity_name
+      }).then(function (response) {
+        self.activityList.push(response.data.payload);
+        console.log("response ", response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
   },
   computed: {
     filteredList () {
-      return this.projectList.filter(item => {
-        return item.project_name.toLowerCase().includes(this.search.toLowerCase())
+      if(!this.activityList)
+        return [];
+
+      return this.activityList.filter(item => {
+        return item.title.toLowerCase().includes(this.search.toLowerCase())
       })
     }
-  },
-  mounted: function(){
-    this.getProject();
   }
 }
 </script>

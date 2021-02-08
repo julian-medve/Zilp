@@ -1,10 +1,10 @@
 <template>
     <div class="row">
-      <div  class="col-md-12">
-        <div class="iq-search-bar d-flex justify-content-center col-md-8 offset-md-2 m-4">
+      <div  class="col-md-12 d-flex justify-content-center">
+        <div class="iq-search-bar d-flex justify-content-center col-md-6 m-4">
           <form action="#" class="searchbox">
-              <input type="text" v-model="plateNumber" class="text search-input" placeholder="Type licence plate number to search friend...">
-              <a class="search-link" @click="searchFriend"><i class="ri-search-line"></i></a>
+              <input type="text" v-model="plateNumber" class="text search-input" style="background:#50b5ff; color:white;" placeholder="Type licence plate number to search friend..." @keyup="searchFriend">
+              <a class="search-link" style="color:white;"><i class="ri-search-line"></i></a>
           </form>
         </div>
       </div>
@@ -91,9 +91,10 @@ export default {
 
     addUserData(responseData, following){
       var self = this;
+      self.friends = [];
       responseData.forEach((friend) => {
         global.users.forEach((user) => {
-          if(user.id == friend.id){
+          if(user.id != global.current_user.id && user.id == friend.id){
             user.following = following;
             self.friends.unshift(user);
           }

@@ -40,34 +40,12 @@
     "name": "sidebar.friends",
     "is_heading": false,
     "is_active": false,
-    "link": "",
+    "link": {
+      "name" : "social.friend-list"
+    },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-user-friends",
-    "children": [
-      {
-        "title": "Search Friend",
-        "name": "sidebar.search_friend",
-        "is_active": false,
-        "link": {
-          "name" : "social.friend-list"
-        },
-        "class_name": "",
-        "is_icon_class": true,
-        "icon": "ri-search-line"
-      },
-      {
-        "title": "Friend Request",
-        "name": "sidebar.friend_request",
-        "is_active": false,
-        "link": {
-          "name" : "social.friend-request"
-        },
-        "class_name": "",
-        "is_icon_class": true,
-        "icon": "las la-anchor"
-      }
-    ]
+    "icon": "las la-user-friends"
   },
   {
     "title": "Chat",

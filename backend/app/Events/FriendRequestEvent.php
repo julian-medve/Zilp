@@ -13,16 +13,16 @@ use Illuminate\Queue\SerializesModels;
 class FriendRequestEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $senderId, $receiverId;
+    public $notification, $receiverId;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($senderId, $receiverId)
+    public function __construct($notification, $receiverId)
     {
-        $this->senderId = $senderId;
+        $this->notification = $notification;
         $this->receiverId = $receiverId;
     }
 

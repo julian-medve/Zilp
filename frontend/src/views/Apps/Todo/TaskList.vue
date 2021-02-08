@@ -6,7 +6,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="todo-date d-flex mr-3">
               <i :class="`ri-calendar-2-line text-${category.color} mr-2`"></i>
-              <span>{{ project.project_name }}</span>
+              <span>{{ activity.title }}</span>
             </div>
             <div class="todo-notification d-flex align-items-center">
               <b-button variant=" iq-bg-primary iq-waves-effect" v-b-modal.add_task size="lg">Add Task</b-button>
@@ -184,15 +184,17 @@
 import { Users } from '../../../FackApi/api/chat'
 import TaskForm from './TaskForm'
 import { mapGetters } from 'vuex'
+import axios from 'axios'
+
 export default {
   name: 'TaskList',
   components: { TaskForm },
   props: [
-    'taskList',
-    'project',
-    'category'
+    'category',
+    'activity'
   ],
   mounted () {
+    this.getTaskList();
   },
   computed: {
     ...mapGetters({
@@ -200,7 +202,7 @@ export default {
     }),
     filteredList () {
       return this.taskList.filter(item => {
-        return item.task_title.toLowerCase().includes(this.search.toLowerCase())
+        return item.title.toLowerCase().includes(this.search.toLowerCase())
       })
     }
   },
@@ -228,7 +230,8 @@ export default {
           name: 'Barb Ackue',
           work: 'Tester'
         }
-      ]
+      ], 
+      taskList: [],
     }
   },
   methods: {
@@ -251,9 +254,24 @@ export default {
       }
       return false
     },
-    updateStatue (item) {
-      this.$store.dispatch('Todo/updateStatusAction', item)
+    
+    getTaskList(){
+      var self = this;
+      if(!this.activity)
+        return;
+      axios.get(this.$apiAddress + '/x-user/task/all?token=' + localStorage.getItem("api_token"), {
+        activity_id : activity.id
+      }).then(function (response) {
+        console.log("Task List response : ", response);
+        self.taskList = response.data.payload;
+      }).catch(function (error) {
+          console.log(error);
+          // self.$router.push({ path: 'login' });
+      });
     },
-  }
+
+    
+  },
+  
 }
 </script>

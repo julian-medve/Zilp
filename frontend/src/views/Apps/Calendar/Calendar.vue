@@ -38,8 +38,8 @@
                   :scheduleView="true"
                   :month="month"
                   :week="week"
-                  :disableDblClick="disableDblClick"
-                  :isReadOnly="isReadOnly"
+                  :disableDblClick="true"
+                  :isReadOnly="isScheduleReadOnly"
                   @clickSchedule="onClickSchedule"
                   @clickDayname="onClickDayname"
                   @beforeCreateSchedule="onBeforeCreateSchedule"
@@ -57,6 +57,8 @@ import Event from '../../../Model/Event'
 import { CalenderList, Events } from '../../../FackApi/api/calendar'
 import { Calendar } from '@toast-ui/vue-calendar'
 import { socialvue } from '../../../config/pluginInit'
+import axios from 'axios'
+
 export default {
   name: 'App',
   components: {
@@ -107,15 +109,25 @@ export default {
       scheduleView: true,
       useDetailPopup: true,
       disableDblClick: true,
-      isReadOnly: false
     }
   },
+
+  computed : {
+    isScheduleReadOnly: function() {
+      if(global.current_user.verifiedDriver != "yes")
+        return true;
+      else 
+        return false;
+    }
+  },
+
   watch: {
     selectedView (newValue) {
       this.$refs.tuiCal.invoke('changeView', newValue, true)
       this.setRenderRangeText()
     }
   },
+  
   methods: {
     init () {
       this.setRenderRangeText()
@@ -161,11 +173,7 @@ export default {
       }
     },
     onClickSchedule (res) {
-      /* console.group('onClickSchedule')
-      console.log('MouseEvent : ', res.event)
-      console.log('Calendar Info : ', res.calendar)
-      console.log('Schedule Info : ', res.schedule)
-      console.groupEnd() */
+      
     },
     onClickDayname (res) {
       // view : week, day
@@ -178,19 +186,96 @@ export default {
       let updatedEvent = { ...res.schedule, ...res.changes }
       this.$set(this.scheduleList, idx, new Event(updatedEvent))
     },
+
     onBeforeCreateSchedule (res) {
-      let event = new Event(res)
-      this.scheduleList.push(event)
+
+      var self = this;
+      console.group('onClickSchedule')
+      console.log('MouseEvent : ', res)
+      console.log('Calendar Info : ', res.calendar)
+      console.log('Schedule Info : ', res.schedule)
+      console.groupEnd()
+
+      if(res.calendarId == 1){
+        axios.post(this.$apiAddress + '/x-user/driver-service/add-service?token=' + localStorage.getItem("api_token"), {
+          user_id     : global.current_user.id,
+          title       : res.title,
+          location    : res.location,
+          start_date  : self.toUTCDate(res.start._date),
+          end_date    : self.toUTCDate(res.end._date),
+          state       : res.state,
+        }).then(function (response) {
+          let event = new Event(res)
+          self.scheduleList.push(event)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
     },
+
     onBeforeDeleteSchedule (res) {
       const idx = this.scheduleList.findIndex(item => item.id === res.schedule.id)
       this.scheduleList.splice(idx, 1)
+    },
+
+    toUTCDate(isoDate){
+      var date = new Date(isoDate);
+      var year = date.getFullYear();
+      var month = date.getMonth()+1;
+      var hour = date.getHours();
+      var minute = date.getMinutes();
+      var second = date.getSeconds();
+      var dt = date.getDate();
+
+      if (dt < 10) {
+        dt = '0' + dt;
+      }
+      if (month < 10) {
+        month = '0' + month;
+      }
+      
+      return (year+'-' + month + '-'+dt + ' ' + hour + ':' + minute + ':' + second);
+    },
+
+    getDriverServices(){
+      var self = this;
+      axios.get(this.$apiAddress + '/x-user/driver-service/get-service?token=' + localStorage.getItem("api_token"))
+      .then(response => {
+        self.scheduleList = [];
+        console.log("response ", response.data.payload);
+        // Replace 'title' content with user name and plate number
+        Array.prototype.forEach.call(response.data.payload, item => {
+          var tempTitle = '';
+          Array.prototype.forEach.call(global.users, user => {
+            if(user.id == item.user_id)
+              tempTitle = user.name + ' ( ' + user.plateNumber + ' ) ';
+          });
+          
+          self.scheduleList.push(new Event({
+            'id': item.id, 
+            'calendarId': '1', 
+            'title' : tempTitle,
+            'body': item.title, 
+            'start' : item.start_date,
+            'end' : item.end_date,
+            'category' : 'task',
+            'color': '#ffffff', 
+            'bgColor': '#00ff00', 
+            'state' : item.state, 
+            'location' : item.location
+          }));
+        });
+      }).catch(error => {
+        console.log(error);
+      });
     }
   },
   mounted () {
     this.init()
     socialvue.index()
-    this.scheduleList = Events
+    // this.scheduleList = Events
+    this.getDriverServices()
   }
 }
 </script>

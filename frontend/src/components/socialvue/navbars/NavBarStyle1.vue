@@ -72,9 +72,9 @@
                   <li class="nav-item">
                     <a href="#" class="search-toggle iq-waves-effect">
                       <lottie :option="require('../../../assets/images/small/lottie-bell')" id="lottie-beil" />
-                        <span class="bg-danger dots"></span>
+                        <span class="bg-danger dots" v-if="newNotifications.length != 0"></span>
                     </a>
-                    <div class="iq-sub-dropdown">
+                    <div class="iq-sub-dropdown" style="width:320px;">
                         <div class="iq-card shadow-none m-0">
                           <div class="iq-card-body p-0 ">
                               <div class="bg-primary p-3">
@@ -84,11 +84,11 @@
                                 <a class="iq-sub-card" :key="index" @click="viewNotification()" style="cursor:pointer;">
                                   <div class="media align-items-center">
                                       <div class="">
-                                        <img class="avatar-40 rounded" v-bind:src="item.image" alt="">
+                                        <img class="avatar-40 rounded" v-bind:src="checkUser(item, 'image')" alt="">
                                       </div>
                                       <div class="media-body ml-3">
-                                        <h6 class="mb-0 ">{{ item.name }} &nbsp;&nbsp;<small class="float-right font-size-12">{{ item.timeAgo }}</small></h6>
-                                        <small class="float-left font-size-12">{{ checkNotificationType(item) }}</small>
+                                        <h6 class="mb-0 ">{{ checkUser(item, 'name') }} &nbsp;&nbsp;<small class="float-right font-size-12">{{ item.timeAgo }}</small></h6>
+                                        <small class="float-left font-size-12">{{ item.text }}</small>
                                       </div>
                                   </div>
                                 </a>
@@ -100,9 +100,9 @@
                   <li class="nav-item dropdown">
                     <a href="#" class="search-toggle iq-waves-effect">
                       <lottie :option="require('../../../assets/images/small/lottie-mail')" id="lottie-mail" />
-                        <span class="bg-primary count-mail"></span>
+                        <span class="bg-primary count-mail" v-if="newMessages.length != 0"></span>
                     </a>
-                    <div class="iq-sub-dropdown">
+                    <div class="iq-sub-dropdown" style="width:320px;">
                         <div class="iq-card shadow-none m-0">
                           <div class="iq-card-body p-0 ">
                               <div class="bg-primary p-3">
@@ -112,11 +112,11 @@
                                 <a class="iq-sub-card" :key="index" @click="viewChat()" style="cursor:pointer;">
                                   <div class="media align-items-center">
                                       <div class="">
-                                        <img class="avatar-40 rounded" v-bind:src="checkSenderImage(item.from_user_id)" alt="">
+                                        <img class="avatar-40 rounded" v-bind:src="checkUser(item, 'image')" alt="">
                                       </div>
                                       <div class="media-body ml-3">
-                                        <h6 class="mb-0 ">{{ checkSenderName(item.from_user_id) }} &nbsp;&nbsp;<small class="float-right font-size-12">{{ item.timeAgo }}</small></h6>
-                                        <small class="float-left font-size-12">{{ item.message_content }}</small>
+                                        <h6 class="mb-0 ">{{ checkUser(item, "name") }} &nbsp;&nbsp;<small class="float-right font-size-12">{{ item.timeAgo }}</small></h6>
+                                        <small class="float-left font-size-12">{{ item.text }}</small>
                                       </div>
                                   </div>
                                 </a>
@@ -191,6 +191,8 @@ import { mapGetters } from 'vuex'
 import Lottie from '../../../components/socialvue/lottie/Lottie'
 import axios from 'axios'
 import Echo from "laravel-echo"
+import Message from '../../../Model/Message'
+import Notification from '../../../Model/Notification'
 
 // Push notification via PUSHER
 // Pusher.logToConsole = true;
@@ -261,8 +263,22 @@ export default {
         }
       ],
       current_user: global.current_user,
-      newMessages : [],
-      newNotifications : [],
+      newMessages : [{
+        id : 3,
+        text : "requested to be your friend.",
+        timeAgo : "2 days ago",
+        userId : 3,
+        me : true,
+        created_at : "Dec 23"
+      }],
+      newNotifications : [{
+        id : 3,
+        text : "requested to be your friend.",
+        timeAgo : "2 days ago",
+        userId : 3,
+        me : true,
+        created_at : "Dec 23"
+      }],
     }
   },
   methods: {
@@ -315,22 +331,34 @@ export default {
     listenForChanges() {
       var self = this;
       window.Echo.channel('App.User.' + global.current_user.id)
-        .listen('.NewMessage', function(message){
-            console.log("New Arrived message  ");
-            console.log(message.message);
-            self.newMessages.push(message.message);
+        .listen('.NewMessage', function(messageEvent){
+            console.log("New Arrived message ", messageEvent);
+            var message = messageEvent.message;
+            
+            var message_content = message.message_content;
+            if(message.message_content.length > 30)
+              message_content = message.substring(0, 30);
+
+            var newMessage = new Message({ text: message.message_content, userId: message.from_user_id, me: false, timeAgo: 'just now', created_at : message.created_at });
+            self.newMessages.unshift(newMessage);
         });
 
       // Friend Request Event
       window.Echo.channel('App.User.' + global.current_user.id)
-        .listen('.FriendRequestEvent', function(event){
-            console.log("New Arrived FriendRequestEvent  ");
-            console.log(event.senderId);
-            for(var item in global.users){
-              if(global.users[item].id == event.senderId){
-                self.newNotifications.push(global.users[item]);
-              }
-            }
+        .listen('.FriendRequestEvent', function(notificationEvent){
+            console.log("New Arrived FriendRequestEvent ", notificationEvent);
+            var event = notificationEvent.notification;
+            // for(var item in global.users){
+            //   if(global.users[item].id == event.senderId){
+                
+                var content = '';
+                if(event.type.indexOf('FriendRequest') != -1)
+                  content = ' requested to be your friend.';
+                
+                var newNotification = new Notification({ text: content, userId: event.sender_id, me: false, timeAgo: 'just now', created_at : event.created_at });
+                self.newNotifications.unshift(newNotification);
+            //   }
+            // }
         });
     },
 
@@ -394,22 +422,6 @@ export default {
       });
     },
 
-    checkSenderImage(senderId){
-      for(var item in global.users){
-        if(global.users[item].id == senderId){
-          return global.users[item].image;
-        }
-      }
-    },
-
-    checkSenderName(senderId){
-      for(var item in global.users){
-        if(global.users[item].id == senderId){
-          return global.users[item].name;
-        }
-      }
-    },
-
     viewChat(){
       this.$router.push({ path: '/app/chat' });
     },
@@ -423,7 +435,36 @@ export default {
 
     viewNotification(notification){
       
-    }
+    },
+
+    checkUser (item, type) {
+      var user;
+      Array.prototype.forEach.call(global.users, element => {
+        if(element.id === item.userId){
+          user = element;
+        }
+      });
+  
+      let final
+      if (user !== undefined) {
+        switch (type) {
+          case 'name':
+            final = user.name + '(' +  user.plateNumber + ')'
+            break
+          case 'image':
+            final = user.image
+            break
+          case 'email':
+            final = user.email
+            break
+          case 'phone':
+            final = user.phone
+            break
+        }
+        return final
+      }
+      return require('../../../assets/images/user/user-05.jpg')
+    },
   }
 }
 </script>
