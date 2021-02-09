@@ -82,6 +82,9 @@ let style = {
   }
 };
 
+// Paypal
+const PayPalButton = paypal.Buttons.driver("vue", window.Vue);
+
 export default {
   name: 'Deposit',
   components: {
@@ -93,7 +96,7 @@ export default {
       user: global.current_user,
       deposit_amount : 100,
       credentials: {
-        sandbox: 'Aa4F2Wi9UsQQ0hzL6Bn2_sd4rVJCWVLtOISGiTAQkccd-1pRY-GuP7vz34vivLfrf3qGaFr8_YqSx1LL',
+        sandbox: 'AfZpa0mZQUHVdstVt-WSbZLCHbawyaX_KDCnx2WgFA2wKL1FOX3nBmJYaf1vQMNOndv5WgEbE6Xd1Qef',
         production: 'EE2UQO-DG8e_KJrJrMNtv6oBatrDjF99n9l1leXc5wi29cpHlB6LpM3LR6_-3rLHfWWCrajZAEQgi0lO'
       },
 
