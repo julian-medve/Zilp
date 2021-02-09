@@ -115,18 +115,26 @@
                             <span class="badge badge-danger ml-3 text-white" v-if="item.status === 'Expiring'">{{ item.status }}</span>
                             <span class="badge badge-primary ml-3 text-white" v-if="item.status === 'Complete'">{{ item.status }}</span>
                             <span class="badge badge-info ml-3 text-white" v-if="item.status === 'Urgent'">{{ item.status }}</span>
-                            <p class="mb-0">by {{ checkUser(item.assigned_for,'name') }} ({{ checkUser(item.assigned_for, 'plateNumber')}}) </p>
+                            <p class="mb-0">by <b>{{ checkUser(item.assigned_for,'name') }} ({{ checkUser(item.assigned_for, 'plateNumber')}}) </b></p>
                           </div>
                           <div class="iq-card-header-toolbar d-flex align-items-center">
-                            <b-button class="btn mr-3 btn-sm" v-b-modal.modal-payment variant="danger" @click="payActivity(item)" size="xs" v-if="item.status === 'Complete'">Pay</b-button>
-                            <!-- <b-modal v-if="item.status === 'Complete'" id="modal-payment" centered title="Payment Confirmation" ok-title="Pay" cancel-title="Cancel">
+                            <b-button class="btn mr-3 btn-sm" v-b-modal.modal-payment variant="danger" size="xs" v-if="item.status === 'Complete'">Pay</b-button>
+                            <b-modal v-if="item.status === 'Complete'" id="modal-payment" centered title="Payment Confirmation" ok-title="Pay" cancel-title="Cancel" @ok="pay(item.assigned_for)">
                               <div class="form-group">
                               <b-form>
-                                Are you sure to pay $50 to the driver?
+                                How much will you pay to <b>{{ checkUser(item.assigned_for, 'name') }} ({{ checkUser(item.assigned_for, 'plateNumber')}}) </b>
+                                <br><br>
+                                <b-form-group
+                                  class="row"
+                                  label-cols-sm="6"
+                                  label="Amount (USD)"
+                                  label-for="amount"
+                                >
+                                  <b-form-input id="amount" type="number" placeholder="Enter amount to pay" v-model="pay_amount"></b-form-input>
+                                </b-form-group>
                               </b-form>
                             </div>
-                            </b-modal> -->
-
+                            </b-modal>
                             <!-- <div class="custom-control custom-checkbox">  
                               <input type="checkbox" name="todo-check" class="custom-control-input" @change="updateStatue(item)" :id="'check' + index" :checked="item.task_status">
                               <label class="custom-control-label" :for="'check' + index"></label>
@@ -280,6 +288,7 @@ export default {
       selectedTask: '',
       userList : [],
       statusList: ['Expiring', 'Complete', 'Urgent'],
+      pay_amount : 10,
     };
   },
   mounted () {
@@ -413,11 +422,18 @@ export default {
       self.$bvModal.hide('add_activity');
     },
 
-    payActivity(activity){
-      this.$router.push({ path: '/profile' });
+    pay(toUserId){
+      var self = this;
+      axios.post(this.$apiAddress + '/x-user/billing/transfer-funds?token=' + localStorage.getItem("api_token"), {
+        amount : self.pay_amount,
+        toUserId : toUserId
+      }).then(function (response) {
+        self.$router.push({ path: 'profile' });
+        console.log("Transfer funds response : ", response)
+      }).catch(function (error) {
+          console.log(error);
+      });
     }
   }
 }
 </script>
-<style>
-</style>

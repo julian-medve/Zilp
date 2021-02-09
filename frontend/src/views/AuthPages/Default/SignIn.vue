@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="mb-0">Sign in</h1>
-    <p>Enter your email / phone and password to access admin panel.</p>
+    <p>Enter your email / phone and password to access.</p>
 
     <div class="alert alert-danger" role="alert" v-if="showMessage">
       <div class="iq-alert-text">Incorrect E-mail/Phone and password</div>

@@ -11,7 +11,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroupPrepend2">$</span>
           </div>
-          <input type="number" class="form-control" v-model="deposit_amount" aria-describedby="inputGroupPrepend2">
+          <input type="number" class="form-control" v-model="withdraw_amount" aria-describedby="inputGroupPrepend2">
         </div>
         <br><br>
         <PayPal
@@ -38,7 +38,10 @@ export default {
   data(){
     return {
       user: global.current_user,
-      credentials : '',
+      credentials: {
+        sandbox: 'Aa4F2Wi9UsQQ0hzL6Bn2_sd4rVJCWVLtOISGiTAQkccd-1pRY-GuP7vz34vivLfrf3qGaFr8_YqSx1LL',
+        production: 'EE2UQO-DG8e_KJrJrMNtv6oBatrDjF99n9l1leXc5wi29cpHlB6LpM3LR6_-3rLHfWWCrajZAEQgi0lO'
+      },
       withdraw_amount : 100,
     }
   },

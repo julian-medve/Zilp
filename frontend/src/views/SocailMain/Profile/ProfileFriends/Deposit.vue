@@ -30,7 +30,9 @@
           amount="deposit_amount"
           currency="USD"
           :client="credentials"
-          env="sandbox">
+          env="sandbox"
+          payment-completed="paypalDepositCompleted()"
+          payment-cancelled="paypalDepositCancelled()">
         </PayPal>
         <hr>
       </div>
@@ -51,11 +53,6 @@ elements = stripe.elements(),
 card = undefined;
 
 // Amazon Pay
-amazon.Login.setClientId('YOUR_CLIENT_ID_HERE');
-window.onAmazonLoginReady = function() { 
-  amazon.Login.setClientId('CLIENT-ID'); 
-};
-
 window.onAmazonPaymentsReady = function(){
   // render the button here
   var authRequest; 
@@ -94,18 +91,25 @@ export default {
   data(){
     return {
       user: global.current_user,
-      credentials : '',
       deposit_amount : 100,
-      paypal: {
-        sandbox: '<sandbox client id>',
-        production: '<production client id>'
-      }
+      credentials: {
+        sandbox: 'Aa4F2Wi9UsQQ0hzL6Bn2_sd4rVJCWVLtOISGiTAQkccd-1pRY-GuP7vz34vivLfrf3qGaFr8_YqSx1LL',
+        production: 'EE2UQO-DG8e_KJrJrMNtv6oBatrDjF99n9l1leXc5wi29cpHlB6LpM3LR6_-3rLHfWWCrajZAEQgi0lO'
+      },
+
+      base: {
+        border: '1px solid #D8D8D8',
+        borderRadius: '4px',
+        color: "#000",
+      },
     }
   },
 
   mounted: function () {
-    card = elements.create('card', {style: style});
+    card = elements.create('card', {style: this.style});
     card.mount(this.$refs.card);
+
+    amazon.Login.setClientId('CLIENT-ID');
   },
 
   methods : {
@@ -135,6 +139,14 @@ export default {
         if(error.response.status == 401)
           self.$router.push({ path: '/auth/signin' });
       });
+    },
+
+    paypalDepositCompleted(response){
+      console.log("Paypal desposit completed : ", response);
+    },
+
+    paypalDepositCancelled(response){
+      console.log("Paypal desposit cancelled : ", response);
     }
   }
 }

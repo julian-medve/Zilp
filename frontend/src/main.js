@@ -13,7 +13,7 @@ import { required } from 'vee-validate/dist/rules'
 
 
 global.Raphael = Raphael
-
+global.users = [];
 global.current_user = new User(
   { 
     id: 1,

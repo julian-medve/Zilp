@@ -72,7 +72,7 @@
                   <li class="nav-item">
                     <a href="#" class="search-toggle iq-waves-effect">
                       <lottie :option="require('../../../assets/images/small/lottie-bell')" id="lottie-beil" />
-                        <span class="bg-danger dots" v-if="newNotifications.length != 0"></span>
+                        <!-- <span class="bg-danger dots" v-if="newNotifications.length != 0"></span> -->
                     </a>
                     <div class="iq-sub-dropdown" style="width:320px;">
                         <div class="iq-card shadow-none m-0">
@@ -80,19 +80,21 @@
                               <div class="bg-primary p-3">
                                 <h5 class="mb-0 text-white">All Notifications<small class="badge  badge-light float-right pt-1">{{ newNotifications.length }}</small></h5>
                               </div>
-                              <template v-for="(item, index) in newNotifications">
-                                <a class="iq-sub-card" :key="index" @click="viewNotification()" style="cursor:pointer;">
-                                  <div class="media align-items-center">
-                                      <div class="">
-                                        <img class="avatar-40 rounded" v-bind:src="checkUser(item, 'image')" alt="">
-                                      </div>
-                                      <div class="media-body ml-3">
-                                        <h6 class="mb-0 ">{{ checkUser(item, 'name') }} &nbsp;&nbsp;<small class="float-right font-size-12">{{ item.timeAgo }}</small></h6>
-                                        <small class="float-left font-size-12">{{ item.text }}</small>
-                                      </div>
-                                  </div>
-                                </a>
-                              </template>
+                              <div  v-if="newNotifications.length != 0">
+                                <template v-for="(item, index) in newNotifications">
+                                  <a class="iq-sub-card" :key="index" @click="viewNotification()" style="cursor:pointer;">
+                                    <div class="media align-items-center">
+                                        <div class="">
+                                          <img class="avatar-40 rounded" v-bind:src="checkUser(item, 'image')" alt="">
+                                        </div>
+                                        <div class="media-body ml-3">
+                                          <h6 class="mb-0 ">{{ checkUser(item, 'name') }} &nbsp;&nbsp;<small class="float-right font-size-12">{{ item.timeAgo }}</small></h6>
+                                          <small class="float-left font-size-12">{{ item.text }}</small>
+                                        </div>
+                                    </div>
+                                  </a>
+                                </template>
+                              </div>
                           </div>
                         </div>
                     </div>
@@ -100,13 +102,13 @@
                   <li class="nav-item dropdown">
                     <a href="#" class="search-toggle iq-waves-effect">
                       <lottie :option="require('../../../assets/images/small/lottie-mail')" id="lottie-mail" />
-                        <span class="bg-primary count-mail" v-if="newMessages.length != 0"></span>
+                        <!-- <span class="bg-primary count-mail" v-if="newMessages.length != 0"></span> -->
                     </a>
                     <div class="iq-sub-dropdown" style="width:320px;">
                         <div class="iq-card shadow-none m-0">
                           <div class="iq-card-body p-0 ">
                               <div class="bg-primary p-3">
-                                <h5 class="mb-0 text-white">All Messages<small class="badge  badge-light float-right pt-1">{{newMessages.length}}</small></h5>
+                                <!-- <h5 class="mb-0 text-white">All Messages<small class="badge  badge-light float-right pt-1">{{newMessages.length}}</small></h5> -->
                               </div>
                               <template v-for="(item, index) in newMessages">
                                 <a class="iq-sub-card" :key="index" @click="viewChat()" style="cursor:pointer;">
@@ -135,8 +137,8 @@
                         <div class="iq-card shadow-none m-0">
                           <div class="iq-card-body p-0 ">
                               <div class="bg-primary p-3 line-height">
-                                <h5 class="mb-0 text-white line-height">Hello {{ current_user.name }}</h5>
-                                <span class="text-white font-size-12">Available</span>
+                                <h5 class="mb-0 text-white line-height">{{ current_user.name }} ({{ current_user.plateNumber }})</h5>
+                                <span class="text-white font-size-12">Available (${{current_user.balance }})</span>
                               </div>
                               <router-link to="/profile" class="iq-sub-card iq-bg-primary-hover">
                                 <div class="media align-items-center">
@@ -172,7 +174,7 @@
                                 </div>
                               </router-link> -->
                               <div class="d-inline-block w-100 text-center p-3">
-                                <a class="bg-primary iq-sign-btn" style="cursor:pointer" role="button" @click="signOut()">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                <a class="bg-primary iq-sign-btn" style="cursor:pointer" role="button" @click="signOut()">Sign out<i class="ri-logout-box-line ml-2"></i></a>
                               </div>
                           </div>
                         </div>
@@ -219,7 +221,7 @@ export default {
     horizontal: { type: Boolean, default: false },
     items: { type: Array }
   },
-  mounted () {    
+  mounted () {
     document.addEventListener('click', this.closeSearch, true);
   },
   created() {
@@ -264,24 +266,24 @@ export default {
       ],
       current_user: global.current_user,
       newMessages : [
-      //   {
-      //   id : 3,
-      //   text : "requested to be your friend.",
-      //   timeAgo : "2 days ago",
-      //   userId : 3,
-      //   me : true,
-      //   created_at : "Dec 23"
-      // }
+        {
+        id : 3,
+        text : "requested to be your friend.",
+        timeAgo : "2 days ago",
+        userId : 3,
+        me : true,
+        created_at : "Dec 23"
+      }
       ],
       newNotifications : [
-      //   {
-      //   id : 3,
-      //   text : "requested to be your friend.",
-      //   timeAgo : "2 days ago",
-      //   userId : 3,
-      //   me : true,
-      //   created_at : "Dec 23"
-      // }
+        {
+        id : 3,
+        text : "requested to be your friend.",
+        timeAgo : "2 days ago",
+        userId : 3,
+        me : true,
+        created_at : "Dec 23"
+      }
       ],
     }
   },
@@ -390,6 +392,7 @@ export default {
       .then(function (response) {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         global.current_user.image = url;
+        console.log("url : ", url);
       }).catch(function (error) {
         console.log(error);
       });
@@ -399,6 +402,7 @@ export default {
       var self = this;
       axios.get(this.$apiAddress + '/x-user/chat/getUsers?token=' + localStorage.getItem("api_token"))
       .then(response => {
+        console.log("response : ", response);
         global.users = response.data.payload;
         for(var index in global.users){
           self.downloadUserAvatar(global.users[index], index);
@@ -437,10 +441,8 @@ export default {
     },
 
     viewNotification(notification){
-      
-    },
-
-    
+      this.$router.push({ path: '/notification' });
+    },    
   }
 }
 </script>

@@ -64,6 +64,8 @@ class BalanceController extends Controller
             'paymentId' => 'required'
         ]);
 
+        self::createTransaction(auth()->user()->id, $request->input('amount'), 'Stripe balance charge.');
+
         try {
             auth()->user()->charge($request->input('amount'), $request->input('paymentId'));
         } catch (\Exception $e) {
@@ -72,8 +74,6 @@ class BalanceController extends Controller
                 'message' => $e
             ]);
         }
-
-        self::createTransaction(auth()->user()->id, $request->input('amount'), 'Stripe balance charge.');
 
         return response()->json([
             'success' => true
@@ -84,18 +84,18 @@ class BalanceController extends Controller
     {
         $request->validate([
             'amount' => 'required|numeric|min:1',
-            'password' => 'required',
+            // 'password' => 'required',
             'toUserId' => 'required|numeric'
         ]);
 
         $user = User::where('id', auth()->user()->id)->first();
 
-        if (!Hash::check($request->input('password'), $user->password)) {
-            return response()->json([
-                'success' => false,
-                'error' => 'wrong_password'
-            ]);
-        }
+        // if (!Hash::check($request->input('password'), $user->password)) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'error' => 'wrong_password'
+        //     ]);
+        // }
 
         if (auth()->user()->balance < $request->input('amount')) {
             return response()->json([
