@@ -1,16 +1,14 @@
 <template>
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-3">
         <tab-nav :pills="true" id="tab" class="nav nav-pills basic-info-items list-inline d-block p-0 m-0" >
           <tab-nav-items :active="true" id="pills-contact-info" href="#contact-info" ariaControls="pills-contact-info" role="tab" :ariaSelected="true" title="Contact" />
           <tab-nav-items :active="false" id="pills-verified-info" href="#verified-info" ariaControls="pills-verified-info" role="tab" :ariaSelected="true" title="Licence" />
-          <tab-nav-items :active="false" id="pills-financial-info" href="#financial-info" ariaControls="pills-financial-info" role="tab" :ariaSelected="true" title="Payment" />
-          <!-- <tab-nav-items :active="false" id="pills-work-info" href="#work-info" ariaControls="pills-work-info" role="tab" :ariaSelected="true" title="Work and Education" />
-          <tab-nav-items :active="false" id="pills-address-info" href="#address-info" ariaControls="pills-address-info" role="tab" :ariaSelected="true" title="Places You've Lived" />
-          <tab-nav-items :active="false" id="pills-about-info" href="#about-info" ariaControls="pills-about-info" role="tab" :ariaSelected="true" title="Details About You" /> -->
+          <tab-nav-items :active="false" id="pills-deposit-info" href="#deposit-info" ariaControls="pills-deposit-info" role="tab" :ariaSelected="true" title="Deposit" />
+          <tab-nav-items :active="false" id="pills-withdraw-info" href="#withdraw-info" ariaControls="pills-withdraw-info" role="tab" :ariaSelected="true" title="Withdraw" />
         </tab-nav>
       </div>
-      <div class="col-md-10">
+      <div class="col-md-9 p-3">
         <div class="tab-content">
           <tab-content-item :active="true" id="contact-info" aria-labelled-by="pills-contact-info">
             <h4>Contact Information</h4>
@@ -146,62 +144,14 @@
                 </div>
               </b-modal>
           </tab-content-item>
-          <tab-content-item :active="false" id="financial-info" aria-labelled-by="pills-financial-info">
-            <div class="row col-md-12 ">
-              <div class="d-flex justify-content-center text-center"><h3>Balance : ${{user.balance}}</h3></div>
-            </div>
-            
-            <h5>Amount will be withdrawen by </h5><hr>
-            <paypal-form />
-
-            <div id="smart-button-container">
-              <div style="text-align: center;">
-                <div id="paypal-button-container"></div>
-              </div>
-            </div>
-            <!-- <ul class="suggestions-lists m-0 p-0">
-              <li class="d-flex mb-4 align-items-center">
-                <b-form-group>
-                  <b-form-select plain v-model="selected3" :options="payment_options">
-                    <template v-slot:first>
-                      <b-form-select-option :value="null">Select payment</b-form-select-option>
-                    </template>
-                  </b-form-select>
-                </b-form-group>
-              </li>
-              <li class="d-flex mb-4 align-items-center" v-for="(item,index) in friend" :key="index">
-                <div class="user-img img-fluid"><img :src="item.img" alt="story-img" class="rounded-circle avatar-40"></div>
-                <div class="media-support-info ml-3">
-                  <h6>{{item.name}}</h6>
-                  <p class="mb-0">{{item.realtion}}</p>
-                </div>
-                <div class="edit-relation"><a href="#"><i class="ri-edit-line mr-2"></i>Edit</a></div>
-              </li>
-            </ul> -->
-              <h5>Deposit will be done by </h5>
-              <tab-nav :tabs="true" id="myTab-1">
-                <tab-nav-items :active="true" id="credit-tab" ariaControls="credit" role="tab" :ariaSelected="true" title="Credit Card" />
-                <tab-nav-items :active="false" id="paypal-tab" ariaControls="paypal" role="tab" :ariaSelected="false" title="Paypal" />
-                <tab-nav-items :active="false" id="amazon-tab" ariaControls="amazon" role="tab" :ariaSelected="false" title="Amazon" />
-              </tab-nav>
-              <tab-content id="myTabContent">
-                <tab-content-item :active="true" id="credit" aria-labelled-by="credit-tab">
-                  <credit-card-form />  
-                </tab-content-item>
-                <tab-content-item :active="false" id="paypal" aria-labelled-by="paypal-tab">
-                  <div class="text-center col-12 m-3">
-                      <PayPal
-                        amount="10.00"
-                        currency="USD"
-                        :client="credentials"
-                        env="sandbox">
-                      </PayPal>
-                  </div>
-                </tab-content-item>
-                <tab-content-item :active="false" id="amazon" aria-labelled-by="amazon-tab">
-                  <amazon-form />
-                </tab-content-item>
-              </tab-content>
+          <tab-content-item :active="false" id="deposit-info" aria-labelled-by="pills-deposit-info">
+            <Deposit />
+          </tab-content-item>
+                    
+          <tab-content-item :active="false" id="withdraw-info" aria-labelled-by="pills-withdraw-info">
+            <div class="row col-md-12 p-3">
+              <Withdraw />
+            </div> 
           </tab-content-item>
         </div>
       </div>
@@ -209,48 +159,15 @@
     </div>
 </template>
 
-<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD" data-sdk-integration-source="button-factory"></script>
-<script>
-  function initPayPalButton() {
-    paypal.Buttons({
-      style: {
-        shape: 'rect',
-        color: 'gold',
-        layout: 'vertical',
-        label: 'paypal',
-        
-      },
-
-      createOrder: function(data, actions) {
-        return actions.order.create({
-          purchase_units: [{"amount":{"currency_code":"USD","value":1}}]
-        });
-      },
-
-      onApprove: function(data, actions) {
-        return actions.order.capture().then(function(details) {
-          alert('Transaction completed by ' + details.payer.name.given_name + '!');
-        });
-      },
-
-      onError: function(err) {
-        console.log(err);
-      }
-    }).render('#paypal-button-container');
-  }
-  initPayPalButton();
-</script>
-
 <script>
 import { socialvue } from '../../../../config/pluginInit'
 import VerifyFile from './VerifyFile'
-import CreditCardForm from "@/components/Payment/CreditCardForm"
-import PaypalForm from "@/components/Payment/PaypalForm"
-import AmazonForm from "@/components/Payment/AmazonForm"
 import axios from 'axios'
-import PayPal from 'vue-paypal-checkout'
+import Deposit from './Deposit'
+import Withdraw from './Withdraw'
 
 export default {
+  components: { Deposit, Withdraw },
   name: 'About',
   created(){
     this.getProfileInfo();
@@ -258,12 +175,6 @@ export default {
   },
   mounted () {
     socialvue.index();
-  },
-  components: {
-    CreditCardForm,
-    PaypalForm,
-    AmazonForm,
-    PayPal
   },
   data: () => ( {
       friend: [
@@ -334,19 +245,7 @@ export default {
       insuranceCard:'',
       vehiclePicture:'',
       driverHeadshot:'',
-
-      payment_options: [
-        { value: 'default', text: 'Select Payment' },
-        { value: 'credit', text: 'Credit Card' },
-        { value: 'paypal', text: 'Paypal' },
-        { value: 'amazon', text: 'Amazon Pay' }
-      ],
       selected3 : 'default',
-
-      credentials: {
-        sandbox: 'ASvpnmDeg8bJcPcdiA0gspZ-awQamNDPpZvThPlAF11tVV7CzTzD70PTYj-f2U0tGfg-Ibx_9cCVWe-y',
-        production: '<production client id>'
-      }
     }
   ),
 

@@ -60,15 +60,16 @@ class BalanceController extends Controller
     public function stripeCharge(Request $request): JsonResponse
     {
         $request->validate([
-            'amount' => 'required|numeric|min:10',
+            'amount' => 'required|numeric|min:1',
             'paymentId' => 'required'
         ]);
 
         try {
-            auth()->user()->charge($request->input('amount') * 100, $request->input('paymentId'));
+            auth()->user()->charge($request->input('amount'), $request->input('paymentId'));
         } catch (\Exception $e) {
             return response()->json([
-                'success' => false
+                'success' => false,
+                'message' => $e
             ]);
         }
 

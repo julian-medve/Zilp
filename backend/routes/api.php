@@ -117,17 +117,13 @@ Route::prefix('/api/v1')->group(function () {
             });
 
             // Add friend
-            Route::post('/add-friend', 'XUserController@addFriend');
-
-            // Remove friend
-            Route::post('/remove-friend', 'XUserController@removeFriend');
-
-            // Accept friend request
-            Route::post('/update-friend-request', 'XUserController@updateFriendRequest');
-
-            // Decline friend request
-            Route::post('/decline-friend-request', 'XUserController@declineFriendRequest');
-
+            Route::prefix('/friend')->group(function () {
+                Route::post('/add', 'XUserController@addFriend');
+                Route::post('/remove', 'XUserController@removeFriend');
+                Route::post('/update-friend-request', 'XUserController@updateFriendRequest');
+                Route::post('/decline-friend-request', 'XUserController@declineFriendRequest');
+            });
+            
             // Get notifications
             Route::get('/notifications', 'XUserController@getNotifications');
 

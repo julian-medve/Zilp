@@ -8,14 +8,14 @@
       </div>
     </b-col>
     <b-col sm="12">
-      <div class="iq-card" v-for="(data,index) in notificationData" :key="index">
+      <div class="iq-card" v-for="(data,index) in notifications" :key="index">
         <div class="iq-card-body">
           <ul class="notification-list m-0 p-0">
             <li class="d-flex align-items-center" >
-              <div class="user-img img-fluid"><img :src="data.user.image" alt="story-img" class="rounded-circle avatar-40"></div>
+              <div class="user-img img-fluid"><img :src="checkUser(data, 'image')" alt="story-img" class="rounded-circle avatar-40"></div>
               <div class="media-support-info ml-3">
-                <h6>{{data.user.name}} ({{data.user.plateNumber}}) {{data.message}}</h6>
-                <p class="mb-0">{{data.notification.created_at}}</p>
+                <h6>{{ checkUser(data, 'name')}} <!--span style="float:right;">{{ data.timeAgo }}</span--></h6>
+                <p class="mb-0">{{ data.text }}</p>
               </div>
               <div class="d-flex align-items-center">
                 <a href="#" class="mr-3 iq-notify iq-bg-primary rounded">
@@ -25,11 +25,8 @@
                       <template v-slot:button-content>
                         <b-link href="#" class="dropdown-toggle text-primary"><i class="ml-3 ri-more-2-line"></i></b-link>
                       </template>
-                      <b-dropdown-item href="#"><i class="ri-eye-fill mr-2"></i>View</b-dropdown-item>
-                      <b-dropdown-item href="#"><i class="ri-delete-bin-6-fill mr-2"></i>Delete</b-dropdown-item>
-                      <b-dropdown-item href="#"><i class="ri-pencil-fill mr-2"></i>Edit</b-dropdown-item>
-                      <b-dropdown-item href="#"><i class="ri-printer-fill mr-2"></i>Print</b-dropdown-item>
-                      <b-dropdown-item href="#"><i class="ri-file-download-fill mr-2"></i>Download</b-dropdown-item>
+                      <b-dropdown-item @click="acceptFriendRequest(data, 'accept')" v-if="data.type.indexOf('FriendRequest') != 0"><i class="fa fa-check mr-2"></i>Accept</b-dropdown-item>
+                      <b-dropdown-item @click="acceptFriendRequest(data, 'decline')" v-if="data.type.indexOf('FriendRequest') != 0"><i class="fa fa-check mr-2"></i>Decline</b-dropdown-item>
                     </b-dropdown>
                 </div>
               </div>
@@ -44,6 +41,7 @@
 <script>
 import { socialvue } from '../../../config/pluginInit'
 import axios from 'axios'
+import Notification from '@/Model/Notification'
 
 export default {
   name: 'Notification',
@@ -56,7 +54,7 @@ export default {
   data () {
     return {
       seen: true,
-      notificationData: []
+      notifications: []
     }
   },
 
@@ -65,29 +63,39 @@ export default {
       var self = this;
       axios.get(this.$apiAddress + '/x-user/notifications?token=' + localStorage.getItem("api_token"))
       .then(response => {
-        // console.log(response);
+        console.log(response);
         if(response.data.payload.length != 0){
-          var responseData = response.data.payload;
-          console.log(responseData);
-          
-          Array.prototype.forEach.call(response.data.payload, notification => {
-            Array.prototype.forEach.call(global.users, user => {
-              if(user.id == notification.sender_id)
-              {
-                var notificationData = new Object();
-                notificationData.notification = notification;
-                notificationData.user = user;
-
-                if(notification.type.indexOf('FriendRequest'))
-                  notificationData.message = "requested to be your friend.";
-
-                self.notificationData.push(notificationData);
-              }
+          response.data.payload.forEach(event => {
+            var content = '';
+            if(event.type.indexOf('FriendRequest') != -1)
+              content = ' requested to be your friend.';
+            
+            var newNotification = new Notification({ 
+              text: content, 
+              userId: event.sender_id, 
+              me: false, 
+              timeAgo: event.timeAgo, 
+              created_at: event.created_at 
             });
-          });
+
+            self.notifications.unshift(newNotification);
+          }); 
         }
       }).catch(error => {
         console.log(error);
+      });
+    },
+
+    acceptFriendRequest(notification, action){
+      var self = this;
+      axios.post(this.$apiAddress + '/x-user/friend/update-friend-request?token=' + localStorage.getItem("api_token"), {
+        notificationId : notification.id,
+        action : action,
+      }).then(response => {
+        console.log("accept friend request response : ", response);
+
+      }).catch(error => {
+        console.log("accept friend request error : ", error);
       });
     }
   }

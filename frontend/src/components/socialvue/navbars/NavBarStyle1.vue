@@ -263,22 +263,26 @@ export default {
         }
       ],
       current_user: global.current_user,
-      newMessages : [{
-        id : 3,
-        text : "requested to be your friend.",
-        timeAgo : "2 days ago",
-        userId : 3,
-        me : true,
-        created_at : "Dec 23"
-      }],
-      newNotifications : [{
-        id : 3,
-        text : "requested to be your friend.",
-        timeAgo : "2 days ago",
-        userId : 3,
-        me : true,
-        created_at : "Dec 23"
-      }],
+      newMessages : [
+      //   {
+      //   id : 3,
+      //   text : "requested to be your friend.",
+      //   timeAgo : "2 days ago",
+      //   userId : 3,
+      //   me : true,
+      //   created_at : "Dec 23"
+      // }
+      ],
+      newNotifications : [
+      //   {
+      //   id : 3,
+      //   text : "requested to be your friend.",
+      //   timeAgo : "2 days ago",
+      //   userId : 3,
+      //   me : true,
+      //   created_at : "Dec 23"
+      // }
+      ],
     }
   },
   methods: {
@@ -391,7 +395,6 @@ export default {
       });
     },
 
-
     getUsers(){
       var self = this;
       axios.get(this.$apiAddress + '/x-user/chat/getUsers?token=' + localStorage.getItem("api_token"))
@@ -437,34 +440,7 @@ export default {
       
     },
 
-    checkUser (item, type) {
-      var user;
-      Array.prototype.forEach.call(global.users, element => {
-        if(element.id === item.userId){
-          user = element;
-        }
-      });
-  
-      let final
-      if (user !== undefined) {
-        switch (type) {
-          case 'name':
-            final = user.name + '(' +  user.plateNumber + ')'
-            break
-          case 'image':
-            final = user.image
-            break
-          case 'email':
-            final = user.email
-            break
-          case 'phone':
-            final = user.phone
-            break
-        }
-        return final
-      }
-      return require('../../../assets/images/user/user-05.jpg')
-    },
+    
   }
 }
 </script>

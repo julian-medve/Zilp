@@ -219,25 +219,6 @@ export default {
       this.scheduleList.splice(idx, 1)
     },
 
-    toUTCDate(isoDate){
-      var date = new Date(isoDate);
-      var year = date.getFullYear();
-      var month = date.getMonth()+1;
-      var hour = date.getHours();
-      var minute = date.getMinutes();
-      var second = date.getSeconds();
-      var dt = date.getDate();
-
-      if (dt < 10) {
-        dt = '0' + dt;
-      }
-      if (month < 10) {
-        month = '0' + month;
-      }
-      
-      return (year+'-' + month + '-'+dt + ' ' + hour + ':' + minute + ':' + second);
-    },
-
     getDriverServices(){
       var self = this;
       axios.get(this.$apiAddress + '/x-user/driver-service/get-service?token=' + localStorage.getItem("api_token"))

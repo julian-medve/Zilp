@@ -7,6 +7,7 @@ export default class Notification {
     this.timeAgo = is(String, notification.timeAgo) ? notification.timeAgo : ''
     this.userId = is(Number, notification.userId) ? notification.userId : ''
     this.me = is(Boolean, notification.me) ? notification.me : false
-    this.created_at = is(Boolean, notification.created_at) ? notification.created_at : false
+    this.created_at = is(String, notification.created_at) ? notification.created_at : ''
+    this.type = is(String, notification.type) ? notification.type : ''
   }
 }

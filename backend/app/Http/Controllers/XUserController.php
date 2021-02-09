@@ -345,12 +345,12 @@ class XUserController extends Controller
         //     ]);
         // }
 
-        // // Create friend record
-        // $new_friend = new Friend;
-        // $new_friend->node_one_id = auth()->user()->id;
-        // $new_friend->node_two_id = $user->id;
-        // $new_friend->accepted = 0;
-        // $new_friend->save();
+        // Create friend record
+        $new_friend = new Friend;
+        $new_friend->node_one_id = auth()->user()->id;
+        $new_friend->node_two_id = $user->id;
+        $new_friend->accepted = 0;
+        $new_friend->save();
 
         // Create new notification
         // $user->notify(new FriendRequest(auth()->user()));
@@ -411,7 +411,8 @@ class XUserController extends Controller
             'action' => 'required|in:accept,decline'
         ]);
 
-        $notification = auth()->user()->notifications()->where('id', $request->input('notificationId'))->first();
+        // $notification = auth()->user()->notifications()->where('id', $request->input('notificationId'))->first();
+        $notification = Notification::where('id', $request->input('notificationId'))->first();
 
         if (!$notification) {
             return response()->json([
@@ -445,14 +446,14 @@ class XUserController extends Controller
 
         if ($request->input('action') === 'accept') {
             $friend_request = Friend::where([
-                'node_one_id' => $notification->data['user_id'],
+                'node_one_id' => $notification->sender_id,
                 'node_two_id' => auth()->user()->id
             ])->first();
             $friend_request->accepted = 1;
             $friend_request->save();
 
             $user = User::where('id', $notification->data['user_id'])->first();
-            $user->notify(new FriendRequestAccepted(auth()->user()));
+            // $user->notify(new FriendRequestAccepted(auth()->user()));
         } else if ($request->input('action') === 'decline') {
             Friend::where([
                 'node_one_id' => $notification->data['user_id'],
@@ -470,10 +471,11 @@ class XUserController extends Controller
         auth()->user()->unreadNotifications->markAsRead();
         // auth()->user()->getCustomNotifications();
 
-        // return response()->json([
-        //     'success' => true,
-        //     'payload' => auth()->user()->notifications->where('hidden', '<>', 1)
-        // ]);
+        return response()->json([
+            'success' => true,
+            'payload' => auth()->user()->notifications->where('hidden', '<>', 1)
+        ]);
+        
 
         return response()->json([
             'success' => true,

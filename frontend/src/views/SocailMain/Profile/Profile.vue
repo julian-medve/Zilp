@@ -118,6 +118,7 @@ import { socialvue } from '../../../config/pluginInit'
 import ProfileImage from './ProfileImage'
 import FriendTab from './ProfileFriends/FriendTab'
 import About from './ProfileFriends/About'
+import Deposit from './ProfileFriends/Deposit'
 import AddSocialPost from '../../Apps/Social/Components/AddSocialPost'
 import Post from '../../../Model/Post'
 import { Posts } from '../../../FackApi/api/SocialPost'
@@ -132,11 +133,7 @@ export default {
     this.downloadProfileInfo();
   },
   components: {
-    // FriendTab,
-    // ProfileImage,
-    // AddSocialPost,
-    // SocialPost,
-    About
+    About,
   },
   data () {
     return {

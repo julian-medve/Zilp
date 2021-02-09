@@ -13,6 +13,7 @@
     "@amcharts/amcharts4-geodata": "^4.1.9",
     "@fortawesome/fontawesome-free": "^5.11.2",
     "@toast-ui/vue-calendar": "^1.1.1",
+    "@vue-stripe/vue-stripe": "^4.1.1",
     "animate.css": "^3.7.2",
     "autoprefixer": "latest",
     "axios": "^0.21.1",
