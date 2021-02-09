@@ -1,32 +1,14 @@
 <template>
   <div>
-    <Loader />
-    <section class="sign-in-page">
-      <div id="container-inside">
-        <div id="circle-small"></div>
-        <div id="circle-medium"></div>
-        <div id="circle-large"></div>
-        <div id="circle-xlarge"></div>
-        <div id="circle-xxlarge"></div>
-      </div>
+    <!-- <Loader /> -->
+    <section :style='inlineStyle'>
+      
       <b-container class="container p-0">
         <div class="row no-gutters">
-          <div class="col-md-6 text-center pt-5">
-            <div class="sign-in-detail text-white">
-              <a class="sign-in-logo mb-5" href="#"><img src="../../assets/images/logo-white.png" class="img-fluid" alt="logo"></a>
-              <Slick :option="slickOptions">
-                <div class="item">
-                  <img src="../../assets/images/login/3.png" class="img-fluid mb-4" alt="logo">
-                  <h4 class="mb-1 text-white">Manage your orders</h4>
-                  <p>It is a long established fact that a reader will be distracted by the readable content.</p>
-                </div>
-                <div class="item">
-                  <img src="../../assets/images/login/2.png" class="img-fluid mb-4" alt="logo">
-                  <h4 class="mb-1 text-white">Manage your orders</h4>
-                  <p>It is a long established fact that a reader will be distracted by the readable content.</p>
-                </div>
-              </Slick>
-            </div>
+          <div class="col-md-6 text-center">
+            <div class="sign-in-detail text-white" style="display: flex; align-items: center; flex-wrap: wrap;">
+              <img src="../../assets/images/logo-white.png" class="img-fluid" alt="logo">            
+            </div> 
           </div>
           <div class="col-sm-6 bg-white pt-5">
             <div class="sign-in-from">
@@ -39,17 +21,26 @@
   </div>
 </template>
 <script>
-import Loader from '../../components/socialvue/loader/Loader'
 import logo from '../../assets/images/logo-white.png'
-import { socialvue } from '../../config/pluginInit'
 import bgImage from '../../assets/images/login/login-2.jpg'
+
 export default {
   name: 'AuthLayout1',
   components: {
-    Loader
+    // Loader
   },
   mounted () {
-    socialvue.index()
+    // socialvue.index()
+  },
+  computed : {
+    bgImage () {
+      return require('@/assets/images/main-background.png')
+    },
+    inlineStyle () {
+      return {
+        backgroundImage: `url(${this.bgImage})` 
+      }
+    }
   },
   data () {
     return {
@@ -58,7 +49,7 @@ export default {
         arrows: false
       },
       logo: logo,
-      bgImageURL: bgImage
+      bgImageURL: bgImage,
     }
   }
 }
