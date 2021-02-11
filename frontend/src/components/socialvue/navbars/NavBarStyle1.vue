@@ -138,7 +138,7 @@
                           <div class="iq-card-body p-0 ">
                               <div class="bg-primary p-3 line-height">
                                 <h5 class="mb-0 text-white line-height">{{ current_user.name }} ({{ current_user.plateNumber }})</h5>
-                                <span class="text-white font-size-12">Available (${{current_user.balance }})</span>
+                                <span class="text-white font-size-12">Available ({{ balanceWithDollar }})</span>
                               </div>
                               <router-link to="/profile" class="iq-sub-card iq-bg-primary-hover">
                                 <div class="media align-items-center">
@@ -234,8 +234,16 @@ export default {
   computed: {
     ...mapGetters({
       bookmark: 'Setting/bookmarkState'
-    })
+    }),
+
+    balanceWithDollar(){
+      var num = global.current_user.balance;
+      var dollars = num / 100;
+      dollars = dollars.toLocaleString("en-US", {style:"currency", currency:"USD"}); 
+      return dollars;
+    }
   },
+  
   data () {
     return {
       sidebar: SideBarItems,
@@ -445,13 +453,6 @@ export default {
     viewNotification(notification){
       this.$router.push({ path: '/notification' });
     },   
-    
-    showNotification(){
-    },
-
-    showMessages(){
-
-    }
   }
 }
 </script>

@@ -196,6 +196,12 @@ Route::prefix('/api/v1')->group(function () {
                 Route::get('/get-stripe-pk', 'BalanceController@getStripePublicKey');
                 Route::post('/stripe-charge', 'BalanceController@stripeCharge');
                 Route::post('/transfer-funds', 'BalanceController@transferFunds');
+
+                Route::get('/stripe/setup-intent', 'BillingController@getStripeSetupIntent');
+                Route::post('/stripe/save-payment-method', 'BillingController@savePaymentMethods');
+                Route::get('/stripe/get-payment-method', 'BillingController@getPaymentMethods');
+                Route::post('/stripe/remove-payment-method', 'BillingController@removePaymentMethod');
+
             });
         });
 

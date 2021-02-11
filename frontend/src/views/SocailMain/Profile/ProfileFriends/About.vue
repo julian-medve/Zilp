@@ -451,7 +451,6 @@ export default {
       var self = this;
       axios.get(this.$apiAddress + '/x-user/edit-profile/get-driver-documentations?token=' + localStorage.getItem("api_token"))
       .then(function (response) {
-        console.log("GetLicenceFiles : ", response);
         self.documents = response.data.payload;
 
         self.downloadDocumentImage("driverLicence");
