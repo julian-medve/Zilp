@@ -64,7 +64,7 @@
     <hr class="m-0" />
     <div class="user-post">
       <p class="p-2" v-if="post.description">{{post.description}}</p>
-      <img :src="image" id="post-image" class=""/>
+      <img :src="image" id="post-image" class="img-fluid"/>
     </div>
     <!-- <div class="comment-area p-3">
       <div class="d-flex justify-content-between align-items-center">

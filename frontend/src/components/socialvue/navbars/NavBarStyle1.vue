@@ -71,8 +71,8 @@
                   </li> -->
                   <li class="nav-item">
                     <a href="#" class="search-toggle iq-waves-effect">
-                      <lottie :option="require('../../../assets/images/small/lottie-bell')" id="lottie-beil" />
-                        <!-- <span class="bg-danger dots" v-if="newNotifications.length != 0"></span> -->
+                      <span><i class="fas fa-bell"></i></span>
+                      <span class="bg-danger dots" v-if="newNotifications.length != 0"></span>
                     </a>
                     <div class="iq-sub-dropdown" style="width:320px;">
                         <div class="iq-card shadow-none m-0">
@@ -101,14 +101,14 @@
                   </li>
                   <li class="nav-item dropdown">
                     <a href="#" class="search-toggle iq-waves-effect">
-                      <lottie :option="require('../../../assets/images/small/lottie-mail')" id="lottie-mail" />
-                        <!-- <span class="bg-primary count-mail" v-if="newMessages.length != 0"></span> -->
+                      <span><i class="fas fa-envelope-open-text"></i></span>
+                      <span class="bg-primary count-mail" v-if="newMessages.length != 0"></span>
                     </a>
                     <div class="iq-sub-dropdown" style="width:320px;">
                         <div class="iq-card shadow-none m-0">
                           <div class="iq-card-body p-0 ">
                               <div class="bg-primary p-3">
-                                <!-- <h5 class="mb-0 text-white">All Messages<small class="badge  badge-light float-right pt-1">{{newMessages.length}}</small></h5> -->
+                                <h5 class="mb-0 text-white">All Messages<small class="badge  badge-light float-right pt-1">{{newMessages.length}}</small></h5>
                               </div>
                               <template v-for="(item, index) in newMessages">
                                 <a class="iq-sub-card" :key="index" @click="viewChat()" style="cursor:pointer;">
@@ -229,7 +229,7 @@ export default {
     this.listenForChanges();    
   },
   components: {
-    Lottie
+    // Lottie
   },
   computed: {
     ...mapGetters({
@@ -266,24 +266,24 @@ export default {
       ],
       current_user: global.current_user,
       newMessages : [
-        {
-        id : 3,
-        text : "requested to be your friend.",
-        timeAgo : "2 days ago",
-        userId : 3,
-        me : true,
-        created_at : "Dec 23"
-      }
+      //   {
+      //   id : 3,
+      //   text : "requested to be your friend.",
+      //   timeAgo : "2 days ago",
+      //   userId : 3,
+      //   me : true,
+      //   created_at : "Dec 23"
+      // }
       ],
       newNotifications : [
-        {
-        id : 3,
-        text : "requested to be your friend.",
-        timeAgo : "2 days ago",
-        userId : 3,
-        me : true,
-        created_at : "Dec 23"
-      }
+      //   {
+      //   id : 3,
+      //   text : "requested to be your friend.",
+      //   timeAgo : "2 days ago",
+      //   userId : 3,
+      //   me : true,
+      //   created_at : "Dec 23"
+      // }
       ],
     }
   },
@@ -342,8 +342,8 @@ export default {
             var message = messageEvent.message;
             
             var message_content = message.message_content;
-            if(message.message_content.length > 30)
-              message_content = message.substring(0, 30);
+            if(message_content.length > 30)
+              message_content = message_content.substr(0, 30) + '...';
 
             var newMessage = new Message({ text: message.message_content, userId: message.from_user_id, me: false, timeAgo: 'just now', created_at : message.created_at });
             self.newMessages.unshift(newMessage);
@@ -430,7 +430,9 @@ export default {
     },
 
     viewChat(){
-      this.$router.push({ path: '/app/chat' });
+      console.log("this.$route.name : ", this.$route.name);
+      if(this.$route.name.indexOf('chat') == -1)
+        this.$router.push({ path: '/app/chat' });
     },
 
     checkNotificationType(notification){
@@ -442,7 +444,14 @@ export default {
 
     viewNotification(notification){
       this.$router.push({ path: '/notification' });
-    },    
+    },   
+    
+    showNotification(){
+    },
+
+    showMessages(){
+
+    }
   }
 }
 </script>

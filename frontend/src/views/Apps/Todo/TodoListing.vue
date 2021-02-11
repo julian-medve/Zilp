@@ -1,17 +1,17 @@
 <template>
     <b-row>
-      <b-col lg="3">
+      <b-col lg="4">
         <template>
           <iq-card>
             <template v-slot:body>
               <div class="iq-todo-page">
-                <b-form class="position-relative">
+                <!-- <b-form class="position-relative">
                   <b-form-group class="mb-0" label-for="search">
                     <b-form-input class="todo-search" placeholder="Search" v-model="activity_search" />
                     <b-link href="#" class="search-link"><i class="ri-search-line" /></b-link>
                   </b-form-group>
-                </b-form>
-                <div class="add-new-project mt-3 mb-3">
+                </b-form> -->
+                <!-- <div class="add-new-project mt-3 mb-3">
                   <b-link href="#" class="d-block new-project" v-b-modal.add_activity size="lg"><i class="ri-add-line mr-2"/>Add Activity</b-link>
                   <b-modal id="add_activity" centered title="Add Activity">
                     <p class="my-2">
@@ -22,7 +22,7 @@
                       <b-button variant="primary" @click="addActivity">Save</b-button>
                     </template>
                   </b-modal>
-                </div>
+                </div> -->
                 <ul class="todo-task-list p-0 m-0">
                   <li v-for="(item,index) in filteredActivityList" :key="index" @click="selectActivity(item)" :class="`${item.id === selectedActivity.id ? 'active' : ''}`">
                     <b-link href="#"><i class="ri-stack-fill mr-2"></i>{{ item.title }}</b-link>
@@ -38,7 +38,7 @@
           </iq-card>
         </template>
       </b-col>
-      <b-col lg="9">
+      <b-col lg="8">
         <template>
           <b-row>
             <b-col sm="12">
@@ -343,7 +343,7 @@ export default {
     selectActivity (activity) {
       this.selectedActivity = activity;
       this.activity_search = ''
-      self.getTaskList();
+      this.getTaskList();
     },
 
     setUserList(){

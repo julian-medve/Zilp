@@ -20,7 +20,7 @@
                       <h3 class="">{{ user.name }}</h3>
                     </div>
                 </div>
-                <div class="profile-info p-4 d-flex align-items-center justify-content-between position-relative">
+                <!-- <div class="profile-info p-4 d-flex align-items-center justify-content-between position-relative">
                     <div class="social-links">
                       <ul class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
                           <li  v-for="(item,index) in social" :key="index" class="text-center pr-3">
@@ -36,7 +36,7 @@
                           </li>
                       </ul>
                     </div>
-                </div>
+                </div> -->
               </div>
           </div>
         </iq-card>

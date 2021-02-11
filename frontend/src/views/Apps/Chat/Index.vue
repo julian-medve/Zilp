@@ -183,7 +183,7 @@
                               <a href="javascript:void(0)"><i class="fa fa-smile-o pr-3" aria-hidden="true"></i></a>
                               <a href="javascript:void(0)"><i class="fa fa-paperclip pr-3" aria-hidden="true"></i></a>
                             </div> -->
-                            <input type="text" class="form-control mr-3" placeholder="Type your message" v-model="newMessage">
+                            <input type="text" class="form-control mr-3" placeholder="Type your message" v-model="newMessage" @keyup.enter="sendMessage()">
                             <button type="button" @click="sendMessage" class="btn btn-primary d-flex align-items-center p-2"><i class="far fa-paper-plane"></i><span class="d-none d-lg-block ml-1">Send</span></button>
                           </form>
                         </div>
@@ -205,6 +205,7 @@ import ToggleButton from '../../../components/Chat/ToggleButton'
 import ToggleContent from '../../../components/Chat/ToggleContent'
 import { Users, MessagesUser1 } from '../../../FackApi/api/chat'
 import axios from 'axios'
+import Message from '../../../Model/Message'
 
 export default {
   name: 'Index',
@@ -312,8 +313,12 @@ export default {
     listenForChanges() {
       var self = this;
       window.Echo.channel('App.User.' + global.current_user.id)
-        .listen('.NewMessage', function(newMessage){
-            self.messages.push(newMessage.message);
+        .listen('.NewMessage', function(messageEvent){
+          var msg = messageEvent.message;
+          var message_content = msg.message_content;
+          var newMessage = new Message({ text: message_content, userId: msg.from_user_id, me: false, timeAgo: 'just now', created_at : msg.created_at });
+          console.log("messageEvent ", newMessage);
+          self.messages.push(newMessage);
         });
     },
   }

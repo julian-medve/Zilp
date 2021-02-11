@@ -21,6 +21,7 @@ Route::prefix('/api/v1')->group(function () {
     Route::get('/images/{file_name}', 'GeneralController@images');
     Route::get('/vehicle-photos/{file_name}', 'GeneralController@vehiclePhotos');
     Route::get('/parking-photos/{file_name}', 'GeneralController@parkingPhotos');
+    Route::get('/driver-photos/{file_name}', 'GeneralController@driverPhotos');
 
     // User end-point (public)
     Route::prefix('/user')->group(function () {
@@ -137,6 +138,7 @@ Route::prefix('/api/v1')->group(function () {
             Route::prefix('/edit-profile')->group(function() {
                 Route::get('/info', 'XUserController@getEditInfo');
                 Route::post('/account-info', 'XUserController@editAccountInfo');
+                Route::post('/check-password', 'XUserController@checkPassword');
                 Route::post('/change-password', 'XUserController@changePassword');
                 Route::post('/change-profile-pic', 'XUserController@changeProfilePic');
                 Route::post('/submit-driver-documentations', 'XUserController@submitDriverDocumentations');
@@ -186,6 +188,7 @@ Route::prefix('/api/v1')->group(function () {
                 Route::post('/revoke-guest-plate-number', 'XUserController@revokeGuestPlateNumber');
                 Route::post('/delete', 'XUserController@deletePlateNumber');
                 Route::post('/quit-using-guest-plate', 'XUserController@quitUsingGuestPlate');
+                Route::post('/add-plate-number', 'XUserController@addPlateNumber');
             });
 
             Route::prefix('/billing')->group(function() {

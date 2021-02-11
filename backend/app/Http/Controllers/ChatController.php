@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Log;
 
 use App\ChatSession;
 use App\Message;
@@ -200,9 +201,11 @@ class ChatController extends Controller
         ->where('id', $new_message->id)
         ->first();
 
+        $temp_message = $get_current_message;
+        
+        event(new SendMessageEvent($temp_message, $user->id));
 
-        event(new SendMessageEvent($get_current_message, $user->id));
-
+        
 
         // Send SMS if user is offline
         if(!$user->isOnline) {

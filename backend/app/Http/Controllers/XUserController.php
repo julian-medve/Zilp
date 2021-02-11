@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use App\ChatSession;
 use App\Comment;
 use App\DriverDocumentation;
@@ -46,7 +47,7 @@ class XUserController extends Controller
         $request->validate([
             'postContent' => 'required_unless:postMetaType,IMAGE',
             'postMetaType' => 'required|in:NONE,IMAGE,VIDEO,LOCATION',
-            'imageFile' => 'mimes:jpeg,jpg,png'
+            // 'imageFile' => 'mimes:jpeg,jpg,png'
         ]);
 
         $new_post = new Post;
@@ -352,11 +353,13 @@ class XUserController extends Controller
         $new_friend->accepted = 0;
         $new_friend->save();
 
+       
         // Create new notification
         // $user->notify(new FriendRequest(auth()->user()));
         
         $notification = new Notification;
-        $notification->id = time();
+        $notification_id = time();
+        $notification->id = $notification_id;
         $notification->type = "App\Notifications\FriendRequest";
         $notification->notifiable_type = "App\User";
         $notification->sender_id = auth()->user()->id;
@@ -364,8 +367,23 @@ class XUserController extends Controller
         $notification->data = "";
         $notification->read_at = NULL;
         $notification->save();
+        
+        Log::info("$notification->id " . $notification_id);
 
-        event(new FriendRequestEvent($notification, $user->id));
+        $get_notification = Notification::select([
+            'id',
+            'type',
+            'notifiable_type',
+            'sender_id',
+            'notifiable_id',
+            'data',
+            'read_at',
+            'hidden',
+            'created_at',
+            'updated_at',
+        ])->where('id', $notification_id)->first();
+
+        event(new FriendRequestEvent($get_notification, $user->id));
 
         return response()->json([
             'success' => true
@@ -568,6 +586,7 @@ class XUserController extends Controller
         $user->email = $request->input('email');
         $user->first_name = $request->input('firstName');
         $user->last_name = $request->input('lastName');
+        $user->plate_number = $request->input('plateNumber');
         // $user->profile_visibility = $request->input('profileVisibility');
 
         $user->save();
@@ -582,7 +601,7 @@ class XUserController extends Controller
     public function changePassword(Request $request): JsonResponse
     {
         $request->validate([
-            'password' => 'required|min:8'
+            'password' => 'required'
         ]);
 
         $user = User::where('id', auth()->user()->id)->first();
@@ -596,6 +615,25 @@ class XUserController extends Controller
         ]);
     }
 
+    public function checkPassword(Request $request): JsonResponse
+    {
+        $request->validate([
+            'currentPassword' => 'required'
+        ]);
+
+        $user = User::where('id', auth()->user()->id)->first();
+
+        $result = Hash::check($request->input('currentPassword'), $user->password);
+
+        if($result == false)
+            return response()->json([
+                'success' => false,
+            ]);
+        else
+            return response()->json([
+                'success' => true,
+            ]);        
+    }
     // Change profile pic
     public function changeProfilePic(Request $request): JsonResponse
     {
@@ -634,11 +672,11 @@ class XUserController extends Controller
             && $request->file('vehiclePicture')->isValid()
             && $request->file('driverHeadshot')->isValid()
         ) {
-            $driver_license = $request->file('driverLicense')->store('driver_documentations');
-            $vehicle_registration = $request->file('vehicleRegistration')->store('driver_documentations');
-            $insurance_card = $request->file('insuranceCard')->store('driver_documentations');
-            $vehicle_picture = $request->file('vehiclePicture')->store('driver_documentations');
-            $driver_headshot = $request->file('driverHeadshot')->store('driver_documentations');
+            $driver_license = explode('/', $request->file('driverLicense')->store('driver_documentations'))[1];
+            $vehicle_registration = explode('/', $request->file('vehicleRegistration')->store('driver_documentations'))[1];
+            $insurance_card = explode('/', $request->file('insuranceCard')->store('driver_documentations'))[1];
+            $vehicle_picture = explode('/', $request->file('vehiclePicture')->store('driver_documentations'))[1];
+            $driver_headshot = explode('/', $request->file('driverHeadshot')->store('driver_documentations'))[1];
         }
 
         $new_driver_documentation = new DriverDocumentation;
@@ -652,6 +690,9 @@ class XUserController extends Controller
 
         $user = User::where('id', auth()->user()->id)->first();
         $user->verified_driver = 'pending';
+        
+        // Only for testing
+        $user->verified_driver = 'yes';
         $user->save();
 
         return response()->json([
@@ -664,12 +705,17 @@ class XUserController extends Controller
         $documents = DriverDocumentation::select([
             'id',
             'status',
+            'driver_license as driverLicence',
+            'vehicle_registration as vehicleRegistration',
+            'insurance_card as insuranceCard',
+            'vehicle_picture as vehiclePicture',
+            'driver_headshot as driverHeadshot',
             'CREATED_AT as createdAt'
         ])
         ->where([
             'user_id' => auth()->user()->id,
         ])
-        ->get();
+        ->first();
 
         return response()->json([
             'success' => true,
@@ -755,6 +801,23 @@ class XUserController extends Controller
                 ]
             ]);
         }
+    }
+
+    public function addPlateNumber(Request $request){
+        $request->validate([
+            'plateNumber' => 'required|alpha_num'
+        ]);
+
+        $new_plate_number = new RegisteredPlate;
+
+        $new_plate_number->user_id = auth()->user()->id;
+        $new_plate_number->plate_number = trim(strtoupper($request->input('plateNumber')));
+        $new_plate_number->is_owner = true;
+        $new_plate_number->access_code = null;
+
+        $new_plate_number->save();
+
+        return self::getPlatesList();
     }
 
     // Change plate number (guest)

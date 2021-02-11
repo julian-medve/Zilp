@@ -27,8 +27,8 @@
       <div class="sign-info">
         <span class="dark-color d-inline-block line-height-2">Don't have an account? <router-link :to="{ name: 'auth1.signup'}">Sign up</router-link></span>
         <ul class="iq-social-media">
-          <li><a href="#"><i class="ri-facebook-box-line"></i></a></li>
-          <li><a href="#"><i class="ri-google-line"></i></a></li>
+          <li><a @click="AuthProvider('facebook')"><i class="ri-facebook-box-line"></i></a></li>
+          <li><a @click="AuthProvider('google')"><i class="ri-google-line"></i></a></li>
         </ul>
       </div>
     </form>
@@ -37,6 +37,8 @@
 
 <script>
 import axios from 'axios'
+import VueAxios from 'vue-axios'
+import VueSocialauth from 'vue-social-auth'
 
 export default {
   name: 'SignIn',
@@ -46,6 +48,13 @@ export default {
       password:'',
       showMessage:false,
       signStatus : 0,
+
+      providers: {
+        github: {
+          clientId: '',
+          redirectUri: '/auth/github/callback' // Your client app URL
+        }
+      }
     }
   ),
   created() {
@@ -131,7 +140,24 @@ export default {
       }).catch(function(e){
         console.log(e);
       });
-    }
-  },
+    },
+
+    AuthProvider(provider) {
+      var self = this
+      this.$auth.authenticate(provider).then(response =>{
+        self.SocialLogin(provider,response)
+        }).catch(err => {
+            console.log({err:err})
+        })
+    },
+
+    SocialLogin(provider,response){
+      this.$http.post('/sociallogin/'+provider,response).then(response => {
+          console.log(response.data)
+      }).catch(err => {
+          console.log({err:err})
+      })
+    },
+  }
 }
 </script>

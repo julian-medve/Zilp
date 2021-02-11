@@ -24,6 +24,11 @@ class GeneralController extends Controller
         return response()->file(storage_path('app/parking_photos/' . $file_name));
     }
 
+    public function driverPhotos($file_name): BinaryFileResponse
+    {
+        return response()->file(storage_path('app/driver_documentations/' . $file_name));
+    }
+
     // Pusher authenticate
     public function pusherAuthenticate(Request $request)
     {

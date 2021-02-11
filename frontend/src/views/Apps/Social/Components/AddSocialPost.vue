@@ -13,7 +13,7 @@
             <input type="text" placeholder="Write something about post..." class="rounded form-control" style="border:none;" />
             </form>
         </div>
-        <hr />
+        <!-- <hr />
          <ul class="post-opt-block d-flex align-items-center list-inline m-0 p-0">
             <li class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="../../../../assets/images/small/07.png" alt="icon" class="img-fluid"> Photo/Video</li>
             <li class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="../../../../assets/images/small/08.png" alt="icon" class="img-fluid"> Tag Friend</li>
@@ -34,7 +34,7 @@
                   </div>
               </div>
             </li>
-        </ul>
+        </ul> -->
       </div>
       <b-modal id="modal1" centered title="Create Post" hide-footer>
           <div class="d-flex align-items-center">
@@ -54,7 +54,7 @@
             </div>
           </li>
         </ul> -->
-        <b-form-file placeholder="Upload image" id="imagePost" ref="imagePost" @change="handlePostImage"></b-form-file>
+        <b-form-file placeholder="Upload photo or video" id="imagePost" ref="imagePost" @change="handlePostImage"></b-form-file>
 
         <!-- <div class="other-option">
           <div class="d-flex align-items-center justify-content-between">

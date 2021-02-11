@@ -39,6 +39,7 @@
           </template>
         </iq-card>
       </div>
+
     </div>
 </template>
 <script>
@@ -104,7 +105,7 @@ export default {
 
     invite(user){
       var self = this;
-      axios.post(this.$apiAddress + '/x-user/add-friend?token=' + localStorage.getItem("api_token"), {
+      axios.post(this.$apiAddress + '/x-user/friend/add?token=' + localStorage.getItem("api_token"), {
         userId : user.id
       })
       .then(response => {

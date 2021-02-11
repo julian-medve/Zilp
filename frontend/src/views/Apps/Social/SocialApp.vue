@@ -139,7 +139,7 @@
                 </ul>
               </template>
             </iq-card> -->
-            <iq-card>
+            <!-- <iq-card>
               <template v-slot:headerTitle>
                 <h4 class="card-title">Upcomming Birthday</h4>
               </template>
@@ -156,7 +156,7 @@
                   </li>
                 </ul>
               </template>
-            </iq-card>
+            </iq-card> -->
             <!-- <iq-card>
               <template v-slot:headerTitle>
                 <h4 class="card-title">Suggested Pages</h4>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\RegisteredPlate;
 use App\User;
+use Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -62,6 +63,9 @@ class UserController extends Controller
 
         $new_registered_plate->save();
 
+        // Send verification email with hash
+        Log::info("Hash : " . Hash::make($new_user->created_at));
+        
         return response()->json([
             'success' => true,
         ]);

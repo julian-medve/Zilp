@@ -13,7 +13,7 @@ class ActivityController extends Controller
 {
     public function getAllActivities(Request $request) : JsonResponse
     {
-        $activity = Activity::where('user_id', auth()->user()->id)->get();
+        $activity = Activity::all();
 
         if(!$activity)
             return response()->json([

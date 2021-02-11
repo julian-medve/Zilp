@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
@@ -64,16 +65,20 @@ class BalanceController extends Controller
             'paymentId' => 'required'
         ]);
 
-        self::createTransaction(auth()->user()->id, $request->input('amount'), 'Stripe balance charge.');
+        // auth()->user()->updateDefaultPaymentMethodFromStripe();
 
         try {
-            auth()->user()->charge($request->input('amount'), $request->input('paymentId'));
-        } catch (\Exception $e) {
+            $paymentMethod = auth()->user()->findPaymentMethod($request->input('paymentId'));
+            Log::info("Payment Method : " . $paymentMethod);
+            auth()->user()->charge($request->input('amount'), $request->input('paymentId'));         
+        } catch (Stripe_CardError $e) {
             return response()->json([
                 'success' => false,
                 'message' => $e
             ]);
         }
+
+        self::createTransaction(auth()->user()->id, $request->input('amount'), 'Stripe balance charge.');
 
         return response()->json([
             'success' => true

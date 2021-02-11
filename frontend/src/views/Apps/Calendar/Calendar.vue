@@ -39,13 +39,13 @@
                   :month="month"
                   :week="week"
                   :disableDblClick="true"
-                  :isReadOnly="isScheduleReadOnly"
                   @clickSchedule="onClickSchedule"
                   @clickDayname="onClickDayname"
                   @beforeCreateSchedule="onBeforeCreateSchedule"
                   @beforeUpdateSchedule="onBeforeUpdateSchedule"
                   @beforeDeleteSchedule="onBeforeDeleteSchedule"
         />
+        <!-- :isReadOnly="isScheduleReadOnly" -->
       </b-col>
     </b-row>
 </template>
