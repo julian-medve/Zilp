@@ -460,7 +460,8 @@ class XUserController extends Controller
             ], 403);
         }
 
-        $notification->update(['hidden' => 1]);
+        $notification->hidden = 1;
+        $notification->save();
 
         if ($request->input('action') === 'accept') {
             $friend_request = Friend::where([
@@ -470,11 +471,11 @@ class XUserController extends Controller
             $friend_request->accepted = 1;
             $friend_request->save();
 
-            $user = User::where('id', $notification->data['user_id'])->first();
+            $user = User::where('id', $notification->sender_id)->first();
             // $user->notify(new FriendRequestAccepted(auth()->user()));
         } else if ($request->input('action') === 'decline') {
             Friend::where([
-                'node_one_id' => $notification->data['user_id'],
+                'node_one_id' => $notification->sender_id,
                 'node_two_id' => auth()->user()->id
             ])->delete();
         }
@@ -486,7 +487,7 @@ class XUserController extends Controller
 
     public function getNotifications(): JsonResponse
     {
-        auth()->user()->unreadNotifications->markAsRead();
+        // auth()->user()->unreadNotifications->markAsRead();
         // auth()->user()->getCustomNotifications();
 
         return response()->json([

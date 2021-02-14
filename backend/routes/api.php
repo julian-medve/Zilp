@@ -22,6 +22,7 @@ Route::prefix('/api/v1')->group(function () {
     Route::get('/vehicle-photos/{file_name}', 'GeneralController@vehiclePhotos');
     Route::get('/parking-photos/{file_name}', 'GeneralController@parkingPhotos');
     Route::get('/driver-photos/{file_name}', 'GeneralController@driverPhotos');
+    Route::get('/email-verification', 'UserController@emailVerification');
 
     // User end-point (public)
     Route::prefix('/user')->group(function () {

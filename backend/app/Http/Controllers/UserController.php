@@ -65,10 +65,39 @@ class UserController extends Controller
 
         // Send verification email with hash
         Log::info("Hash : " . Hash::make($new_user->created_at));
+        self::sendVerificationEmail($new_user);
         
         return response()->json([
             'success' => true,
         ]);
+    }
+
+    public function sendVerificationEmail($receiver){
+        $to      = $receiver->email; // Send email to our user
+        $subject = 'Signup | Verification'; // Give the email a subject 
+        $message = '
+        
+        Thanks for signing up!
+        Your account has been created, you can login with the following credentials after you have activated your account by pressing the url below.
+        
+        Please click this link to activate your account:
+        http://78.140.220.40:8080/api/v1/email-verification='.$receiver->email.'&hash='. Hash::make($receiver->created_at) .'
+        
+        '; // Our message above including the link
+                            
+        $headers = 'From:noreply@zilptext.com' . "\r\n"; // Set from headers
+        mail($to, $subject, $message, $headers); // Send our email
+    }
+
+    public function emailVerification(Request $request){
+        $email = $request->input('email');
+        $hash = $request->input('hash');
+
+        $user = User::where('email', $email);
+        if($user && Hash::check($hash, $user->created_at)){
+            $user->verified = 1;
+            $user->save();
+        }
     }
 
     public function socialSignin(Request $request): JsonResponse{

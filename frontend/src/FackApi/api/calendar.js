@@ -4,21 +4,27 @@ import moment from 'moment'
 export const CalenderList = [
   {
     id: '1',
-    name: 'Driver',
+    name: 'Hitch a ride',
     bgColor: '#3dbb58',
     borderColor: '#3dbb58'
   },
   {
     id: '2',
-    name: 'Parking sport',
+    name: 'Rent a car',
     bgColor: '#fbc647',
     borderColor: '#fbc647'
   },
   {
     id: '3',
-    name: 'Vehicle',
+    name: 'Selling a car',
     bgColor: '#f35448',
     borderColor: '#f35448'
+  },
+  {
+    id: '4',
+    name: 'Renting parking Spot',
+    bgColor: '#67ddea',
+    borderColor: '#67ddea'
   }
 ]
 

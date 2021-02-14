@@ -400,7 +400,6 @@ export default {
       .then(function (response) {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         global.current_user.image = url;
-        console.log("url : ", url);
       }).catch(function (error) {
         console.log(error);
       });
@@ -410,7 +409,6 @@ export default {
       var self = this;
       axios.get(this.$apiAddress + '/x-user/chat/getUsers?token=' + localStorage.getItem("api_token"))
       .then(response => {
-        console.log("response : ", response);
         global.users = response.data.payload;
         for(var index in global.users){
           self.downloadUserAvatar(global.users[index], index);

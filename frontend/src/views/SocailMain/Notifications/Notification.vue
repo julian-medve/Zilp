@@ -14,7 +14,7 @@
             <li class="d-flex align-items-center" >
               <div class="user-img img-fluid"><img :src="checkUser(data, 'image')" alt="story-img" class="rounded-circle avatar-40"></div>
               <div class="media-support-info ml-3">
-                <h6>{{ checkUser(data, 'name')}} <!--span style="float:right;">{{ data.timeAgo }}</span--></h6>
+                <h6>{{ checkUser(data, 'name')}} <span style="float:right;">{{ data.created_at }}</span></h6>
                 <p class="mb-0">{{ data.text }}</p>
               </div>
               <div class="d-flex align-items-center">
@@ -25,8 +25,8 @@
                       <template v-slot:button-content>
                         <b-link href="#" class="dropdown-toggle text-primary"><i class="ml-3 ri-more-2-line"></i></b-link>
                       </template>
-                      <b-dropdown-item @click="acceptFriendRequest(data, 'accept')" v-if="data.type.indexOf('FriendRequest') != 0"><i class="fa fa-check mr-2"></i>Accept</b-dropdown-item>
-                      <b-dropdown-item @click="acceptFriendRequest(data, 'decline')" v-if="data.type.indexOf('FriendRequest') != 0"><i class="fa fa-check mr-2"></i>Decline</b-dropdown-item>
+                      <b-dropdown-item @click="updateFriendRequest(data.id, 'accept')" v-if="data.type.indexOf('FriendRequest') != 0"><i class="fa fa-check mr-2"></i>Accept</b-dropdown-item>
+                      <b-dropdown-item @click="updateFriendRequest(data.id, 'decline')" v-if="data.type.indexOf('FriendRequest') != 0"><i class="fa fa-check mr-2"></i>Decline</b-dropdown-item>
                     </b-dropdown>
                 </div>
               </div>
@@ -65,17 +65,20 @@ export default {
       .then(response => {
         console.log(response);
         if(response.data.payload.length != 0){
-          response.data.payload.forEach(event => {
+
+          var result = Object.keys(response.data.payload).map((key) => response.data.payload[key]);
+          result.forEach(event => {
             var content = '';
             if(event.type.indexOf('FriendRequest') != -1)
               content = ' requested to be your friend.';
             
             var newNotification = new Notification({ 
+              id : event.id,
               text: content, 
               userId: event.sender_id, 
               me: false, 
               timeAgo: event.timeAgo, 
-              created_at: event.created_at 
+              created_at: self.toUTCDate(event.created_at)
             });
 
             self.notifications.unshift(newNotification);
@@ -86,10 +89,10 @@ export default {
       });
     },
 
-    acceptFriendRequest(notification, action){
+    updateFriendRequest(notificationId, action){
       var self = this;
       axios.post(this.$apiAddress + '/x-user/friend/update-friend-request?token=' + localStorage.getItem("api_token"), {
-        notificationId : notification.id,
+        notificationId : notificationId,
         action : action,
       }).then(response => {
         console.log("accept friend request response : ", response);

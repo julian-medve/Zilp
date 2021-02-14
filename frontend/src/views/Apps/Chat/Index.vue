@@ -214,6 +214,7 @@ export default {
   mounted () {
     socialvue.index();
     this.listenForChanges();
+    this.getChatFriends();
   },
   computed: {
     // filteredList () {
@@ -229,10 +230,12 @@ export default {
     privateList () {
       var privateUsers = [];
       var self = this;
-      Array.prototype.forEach.call(global.users, element => {
-        if(element.id !== self.user.id){
-          privateUsers.push(element);
-        }
+      Array.prototype.forEach.call(this.usersList, element => {
+        global.users.forEach(function(user){
+          if(element.id !== self.user.id && element.id == user.id){
+            privateUsers.push(user);
+          }
+        })
       });
       return privateUsers;
     }
@@ -241,7 +244,7 @@ export default {
     return {
       search: '',
       user: global.current_user,
-      usersList: global.users,
+      usersList: [],
       newMessage: '',
       messages : [],
       chatClientId : 2,
@@ -250,7 +253,7 @@ export default {
   methods: {
     checkUser (item, type) {
       var user;
-      Array.prototype.forEach.call(this.usersList, element => {
+      Array.prototype.forEach.call(global.users, element => {
         if(element.id === item){
           user = element;
         }
@@ -321,6 +324,17 @@ export default {
           self.messages.push(newMessage);
         });
     },
+
+    getChatFriends(){
+      var self = this;
+      axios.get(this.$apiAddress + '/x-user/friends/list?token=' + localStorage.getItem("api_token")
+      ).then(response => {
+        console.log("Response : ", response);
+        self.usersList = response.data.payload;
+      }).catch(error => {
+        console.log("Error : ", error);
+      });
+    }
   }
 }
 </script>

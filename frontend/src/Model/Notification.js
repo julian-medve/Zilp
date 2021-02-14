@@ -2,7 +2,7 @@ import { is } from 'ramda'
 
 export default class Notification {
   constructor (notification = {}) {
-    this.id = is(Number, notification.id) ? notification.id : 0
+    this.id = is(String, notification.id) ? notification.id : ''
     this.text = is(String, notification.text) ? notification.text : ''
     this.timeAgo = is(String, notification.timeAgo) ? notification.timeAgo : ''
     this.userId = is(Number, notification.userId) ? notification.userId : ''

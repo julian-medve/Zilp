@@ -10,10 +10,10 @@
       <h6 class="mb-0">{{ item.name }}</h6>
       <span>{{ item.role }}</span>
     </div>
-    <div class="chat-meta float-right text-center mt-2 mr-1" v-if="item.isPrivate">
+    <!-- <div class="chat-meta float-right text-center mt-2 mr-1" v-if="item.isPrivate">
       <div class="chat-msg-counter bg-primary text-white">20</div>
       <span class="text-nowrap">05 min</span>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

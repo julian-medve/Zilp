@@ -62,6 +62,9 @@ export default {
   },
   methods: {
     searchFriend(){
+      if(this.plateNumber == '')
+        return;
+
       var self = this;
       axios.get(this.$apiAddress + '/x-user/find-someone?token=' + localStorage.getItem("api_token"),
       {
@@ -92,12 +95,20 @@ export default {
 
     addUserData(responseData, following){
       var self = this;
-      self.friends = [];
+      // self.friends = [];
       responseData.forEach((friend) => {
         global.users.forEach((user) => {
           if(user.id != global.current_user.id && user.id == friend.id){
-            user.following = following;
-            self.friends.unshift(user);
+            var count = 0;
+            self.friends.forEach( (old_friend) => {
+              if(old_friend.id == friend.id)
+                count++;
+            });
+            
+            if(count == 0){
+              user.following = following;
+              self.friends.unshift(user);
+            }
           }
         })
       });
