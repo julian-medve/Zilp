@@ -275,7 +275,6 @@ export default {
     downloadProfileInfo(){
       axios.get(this.$apiAddress + '/x-user/profile/info?token=' + localStorage.getItem("api_token"))
       .then(function(response){
-        console.log("Profile Info : ", response);
       }).catch(function(e){
         console.log(e);
       });

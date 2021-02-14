@@ -24,6 +24,7 @@
     "css-loader": "^3.2.0",
     "eslint": "^7.14.0",
     "google-maps-api-loader": "^1.1.1",
+    "hellojs": "^1.18.8",
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "laravel-echo": "^1.10.0",
@@ -44,6 +45,7 @@
     "vue-axios": "^3.2.4",
     "vue-credit-card-validation": "^0.1.10",
     "vue-flatpickr-component": "^8.1.5",
+    "vue-hellojs": "0.0.4",
     "vue-i18n": "^8.15.3",
     "vue-paypal-checkout": "^3.2.0",
     "vue-photo-grid": "^1.0.2",
@@ -53,6 +55,7 @@
     "vue-slick": "^1.1.15",
     "vue-slider-component": "3.0.32",
     "vue-social-auth": "^1.4.5",
+    "vue2-google-maps": "^0.10.7",
     "vuex": "^3.0.1",
     "wowjs": "^1.1.3"
   },

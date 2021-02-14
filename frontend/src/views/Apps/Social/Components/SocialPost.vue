@@ -228,7 +228,6 @@ export default {
     },
 
     downloadUserAvatar(userId){
-      console.log(userId);
       var self = this;
       axios.get(this.$apiAddress + '/user/' + userId + '/profile-pic?token=' + localStorage.getItem("api_token"),{
             responseType: 'arraybuffer',
@@ -239,7 +238,6 @@ export default {
       })
       .then(function (response) {
         const url = window.URL.createObjectURL(new Blob([response.data]));
-        console.log("url : " + url);
         // document.getElementsByClassName(self.post.user.name).forEach(function(item){
         //   item.src = url;
         // });

@@ -71,6 +71,81 @@ class UserController extends Controller
         ]);
     }
 
+    public function socialSignin(Request $request): JsonResponse{
+        $user = User::where('first_name', $request->input('firstName'))
+            ->where('last_name', $request->input('lastName'))
+            ->first();
+
+        if(!$user){
+            return response()->json([
+                'success' => false,
+                'error' => 'wrong_credentials'
+            ], 401);
+        }
+            
+        return response()->json([
+            'success' => true,
+            'token' => auth('api')->attempt(['email' => $user->email, 'password' => 'password']),
+            'userId' => $user->id,
+        ]);
+    }
+
+    public function socialSignup(Request $request) : JsonResponse{
+        $request->validate([
+            'plateNumber' => 'required|alpha_num|min:3|max:20',
+            'firstName' => 'required|alpha',
+            'email' => 'required|email|unique:users',
+            'lastName' => 'required|alpha',
+            'phone' => 'required|numeric|unique:users'
+        ]);
+
+        // Check if plate number exists (owner)
+        $plate_number = RegisteredPlate::where([
+            'plate_number' => trim(strtoupper($request->input('plateNumber'))),
+            'is_owner' => true
+        ])->first();
+
+        if ($plate_number) {
+            return response()->json([
+                'success' => false,
+                'errors' => [
+                    'plateNumber' => [
+                        "validation.unique"
+                    ]
+                ]
+            ]);
+        }
+
+        // Create user
+        $new_user = new User;
+
+        $new_user->plate_number = trim(strtoupper($request->input('plateNumber')));
+        $new_user->first_name = trim($request->input('firstName'));
+        $new_user->last_name = trim($request->input('lastName'));
+        $new_user->phone = trim($request->input('phone'));
+        $new_user->email = trim($request->input('email'));
+        $new_user->password = Hash::make('password');
+
+        $new_user->save();
+
+        // Create registered plate
+        $new_registered_plate = new RegisteredPlate;
+
+        $new_registered_plate->user_id = $new_user->id;
+        $new_registered_plate->plate_number = trim(strtoupper($request->input('plateNumber')));
+        $new_registered_plate->is_owner = true;
+
+        $new_registered_plate->save();
+
+        // Send verification email with hash
+        
+        return response()->json([
+            'success' => true,
+            'token' => auth('api')->attempt(['email' => $request->input('email'), 'password' => 'password']),
+            'userId' => $new_user->id,
+        ]);
+    }
+
     // User authenticate/login controller
     public function authenticate(Request $request): JsonResponse
     {

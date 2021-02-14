@@ -414,7 +414,6 @@ export default {
       var self = this;
       axios.get(  this.$apiAddress + '/x-user/post/all?token=' + localStorage.getItem("api_token"))
       .then(function (response) {
-        console.log(response);
         self.socialPosts = response.data.payload;
       }).catch(function (error) {
         console.log(error);

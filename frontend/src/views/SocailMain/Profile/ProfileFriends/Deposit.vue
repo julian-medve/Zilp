@@ -19,13 +19,13 @@
     <div class="iq-card-body">
         <ul class="nav nav-tabs" id="myTab-1" role="tablist">
           <li class="nav-item">
-              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Card</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Paypal</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Amazon</a>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent-2">
@@ -48,6 +48,7 @@
             <div class="row justify-content-center pt-3">
               <div id="LoginWithAmazon"></div>
             </div>
+            <Amazon :depositAmount="deposit_amount"/>
           </div>
         </div>
     </div>   
@@ -58,24 +59,8 @@
 import axios from 'axios'
 import PayPal from 'vue-paypal-checkout'
 import Stripe from './Stripe'
+import Amazon from './Amazon'
 
-// Amazon Pay
-window.onAmazonPaymentsReady = function(){
-  // render the button here
-  var authRequest; 
-
-  OffAmazonPayments.Button('LoginWithAmazon', 'SELLER-ID', {
-    type:  'PwA', 
-    color: 'Gold', 
-    size:  'medium', 
-    language: 'en-GB',
-
-    authorization: function() { 
-      loginOptions = {scope: 'SCOPES', popup: POPUP}; 
-      authRequest = amazon.Login.authorize (loginOptions, 'REDIRECT_URL'); 
-    } 
-  });
-}
 
 // Paypal
 // const PayPalButton = paypal.Buttons.driver("vue", window.Vue);
@@ -83,7 +68,7 @@ window.onAmazonPaymentsReady = function(){
 export default {
   name: 'Deposit',
   components: {
-    PayPal, Stripe
+    PayPal, Stripe, Amazon
   },  
 
   data(){
@@ -107,7 +92,6 @@ export default {
   },
 
   mounted: function () {
-    amazon.Login.setClientId('CLIENT-ID');
   },
 
   methods : {

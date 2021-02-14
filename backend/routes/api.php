@@ -29,6 +29,8 @@ Route::prefix('/api/v1')->group(function () {
         // General Routes
         Route::post('/signup', 'UserController@signUp');
         Route::post('/authenticate', 'UserController@authenticate');
+        Route::post('/socialSignin', 'UserController@socialSignin');
+        Route::post('/socialSignup', 'UserController@socialSignup');
         Route::middleware('auth:api')->post('/check-authentication', 'UserController@checkAuthentication');
 
         // Specific user related routes

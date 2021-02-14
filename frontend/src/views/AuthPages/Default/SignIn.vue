@@ -27,8 +27,44 @@
       <div class="sign-info">
         <span class="dark-color d-inline-block line-height-2">Don't have an account? <router-link :to="{ name: 'auth1.signup'}">Sign up</router-link></span>
         <ul class="iq-social-media">
-          <li><a @click="AuthProvider('facebook')"><i class="ri-facebook-box-line"></i></a></li>
-          <li><a @click="AuthProvider('google')"><i class="ri-google-line"></i></a></li>
+          <li><a @click="auth('facebook')"><i class="ri-facebook-box-line"></i></a></li>
+          <li><a @click="auth('google')"><i class="ri-google-line"></i></a></li>
+                
+          <b-button v-b-modal.modal-social-signup variant="primary" class="mr-1" style="display:none;" id="showSocialSignup"></b-button>
+          <b-modal id="modal-social-signup" centered title="More fields" ok-title="Submit" cancel-title="Close" @ok="socialSignup" ref="socialModalSignup">
+            <div class="form-group">
+              <b-form>
+
+                <b-form-group
+                  class="row"
+                  label-cols-sm="6"
+                  label="Email"
+                  label-for="email"
+                >
+                  <b-form-input type="text" id="email" v-model="socialEmail"></b-form-input>
+                </b-form-group>
+                
+                <b-form-group
+                  class="row"
+                  label-cols-sm="6"
+                  label="Plate Number"
+                  label-for="plate-number"
+                >
+                  <b-form-input type="text" id="plate-number" v-model="socialPlateNumber"></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  class="row"
+                  label-cols-sm="6"
+                  label="Phone"
+                  label-for="phone"
+                >
+                  <b-form-input type="text" id="phone" v-model="socialPhone"></b-form-input>
+                </b-form-group>
+              </b-form>
+            </div>
+          </b-modal>
+
         </ul>
       </div>
     </form>
@@ -42,6 +78,8 @@ import VueSocialauth from 'vue-social-auth'
 
 export default {
   name: 'SignIn',
+  components : {
+  },
   data: () => (
     {
       loginId:'', 
@@ -49,12 +87,10 @@ export default {
       showMessage:false,
       signStatus : 0,
 
-      providers: {
-        github: {
-          clientId: '',
-          redirectUri: '/auth/github/callback' // Your client app URL
-        }
-      }
+      socialPlateNumber : '',
+      socialPhone : '',
+      socialProfile : '',
+      socialEmail : '',
     }
   ),
   created() {
@@ -142,21 +178,69 @@ export default {
       });
     },
 
-    AuthProvider(provider) {
-      var self = this
-      this.$auth.authenticate(provider).then(response =>{
-        self.SocialLogin(provider,response)
-        }).catch(err => {
-            console.log({err:err})
-        })
+    auth(network) {
+      const hello = this.hello;
+      var self = this;
+      hello(network).login().then(() => {
+        const authRes = hello(network).getAuthResponse();
+        /*
+          performs operations using the token from authRes
+        */
+        hello(network).api('me').then(function (json) {
+          const profile = json;
+          console.log("profile : ", profile);
+          
+          self.socialSignin();
+          self.socialProfile = profile;
+        });
+      })
     },
 
-    SocialLogin(provider,response){
-      this.$http.post('/sociallogin/'+provider,response).then(response => {
-          console.log(response.data)
-      }).catch(err => {
-          console.log({err:err})
+    socialSignin(){
+      var self = this;
+      console.log("social signin method : ", self.socialProfile.first_name);
+      axios.post(  this.$apiAddress + '/user/socialSignin', {
+        firstName : self.socialProfile.first_name,
+        lastName : self.socialProfile.last_name
+      }).then(function(response){
+        console.log("social signin response : ", response);
+        localStorage.setItem("api_token", response.data.token);
+        localStorage.setItem("user_id", response.data.userId);
+
+        self.downloadProfileInfo();
+        self.downloadAvatar();
+        self.getUsers();
+
+      }).catch(function (error){
+        console.log("social signin error : ", error);
+        document.getElementById("showSocialSignup").click();
+      });
+    },
+
+    socialSignup(){
+      var self = this;
+      axios.post(  this.$apiAddress + '/user/socialSignup', {
+        firstName: self.socialProfile.first_name,
+        lastName: self.socialProfile.last_name,
+        plateNumber : self.socialPlateNumber,
+        phone : self.socialPhone,
+        email : self.socialEmail
+      }).then(function (response) {
+        self.loginId = '';
+        self.password = '';
+        
+        localStorage.setItem("api_token", response.data.token);
+        localStorage.setItem("user_id", response.data.userId);
+        localStorage.setItem('roles', response.data.roles);
+        
+        self.downloadProfileInfo();
+        self.downloadAvatar();
+        self.getUsers();
       })
+      .catch(function (error) {
+        self.showMessage = true;
+        console.log(error);
+      });
     },
   }
 }
