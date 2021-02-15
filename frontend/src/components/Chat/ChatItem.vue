@@ -8,7 +8,7 @@
     </div>
     <div class="chat-sidebar-name">
       <h6 class="mb-0">{{ item.name }}</h6>
-      <span>{{ item.role }}</span>
+      <span><b>{{ item.plateNumber }}</b></span>
     </div>
     <!-- <div class="chat-meta float-right text-center mt-2 mr-1" v-if="item.isPrivate">
       <div class="chat-msg-counter bg-primary text-white">20</div>

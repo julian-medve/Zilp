@@ -144,5 +144,10 @@
     "rtlMode": "RTL Mode",
     "rtl": "RTL",
     "reset": "Reset"
+  },
+  "admin" : {
+    "driverDocuments" : "Driver Documents",
+    "transactions" : "Transactions",
+    "chat" : "Chat support"
   }
 }

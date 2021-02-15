@@ -220,6 +220,7 @@ Route::prefix('/api/v1')->group(function () {
     ])->group(function(){
         Route::get('/get-driver-documentations', 'AdminController@getDriverDocumentations');
         Route::post('/update-documentations', 'AdminController@updateDriverDocumentations');
+        Route::get('/get-transactions', 'AdminController@getTransactions');
     });
 
     // Test

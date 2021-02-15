@@ -9,6 +9,7 @@ use App\DriverDocumentation;
 use App\Friend;
 use App\Like;
 use App\Message;
+use App\Transaction;
 use App\Notification;
 use App\Notifications\FriendRequest;
 use App\Notifications\FriendRequestAccepted;
@@ -69,6 +70,12 @@ class AdminController extends Controller
             $documents->status = $request->input("action");
             $documents->save();
 
+            $driver = User::where('id', $request->input("userId"))->first();
+            if($request->input('action') == "accepted"){
+                $driver->verified_driver = 'yes';
+                $driver->save();
+            }
+            
             return response()->json([
                 'success' => true,
             ]);
@@ -76,6 +83,22 @@ class AdminController extends Controller
 
         return response()->json([
             'success' => false,
+        ]);
+    }
+
+    public function getTransactions(Request $request) : JsonResponse {
+        $transactions = Transaction::select([
+            'id',
+            'transaction_uid',
+            'user_id as userId',
+            'amount',
+            'description',
+            'CREATED_AT as createdAt'
+        ])->get();
+
+        return response()->json([
+            'success' => true,
+            'payload' => $transactions
         ]);
     }
 }

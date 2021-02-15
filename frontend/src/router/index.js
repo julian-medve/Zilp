@@ -88,7 +88,10 @@ const GoogleMapIndex = () => import('../views/Apps/GoogleMap/Index')
 
 
 // Admin components
-const AdminUsers = () => import('../views/Apps/Admin/AdminUsers')
+const DriverDocuments = () => import('../views/Apps/Admin/DriverDocuments')
+const Transactions = () => import('../views/Apps/Admin/Transactions')
+const ChatSupport = () => import('../views/Apps/Admin/ChatSupport')
+
 
 Vue.use(VueRouter)
 const childRoutes = (prop, mode) => [
@@ -543,7 +546,19 @@ const adminChildRoute = (prop, mode = false) => [
     path: '/admin',
     name: prop + '.index',
     meta: { auth: true, name: 'Users' },
-    component: AdminUsers
+    component: DriverDocuments
+  },
+  {
+    path: '/admin/transactions',
+    name: prop + '.transactions',
+    meta: { auth: true, name: 'Transactions' },
+    component: Transactions
+  },
+  {
+    path: '/admin/chat',
+    name: prop + '.chat',
+    meta: { auth: true, name: 'Chat Support' },
+    component: ChatSupport
   },
 ]
 

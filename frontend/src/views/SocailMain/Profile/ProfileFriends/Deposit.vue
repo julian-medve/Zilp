@@ -2,7 +2,7 @@
   <div class="">
     <div class="row p-3">
       <div class="d-flex justify-content-center text-center">
-        <h4>Balance : {{balanceWithDollar}}</h4>
+        <h4>Balance : {{balanceWithDollar()}}</h4>
       </div>
     </div>
     <div class="row p-3">
@@ -79,15 +79,6 @@ export default {
         sandbox: 'AfZpa0mZQUHVdstVt-WSbZLCHbawyaX_KDCnx2WgFA2wKL1FOX3nBmJYaf1vQMNOndv5WgEbE6Xd1Qef',
         production: 'EE2UQO-DG8e_KJrJrMNtv6oBatrDjF99n9l1leXc5wi29cpHlB6LpM3LR6_-3rLHfWWCrajZAEQgi0lO'
       },
-    }
-  },
-
-  computed:{
-    balanceWithDollar(){
-      var num = global.current_user.balance;
-      var dollars = num / 100;
-      dollars = dollars.toLocaleString("en-US", {style:"currency", currency:"USD"}); 
-      return dollars;
     }
   },
 

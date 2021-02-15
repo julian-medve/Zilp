@@ -2,7 +2,7 @@
   <div class="">
     <div class="row">
       <div class="d-flex justify-content-center text-center">
-        <h4>Balance : {{balanceWithDollar}}</h4>
+        <h4>Balance : {{balanceWithDollar()}}</h4>
       </div>
     </div>
     <div class="row">
@@ -53,15 +53,6 @@ export default {
     withdraw: function () {
       let self = this;
     },
-  },
-
-  computed:{
-    balanceWithDollar(){
-      var num = global.current_user.balance;
-      var dollars = num / 100;
-      dollars = dollars.toLocaleString("en-US", {style:"currency", currency:"USD"}); 
-      return dollars;
-    }
   },
 }
 </script>

@@ -108,9 +108,6 @@
 <script>
 import { socialvue } from '../../../config/pluginInit'
 import axios from 'axios'
-import ChatItem from '../../../components/Chat/ChatItem'
-import ToggleButton from '../../../components/Chat/ToggleButton'
-import ToggleContent from '../../../components/Chat/ToggleContent'
 
 export default {
   name: 'Users',
@@ -123,7 +120,7 @@ export default {
     var self = this;
 
     global.users.forEach(element => {
-      // if(element.id != global.current_user.id)
+      if(element.id != global.current_user.id)
           self.users.push(element);
     });
     console.log("self.users : ", self.users);
@@ -211,7 +208,8 @@ export default {
       let self = this;
       axios.post(  this.$apiAddress + '/admin/update-documentations?token=' + localStorage.getItem("api_token"), {
         documentId : self.documents.id,
-        action : action
+        action : action,
+        userId : self.selectedUser.id
       }).then(function (response) {
         console.log("Response in verify driver : ", response);
       })

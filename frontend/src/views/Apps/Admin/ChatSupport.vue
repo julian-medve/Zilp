@@ -44,20 +44,6 @@
                     </div>
                   </div>
                   <div class="chat-sidebar-channel scroller mt-4 pl-3">
-                    <h5>Support Channel</h5>
-                    <tab-nav :pills="true" :vertical="true" class="iq-chat-ui" id="chat-list-data">
-                      <template v-for="(item,index) in supportList">
-                        <tab-nav-items :key="index"
-                                       :id="`v-pills-${item.id}`"
-                                       href="#v-pills-home"
-                                       :ariaControls="`v-pills-${item.id}`"
-                                       role="tab">
-                          <template v-slot:title>
-                            <ChatItem :item="item"/>
-                          </template>
-                        </tab-nav-items>
-                      </template>
-                    </tab-nav>
                     <h5>Private Channel</h5>
                     <tab-nav :pills="true" :vertical="true" class="iq-chat-ui" id="chat-list-data">
                       <template v-for="(item,index) in privateList">
@@ -214,23 +200,12 @@ export default {
   mounted () {
     socialvue.index();
     this.listenForChanges();
-    this.getChatFriends();
   },
   computed: {
-    // filteredList () {
-    //   return this.usersList.filter(item => {
-    //     return item.name.toLowerCase().includes(this.search.toLowerCase())
-    //   })
-    // },
-    // publicList () {
-    //   return this.usersList.filter(item => {
-    //     return !item.isPrivate ? item.name.toLowerCase().includes(this.search.toLowerCase()) : false
-    //   })
-    // },
     privateList () {
       var privateUsers = [];
       var self = this;
-      Array.prototype.forEach.call(this.usersList, element => {
+      Array.prototype.forEach.call(global.users, element => {
         global.users.forEach(function(user){
           if(element.id !== self.user.id && element.id == user.id){
             privateUsers.push(user);
@@ -238,18 +213,6 @@ export default {
         })
       });
       return privateUsers;
-    },
-
-    supportList(){
-      var supportUsers = [];
-      var self = this;
-      global.users.forEach(function(user){
-        if(user.email.indexOf("admin") != -1){
-          supportUsers.push(user);
-        }
-      })
-      
-      return supportUsers;
     }
   },
   data () {
@@ -336,17 +299,6 @@ export default {
           self.messages.push(newMessage);
         });
     },
-
-    getChatFriends(){
-      var self = this;
-      axios.get(this.$apiAddress + '/x-user/friends/list?token=' + localStorage.getItem("api_token")
-      ).then(response => {
-        console.log("Response : ", response);
-        self.usersList = response.data.payload;
-      }).catch(error => {
-        console.log("Error : ", error);
-      });
-    }
   }
 }
 </script>

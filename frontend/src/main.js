@@ -82,7 +82,7 @@ Vue.mixin({
       if (user !== undefined) {
         switch (type) {
           case 'name':
-            final = user.name + '(' +  user.plateNumber + ')'
+            final = user.name + ' (' +  user.plateNumber + ') '
             break
           case 'image':
             final = user.image
@@ -98,6 +98,19 @@ Vue.mixin({
       }
       // return require('../../../assets/images/user/user-05.jpg')
     },
+
+    convertWithDollar(num){
+      var dollars = num / 100;
+      dollars = dollars.toLocaleString("en-US", {style:"currency", currency:"USD"}); 
+      return dollars;
+    },
+
+    balanceWithDollar(){
+      var num = global.current_user.balance;
+      var dollars = num / 100;
+      dollars = dollars.toLocaleString("en-US", {style:"currency", currency:"USD"}); 
+      return dollars;
+    }
   }
 });
 
