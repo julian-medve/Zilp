@@ -148,6 +148,7 @@
   "admin" : {
     "driverDocuments" : "Driver Documents",
     "transactions" : "Transactions",
-    "chat" : "Chat support"
+    "chat" : "Chat support",
+    "cashout" : "Cash out"
   }
 }

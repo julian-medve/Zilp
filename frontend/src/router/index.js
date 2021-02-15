@@ -91,7 +91,7 @@ const GoogleMapIndex = () => import('../views/Apps/GoogleMap/Index')
 const DriverDocuments = () => import('../views/Apps/Admin/DriverDocuments')
 const Transactions = () => import('../views/Apps/Admin/Transactions')
 const ChatSupport = () => import('../views/Apps/Admin/ChatSupport')
-
+const Cashout = () => import('../views/Apps/Admin/Cashout')
 
 Vue.use(VueRouter)
 const childRoutes = (prop, mode) => [
@@ -559,6 +559,12 @@ const adminChildRoute = (prop, mode = false) => [
     name: prop + '.chat',
     meta: { auth: true, name: 'Chat Support' },
     component: ChatSupport
+  },
+  {
+    path: '/admin/cashout',
+    name: prop + '.cashout',
+    meta: { auth: true, name: 'Cashout' },
+    component: Cashout
   },
 ]
 

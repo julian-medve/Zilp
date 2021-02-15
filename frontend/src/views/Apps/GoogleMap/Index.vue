@@ -1,7 +1,7 @@
 <template>
 <GoogleMapLoader
   :mapConfig="mapConfig"
-  apiKey="yourApiKey"
+  apiKey="AIzaSyDPBXsAm8x-S5dOeVq9Ot_EKcxA0iKO9Ew"
 >
   <template slot-scope="{ google, map }">
     <GoogleMapMarker

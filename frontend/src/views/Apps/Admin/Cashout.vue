@@ -3,7 +3,7 @@
     <b-col sm="12">
       <div class="iq-card-header d-flex justify-content-between">
         <div class="iq-header-title">
-          <h4 class="card-title mb-2">All Transactions</h4>
+          <h4 class="card-title mb-2">All cashouts</h4>
         </div>
       </div>
     </b-col>
@@ -43,7 +43,7 @@ import { socialvue } from '../../../config/pluginInit'
 import axios from 'axios'
 
 export default {
-  name: 'Transactions',
+  name: 'Cashout',
   components: {
   },
   created() {
@@ -66,6 +66,7 @@ export default {
       axios.get(this.$apiAddress + '/admin/get-transactions?token=' + localStorage.getItem("api_token"))
       .then(function (response) {
         self.transactions = response.data.payload;
+        console.log("self.transactions : ", self.transactions);
       }).catch(function(error){
 
       });

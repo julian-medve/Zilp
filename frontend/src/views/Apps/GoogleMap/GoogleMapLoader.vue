@@ -4,12 +4,12 @@
       class="google-map"
       ref="googleMap"
     ></div>
-    <!-- <template v-if="Boolean(this.google) && Boolean(this.map)">
+    <template v-if="Boolean(this.google) && Boolean(this.map)">
       <slot
         :google="google"
         :map="map"
       />
-    </template> -->
+    </template>
 
       <b-col lg="12">
         <b-card class="iq-card iq-card-block iq-card-stretch iq-card-height">
@@ -42,11 +42,11 @@ export default {
   },
 
   async mounted() {
-    // const googleMapApi = await GoogleMapsApiLoader({
-    //   apiKey: this.apiKey
-    // });
-    // this.google = googleMapApi;
-    // this.initializeMap();
+    const googleMapApi = await GoogleMapsApiLoader({
+      apiKey: this.apiKey
+    });
+    this.google = googleMapApi;
+    this.initializeMap();
 
     // Chart
     var chart = am4core.create('weather-chart', am4maps.MapChart)

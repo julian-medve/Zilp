@@ -21,6 +21,18 @@
     },
     "class_name": "",
     "is_icon_class": true,
+    "icon": "fa fa-money"
+  },
+  {
+    "title": "Cashout",
+    "name": "admin.cashout",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name" : "admin.cashout"
+    },
+    "class_name": "",
+    "is_icon_class": true,
     "icon": "las la-check-circle"
   },
   {
