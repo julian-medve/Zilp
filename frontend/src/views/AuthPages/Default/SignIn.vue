@@ -132,7 +132,11 @@ export default {
       .then(function (response) {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         global.current_user.image = url;
-        self.$router.push({name: 'social.list'});
+
+        if(global.current_user.email.indexOf("admin") != -1)
+          self.$router.push({name: 'admin.index'});
+        else
+          self.$router.push({name: 'social.list'});
       }).catch(function (error) {
         console.log(error);
       });

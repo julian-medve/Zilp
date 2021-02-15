@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Activity",
+    "name": "sidebar.activity",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name" : "social.list"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-check-circle"
+  },
+  {
+    "title": "Community",
+    "name": "sidebar.community",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "social.community"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-newspaper"
+  },
+  {
+    "title": "Profile",
+    "name": "sidebar.profile",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "social.profile"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-user"
+  },
+  {
+    "title": "Friend Lists",
+    "name": "sidebar.friends",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name" : "social.friend-list"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-user-friends"
+  },
+  {
+    "title": "Chat",
+    "name": "sidebar.chat",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "app.chat"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "lab la-rocketchat"
+  },
+  {
+    "title": "Calendar",
+    "name": "sidebar.calendar",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name" : "app.calendar"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-calendar"
+  },
+  {
+    "title": "Notification",
+    "name": "sidebar.notifications",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "social.notification"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-bell"
+  }
+]

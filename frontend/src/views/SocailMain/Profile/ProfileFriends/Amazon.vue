@@ -12,11 +12,11 @@
 <script>
 import axios from "axios";
 
-window.onAmazonLoginReady = function () {
-  alert("onAmazonLoginReady");
-  amazon.Login.setClientId('amzn1.application-oa2-client.ec19611c335849e6957859a132880a1f');
-  amazon.Login.setUseCookie(true);
-};
+// window.onAmazonLoginReady = function () {
+//   alert("onAmazonLoginReady");
+//   amazon.Login.setClientId('amzn1.application-oa2-client.ec19611c335849e6957859a132880a1f');
+//   amazon.Login.setUseCookie(true);
+// };
 
 
 export default {

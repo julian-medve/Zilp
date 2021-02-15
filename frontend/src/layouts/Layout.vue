@@ -60,6 +60,7 @@ import Loader from '../components/socialvue/loader/Loader'
 import SideBarStyle1 from '../components/socialvue/sidebars/SideBarStyle1'
 import NavBarStyle1 from '../components/socialvue/navbars/NavBarStyle1'
 import SideBarItems from '../FackApi/json/SideBar'
+import AdminSideBarItems from '../FackApi/json/AdminSideBar'
 import profile from '../assets/images/user/user-1.jpeg'
 import loader from '../assets/images/logo.png'
 import RightSideBar from '../components/socialvue/rightsidebar/RightSideBar'
@@ -78,6 +79,7 @@ export default {
   },
   mounted () {
     this.logo = loader
+    this.configureAdmin();
   },
   computed: {
     currentRouteName () {
@@ -130,9 +132,15 @@ export default {
       this.$i18n.locale = lang.value
       document.getElementsByClassName('iq-show')[0].classList.remove('iq-show')
     },
+
+    configureAdmin(){
+      if(global.current_user.email.indexOf("admin") != -1)
+        this.verticalMenu = AdminSideBarItems;
+    },
+
     ...mapActions({
       langChangeState: 'Setting/setLangAction'
-    })
+    }),
   }
 }
 </script>

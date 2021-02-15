@@ -17,7 +17,7 @@ const VueHello = require('vue-hellojs');
 
 HelloJs.init({
   google: '950347740067-nggt59hraca0ic35606ap6nk0rt2tfh9.apps.googleusercontent.com',
-  // facebook: FACEBOOK_APP_CLIENT_ID
+  facebook: "753776052208072"
 }, {
   redirect_uri: 'http://localhost:8080/auth/signin'
 });

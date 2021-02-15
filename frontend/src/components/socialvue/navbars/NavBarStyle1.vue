@@ -410,6 +410,7 @@ export default {
       axios.get(this.$apiAddress + '/x-user/chat/getUsers?token=' + localStorage.getItem("api_token"))
       .then(response => {
         global.users = response.data.payload;
+        console.log("global.users in Navbar : ", global.users);
         for(var index in global.users){
           self.downloadUserAvatar(global.users[index], index);
         }

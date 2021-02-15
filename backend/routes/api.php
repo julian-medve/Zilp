@@ -213,6 +213,15 @@ Route::prefix('/api/v1')->group(function () {
         Route::get('/authentication-error', 'ErrorsController@authenticationError')->name('authentication-error');
     });
 
+    Route::prefix('/admin')
+    ->middleware([
+        'auth:api',
+        // 'user.activity.status'
+    ])->group(function(){
+        Route::get('/get-driver-documentations', 'AdminController@getDriverDocumentations');
+        Route::post('/update-documentations', 'AdminController@updateDriverDocumentations');
+    });
+
     // Test
 //    Route::get('/test', 'ErrorsController@test');
 });

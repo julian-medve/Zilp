@@ -86,6 +86,10 @@ const AccountSettings = () => import('../views/User/AccountSetting')
 
 const GoogleMapIndex = () => import('../views/Apps/GoogleMap/Index')
 
+
+// Admin components
+const AdminUsers = () => import('../views/Apps/Admin/AdminUsers')
+
 Vue.use(VueRouter)
 const childRoutes = (prop, mode) => [
   {
@@ -533,6 +537,16 @@ const userChildRoute = (prop, mode = false) => [
     component: AddUser
   }
 ]
+
+const adminChildRoute = (prop, mode = false) => [
+  {
+    path: '/admin',
+    name: prop + '.index',
+    meta: { auth: true, name: 'Users' },
+    component: AdminUsers
+  },
+]
+
 const routes = [
   {
     path: '/',
@@ -602,8 +616,14 @@ const routes = [
     component: Layout,
     meta: { auth: true },
     children: formChildRoute('form')
-  }
-
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Layout,
+    meta: { auth: true },
+    children: adminChildRoute('admin')
+  },
 ]
 
 const router = new VueRouter({
