@@ -11,7 +11,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroupPrepend2">&#65504;</span>
           </div>
-          <input type="number" class="form-control" v-model="deposit_amount" aria-describedby="inputGroupPrepend2">
+          <input type="text" class="form-control" v-model="deposit_amount" aria-describedby="inputGroupPrepend2">
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
           <div class="tab-pane fade " id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="justify-content-center pt-3">
               <PayPal
-                amount="deposit_amount"
+                :amount="deposit_amount"
                 currency="USD"
                 :client="credentials"
                 env="sandbox"
@@ -74,7 +74,7 @@ export default {
   data(){
     return {
       user: global.current_user,
-      deposit_amount : 100,
+      deposit_amount : '100.00',
       credentials: {
         sandbox: 'AfZpa0mZQUHVdstVt-WSbZLCHbawyaX_KDCnx2WgFA2wKL1FOX3nBmJYaf1vQMNOndv5WgEbE6Xd1Qef',
         production: 'EE2UQO-DG8e_KJrJrMNtv6oBatrDjF99n9l1leXc5wi29cpHlB6LpM3LR6_-3rLHfWWCrajZAEQgi0lO'

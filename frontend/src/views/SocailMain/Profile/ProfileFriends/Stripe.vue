@@ -85,6 +85,7 @@ export default {
     loadIntent() {
       axios.get(this.$apiAddress + '/x-user/billing/stripe/setup-intent?token=' + localStorage.getItem("api_token"))
       .then(function (response) {
+        console.log("Load intent response : ", response);
           this.intentToken = response.data;
         }.bind(this)
       ).catch(function(error){
