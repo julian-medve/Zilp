@@ -118,6 +118,7 @@ class ChatController extends Controller
             'last_name AS lastName',
             'plate_number AS plateNumber',
             'email',
+            'balance',
             'phone'
         ])->get();
 

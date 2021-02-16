@@ -93,6 +93,9 @@ Vue.mixin({
           case 'phone':
             final = user.phone
             break
+          case 'balance':
+            final = user.balance
+            break
         }
         return final
       }

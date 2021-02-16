@@ -205,6 +205,7 @@ Route::prefix('/api/v1')->group(function () {
                 Route::get('/stripe/get-payment-method', 'BillingController@getPaymentMethods');
                 Route::post('/stripe/remove-payment-method', 'BillingController@removePaymentMethod');
 
+                Route::post('/withdraw', 'BillingController@withdraw');
             });
         });
 
@@ -214,14 +215,16 @@ Route::prefix('/api/v1')->group(function () {
     });
 
     Route::prefix('/admin')
-    ->middleware([
-        'auth:api',
-        // 'user.activity.status'
-    ])->group(function(){
-        Route::get('/get-driver-documentations', 'AdminController@getDriverDocumentations');
-        Route::post('/update-documentations', 'AdminController@updateDriverDocumentations');
-        Route::get('/get-transactions', 'AdminController@getTransactions');
-    });
+        ->middleware([
+            'auth:api',
+            // 'user.activity.status'
+        ])->group(function(){
+            Route::get('/get-driver-documentations', 'AdminController@getDriverDocumentations');
+            Route::post('/update-documentations', 'AdminController@updateDriverDocumentations');
+            Route::get('/get-transactions', 'AdminController@getTransactions');
+            Route::get('/get-cashouts', 'AdminController@getCashouts');
+            Route::post('update-cashout-status', 'AdminController@updateCashoutStatus');
+        });
 
     // Test
 //    Route::get('/test', 'ErrorsController@test');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Log;
 use App\Transaction;
 use App\User;
+use App\Cashout;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,9 +30,10 @@ class BillingController extends Controller
     
         $user->addPaymentMethod( $paymentMethodID );
         $user->updateDefaultPaymentMethod( $paymentMethodID );
-        $user->charge($request->input("amount"), $paymentMethodID);
+        $amount =  floatval($request->input("amount"));
+        $user->charge($amount, $paymentMethodID);
         
-        self::createTransaction(auth()->user()->id, $request->input('amount'), 'Stripe balance charge.');
+        self::createTransaction(auth()->user()->id, $amount, 'Stripe balance charge.');
 
         return response()->json([
             'success' => true,
@@ -99,5 +101,18 @@ class BillingController extends Controller
         }
         
         return response()->json( null, 204 );
+    }
+
+    public function withdraw(Request $request) : JsonResponse{
+        $cashout = new Cashout();
+        $cashout->user_id = $request->input('userId');
+        $cashout->amount = $request->input('amount');
+        $cashout->status = 'unchecked';
+
+        $cashout->save();
+
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }

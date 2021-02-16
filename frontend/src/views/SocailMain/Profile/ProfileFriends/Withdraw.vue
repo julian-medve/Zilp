@@ -6,20 +6,19 @@
       </div>
     </div>
     <div class="row">
-      <div class="p-3 ">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupPrepend2">&#65504;</span>
+      <div class="p-3 d-flex justify-content-center">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupPrepend2">&#65504;</span>
+            </div>
+            <input type="number" class="form-control" v-model="withdraw_amount" aria-describedby="inputGroupPrepend2">
           </div>
-          <input type="number" class="form-control" v-model="withdraw_amount" aria-describedby="inputGroupPrepend2">
-        </div>
         <br><br>
-        <PayPal
-          amount="withdraw_amount"
-          currency="USD"
-          :client="credentials"
-          env="sandbox">
-        </PayPal>
+      </div>
+    </div>
+    <div class="row">
+      <div class="p-3 d-flex justify-content-center">
+        <button class="btn btn-primary" @click="withdraw()">Withdraw by Paypal</button>
       </div>
     </div>
   </div>
@@ -32,7 +31,7 @@ import PayPal from 'vue-paypal-checkout'
 export default {
   name: 'Withdraw',
   components: {
-    PayPal
+    // PayPal
   },  
 
   data(){
@@ -42,7 +41,7 @@ export default {
         sandbox: 'Aa4F2Wi9UsQQ0hzL6Bn2_sd4rVJCWVLtOISGiTAQkccd-1pRY-GuP7vz34vivLfrf3qGaFr8_YqSx1LL',
         production: 'EE2UQO-DG8e_KJrJrMNtv6oBatrDjF99n9l1leXc5wi29cpHlB6LpM3LR6_-3rLHfWWCrajZAEQgi0lO'
       },
-      withdraw_amount : 100,
+      withdraw_amount : '',
     }
   },
 
@@ -52,6 +51,14 @@ export default {
   methods : {
     withdraw: function () {
       let self = this;
+      axios.post(this.$apiAddress + '/x-user/billing/withdraw?token=' + localStorage.getItem("api_token"), {
+        userId : self.user.id,
+        amount : self.withdraw_amount,
+      }).then(response => {
+        console.log("Response : ", response);
+      }).catch(error => {
+        console.log(error);
+      });
     },
   },
 }

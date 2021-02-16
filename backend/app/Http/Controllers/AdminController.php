@@ -6,7 +6,7 @@ use Log;
 use App\ChatSession;
 use App\Comment;
 use App\DriverDocumentation;
-use App\Friend;
+use App\Cashout;
 use App\Like;
 use App\Message;
 use App\Transaction;
@@ -99,6 +99,39 @@ class AdminController extends Controller
         return response()->json([
             'success' => true,
             'payload' => $transactions
+        ]);
+    }
+    public function getCashouts(Request $request) : JsonResponse {
+        $cashouts = Cashout::select([
+            'id',
+            'user_id as userId',
+            'status',
+            'amount',
+            'created_at as createdAt'
+        ])->get();
+
+        return response()->json([
+            'success' => true,
+            'payload' => $cashouts
+        ]);
+    }
+
+    public function updateCashoutStatus(Request $request) : JsonResponse {
+        $cashout = Cashout::where('id', $request->input('cashoutId'))->first();
+        if($request->input('action') == 'accept'){
+            $user = User::where("id", $cashout->user_id)->first();
+            $user->balance = floatval($user->balance) - floatval($cashout->amount);
+            $user->save();
+            
+            $cashout->status = 'accepted';
+        }else{
+            $cashout->status = 'rejected';
+        }
+        $cashout->save();
+
+        return response()->json([
+            'success' => true,
+            'payload' => $cashout
         ]);
     }
 }
