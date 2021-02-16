@@ -84,7 +84,7 @@ const TodoListing = () => import('../views/Apps/Todo/TodoListing')
 const ChatIndex = () => import('../views/Apps/Chat/Index')
 const AccountSettings = () => import('../views/User/AccountSetting')
 
-const GoogleMapIndex = () => import('../views/Apps/GoogleMap/Index')
+const GoogleMapIndex = () => import('../views/Apps/GoogleMap/GoogleMap')
 
 
 // Admin components
