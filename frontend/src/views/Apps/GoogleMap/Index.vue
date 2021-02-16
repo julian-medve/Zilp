@@ -1,8 +1,5 @@
 <template>
-  <div id="app">
-    <google-map />
-  </div>
-<!-- <GoogleMapLoader
+<GoogleMapLoader
   :mapConfig="mapConfig"
   apiKey="AIzaSyDPBXsAm8x-S5dOeVq9Ot_EKcxA0iKO9Ew"
 >
@@ -22,24 +19,22 @@
       :map="map"
     />
   </template>
-</GoogleMapLoader> -->
+</GoogleMapLoader>
 </template>
 
 <script>
 
-// import { mapSettings } from '@/FackApi/api/mapSettings'
-// import GoogleMapLoader from './GoogleMapLoader'
-// import GoogleMapLine from './GoogleMapLine'
-// import GoogleMapMarker from './GoogleMapMarker'
-import GoogleMap from "./GoogleMap";
+import { mapSettings } from '@/FackApi/api/mapSettings'
+import GoogleMapLoader from './GoogleMapLoader'
+import GoogleMapLine from './GoogleMapLine'
+import GoogleMapMarker from './GoogleMapMarker'
 
 export default {
   name: 'Index',
   components: {
-    // GoogleMapLoader,
-    // GoogleMapMarker,
-    // GoogleMapLine
-    GoogleMap
+    GoogleMapLoader,
+    GoogleMapMarker,
+    GoogleMapLine
   },
 
   data () {
