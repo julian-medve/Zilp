@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\PostAccess;
+use App\Http\Middleware\CORS;
 use App\Http\Middleware\UserActivityStatus;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -19,6 +20,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
         \App\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\CORS::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
