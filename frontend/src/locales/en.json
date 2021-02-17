@@ -104,7 +104,8 @@
     "submenu": "Sub-menu",
     "submenuOne": "Sub-menu 1",
     "submenuTwo": "Sub-menu 2",
-    "submenuThree": "Sub-menu 3"
+    "submenuThree": "Sub-menu 3",
+    "service" : "Services"
   },
   "nav": {
     "allNotifications": "All Notifications",

@@ -221,7 +221,7 @@ export default {
 
     getDriverServices(){
       var self = this;
-      axios.get(this.$apiAddress + '/x-user/driver-service/get-service?token=' + localStorage.getItem("api_token"))
+      axios.get(this.$apiAddress + '/x-user/driver-service/get-my-services?token=' + localStorage.getItem("api_token"))
       .then(response => {
         self.scheduleList = [];
         console.log("response ", response.data.payload);

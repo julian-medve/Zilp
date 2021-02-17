@@ -5,6 +5,7 @@ export default class Event {
     this.id = is(String, event.id) ? event.id : this.uuidv4()
     this.calendarId = is(String, event.calendarId) ? event.calendarId : '1'
     this.title = is(String, event.title) ? event.title : ''
+    this.userId = is(Number, event.userId) ? event.userId : ''
     // this.body = is(String, event.body) ? event.body : ''
     // this.isAllday = is(Boolean, event.isAllday) ? event.isAllday : false
     this.start = is(Object, event.start) ? (new Date(event.start._date)).toISOString() : event.start

@@ -72,12 +72,12 @@
     "icon": "las la-car"
   },
   {
-    "title": "Calendar",
-    "name": "sidebar.calendar",
+    "title": "Services",
+    "name": "sidebar.service",
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name" : "app.calendar"
+      "name" : "app.service"
     },
     "class_name": "",
     "is_icon_class": true,

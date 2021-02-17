@@ -59,6 +59,8 @@ const Invoice = () => import('../views/Pages/Invoice')
 const EmailListing = () => import('../views/Apps/Email/EmailListing')
 const EmailCompose = () => import('../views/Apps/Email/EmailCompose')
 const Calendar = () => import('../views/Apps/Calendar/Calendar')
+const DriverService = () => import('../views/Apps/Calendar/Services')
+
 /* Icon Views */
 const IconDripicons = () => import('../views/Icons/IconDripicons')
 const IconFontawesome5 = () => import('../views/Icons/IconFontawesome5')
@@ -84,7 +86,7 @@ const TodoListing = () => import('../views/Apps/Todo/TodoListing')
 const ChatIndex = () => import('../views/Apps/Chat/Index')
 const AccountSettings = () => import('../views/User/AccountSetting')
 
-const GoogleMapIndex = () => import('../views/Apps/GoogleMap/GoogleMap')
+const GoogleMapIndex = () => import('../views/Apps/GoogleMap/Index')
 
 
 // Admin components
@@ -391,6 +393,12 @@ const iconChildRoute = (prop, mode = false) => [
 ]
 
 const appChildRoute = (prop, mode = false) => [
+  {
+    path: 'service',
+    name: prop + '.service',
+    meta: { auth: true, name: 'Service', img: require('../assets/images/page-img/profile-bg6.jpg') },
+    component: DriverService
+  },
   {
     path: 'calendar',
     name: prop + '.calendar',

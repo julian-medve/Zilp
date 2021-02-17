@@ -156,9 +156,11 @@ Route::prefix('/api/v1')->group(function () {
             });
 
             Route::prefix('/driver-service')->group(function() {
-                Route::get('/get-service',     'DriverServiceController@getDriverService');
+                Route::get('/get-my-services',     'DriverServiceController@getMyServices');
+                Route::get('/get-all-driver-services',     'DriverServiceController@getAllDriverServices');
                 Route::post('/add-service',     'DriverServiceController@addDriverService');
                 Route::post('/update-service',  'DriverServiceController@updateDriverService');
+                Route::post('/book-service',  'DriverServiceController@bookDriverService');
             });
 
             // Renting
