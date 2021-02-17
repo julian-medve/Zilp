@@ -37,7 +37,8 @@ HelloJs.init({
   google: '950347740067-nggt59hraca0ic35606ap6nk0rt2tfh9.apps.googleusercontent.com',
   facebook: "753776052208072"
 }, {
-  redirect_uri: 'http://localhost:8080/auth/signin'
+  // redirect_uri: 'http://localhost:8080/auth/signin'
+  redirect_uri: 'http://78.140.220.40:8080/auth/signin'
 });
 Vue.use(VueHello, HelloJs);
 
