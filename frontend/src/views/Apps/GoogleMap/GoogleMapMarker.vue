@@ -17,6 +17,10 @@ export default {
     }
   },
 
+  render() {
+    return null
+  },
+
   mounted() {
     new this.google.maps.Marker({
       position: this.marker.position,
@@ -24,7 +28,6 @@ export default {
       map: this.map,
       icon: POINT_MARKER_ICON_CONFIG
     })
-  },
-  render() { return 1;}
+  }
 }
 </script>
