@@ -87,6 +87,7 @@ const ChatIndex = () => import('../views/Apps/Chat/Index')
 const AccountSettings = () => import('../views/User/AccountSetting')
 
 const GoogleMapIndex = () => import('../views/Apps/GoogleMap/Index')
+const MapboxIndex = () => import('../views/Apps/Mapbox/Index')
 
 
 // Admin components
@@ -415,7 +416,7 @@ const appChildRoute = (prop, mode = false) => [
     path: 'location',
     name: prop + '.location',
     meta: { auth: true, name: 'GoogleMap' },
-    component: GoogleMapIndex
+    component: MapboxIndex
   },
   {
     path: 'todo',
