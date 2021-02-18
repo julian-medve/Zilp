@@ -126,8 +126,8 @@ Vue.mixin({
   }
 });
 
-Vue.prototype.$apiAddress = 'http://localhost:8000/api/v1'
-// Vue.prototype.$apiAddress = 'http://78.140.220.40:8000/api/v1'
+// Vue.prototype.$apiAddress = 'http://localhost:8000/api/v1'
+Vue.prototype.$apiAddress = 'http://78.140.220.40:8000/api/v1'
 
 Vue.config.productionTip = false
 
