@@ -12,6 +12,15 @@ import User from '@/Model/User'
 import { required } from 'vee-validate/dist/rules'
 
 
+import * as VueGoogleMaps from "vue2-google-maps";
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyDPBXsAm8x-S5dOeVq9Ot_EKcxA0iKO9Ew",
+    libraries: "" // necessary for places input
+  }
+});
+
+// Define global variables temporary
 global.Raphael = Raphael
 global.users = [];
 global.current_user = new User(
